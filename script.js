@@ -1,4 +1,4 @@
-const flagdata = [
+const flagData = [
     { q: "アイダホ州", a: "ボイシ", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Flag_of_Idaho.svg/250px-Flag_of_Idaho.svg.png" },
     { q: "アイオワ州", a: "デモイン", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Flag_of_Iowa.svg/250px-Flag_of_Iowa.svg.png" },
     { q: "アラバマ州", a: "モンゴメリー", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Flag_of_Alabama.svg/250px-Flag_of_Alabama.svg.png" },
@@ -46,12 +46,11 @@ const flagdata = [
     { q: "モンタナ州", a: "ヘレナ", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Flag_of_Montana.svg/250px-Flag_of_Montana.svg.png" },
     { q: "ユタ州", a: "ソルトレイクシティ", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Flag_of_Utah.svg/250px-Flag_of_Utah.svg.png" },
     { q: "ルイジアナ州", a: "バトンルージュ", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Flag_of_Louisiana.svg/250px-Flag_of_Louisiana.svg.png" },
-    { q: "ロードアイランド州", a: "プロビデンス", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Flag_of_Rhode_Island.svg/250px-Flag_of_Rhode_Island.svg.png" },
+    { q: "ロードアイランド州", a: "プロビデンス", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Flag_of_Rhode_Island.svg/250px-Rhode_Island.svg.png" },
     { q: "ワイオミング州", a: "シャイアン", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Flag_of_Wyoming.svg/250px-Flag_of_Wyoming.svg.png" },
     { q: "ワシントン州", a: "オリンピア", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/54/Flag_of_Washington.svg/250px-Flag_of_Washington.svg.png" },
 ];
 
-let quizData = [];
 let shuffledData = [];
 let currentIndex = 0;
 let isShowingAnswer = false;
@@ -60,20 +59,25 @@ let wrongList = [];
 const card = document.getElementById('card');
 const checkBtn = document.getElementById('check-btn');
 
-// クイズ開始
-window.startQuiz = function(genre) {
-    if (genre === 'flags') quizData = flagData;
-    document.getElementById('menu-screen').classList.remove('active');
-    document.getElementById('quiz-screen').classList.add('active');
-    initQuiz();
-};
+// 画面切り替え関数
+function switchScreen(screenId) {
+    document.querySelectorAll('.screen').forEach(s => {
+        s.classList.remove('active');
+        s.style.display = 'none';
+    });
+    const target = document.getElementById(screenId);
+    target.classList.add('active');
+    target.style.display = 'flex';
+}
 
-function initQuiz() {
-    shuffledData = [...quizData].sort(() => Math.random() - 0.5);
+// 1. クイズ開始
+window.startQuiz = function(genre) {
+    switchScreen('quiz-screen');
+    shuffledData = [...flagData].sort(() => Math.random() - 0.5);
     currentIndex = 0;
     wrongList = [];
     updateCard();
-}
+};
 
 function updateCard() {
     isShowingAnswer = false;
@@ -86,8 +90,8 @@ function updateCard() {
     card.classList.remove('is-flipped');
 }
 
-// カードタップ
-card.addEventListener('click', () => {
+// 2. カードクリック処理
+window.handleCardClick = function() {
     if (!isShowingAnswer) {
         card.classList.add('is-flipped');
         isShowingAnswer = true;
@@ -95,18 +99,14 @@ card.addEventListener('click', () => {
     } else {
         nextQuestion();
     }
-});
+};
 
-// ！ボタンタップ
-checkBtn.addEventListener('click', (e) => {
-    e.stopPropagation();
+// 3. 「！」ボタン（間違い）
+window.markWrong = function(event) {
+    event.stopPropagation(); // カードのクリックを邪魔しない
     wrongList.push(shuffledData[currentIndex].q);
-    checkBtn.style.transform = "scale(0.9)";
-    setTimeout(() => {
-        checkBtn.style.transform = "scale(1)";
-        nextQuestion();
-    }, 100);
-});
+    nextQuestion();
+};
 
 function nextQuestion() {
     currentIndex++;
@@ -117,10 +117,15 @@ function nextQuestion() {
     }
 }
 
+// 4. 結果表示
 function showResult() {
-    document.getElementById('quiz-screen').classList.remove('active');
-    document.getElementById('result-screen').classList.add('active');
+    switchScreen('result-screen');
     document.getElementById('result-stats').innerText = `${shuffledData.length}問中 ${shuffledData.length - wrongList.length}問 正解！`;
     const listHtml = wrongList.length > 0 ? "・" + wrongList.join("<br>・") : "なし！完璧です！";
     document.getElementById('wrong-list').innerHTML = listHtml;
 }
+
+// 5. 戻るボタン
+window.goHome = function() {
+    location.reload();
+};
