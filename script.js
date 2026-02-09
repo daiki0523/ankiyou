@@ -50,6 +50,7 @@ const data = [
     { q: "ワイオミング州", a: "シャイアン", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Flag_of_Wyoming.svg/250px-Flag_of_Wyoming.svg.png" },
     { q: "ワシントン州", a: "オリンピア", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/54/Flag_of_Washington.svg/250px-Flag_of_Washington.svg.png" },
 ];
+let quizData = []; // 現在遊んでいるデータを入れる空の箱
 let shuffledData = [];
 let currentIndex = 0;
 let isShowingAnswer = false;
@@ -60,6 +61,20 @@ const aElement = document.getElementById('answer');
 const imgElement = document.getElementById('state-img');
 const counterElement = document.getElementById('counter');
 
+// --- 1. クイズ開始スイッチ ---
+function startQuiz(genre) {
+    if (genre === 'flags') {
+        quizData = flagData;
+    }
+    
+    // 画面切り替え
+    document.getElementById('menu-screen').style.display = 'none';
+    document.getElementById('quiz-screen').style.display = 'flex';
+    
+    initQuiz();
+}
+
+// --- 2. シャッフルと初期化 ---
 function shuffleArray(array) {
     const newArray = [...array];
     for (let i = newArray.length - 1; i > 0; i--) {
@@ -70,11 +85,12 @@ function shuffleArray(array) {
 }
 
 function initQuiz() {
-    shuffledData = shuffleArray(data);
+    shuffledData = shuffleArray(quizData);
     currentIndex = 0;
     updateCard();
 }
 
+// --- 3. 表示更新 ---
 function updateCard() {
     isShowingAnswer = false;
     const currentData = shuffledData[currentIndex];
@@ -82,6 +98,7 @@ function updateCard() {
 
     setTimeout(() => {
         qElement.innerText = currentData.q;
+        imgElement.src = ""; // キャッシュ対策
         imgElement.src = currentData.img;
         aElement.innerText = currentData.a;
     }, 150);
@@ -89,6 +106,7 @@ function updateCard() {
     cardElement.classList.remove('is-flipped');
 }
 
+// --- 4. クリックイベント ---
 cardElement.addEventListener('click', () => {
     if (!isShowingAnswer) {
         cardElement.classList.add('is-flipped');
@@ -98,8 +116,8 @@ cardElement.addEventListener('click', () => {
         setTimeout(() => {
             currentIndex++;
             if (currentIndex >= shuffledData.length) {
-                alert("全50州クリア！最初からやり直します。");
-                initQuiz();
+                alert("全問クリア！");
+                location.reload(); // メニューに戻る
             } else {
                 updateCard();
             }
@@ -109,5 +127,3 @@ cardElement.addEventListener('click', () => {
         }, 300);
     }
 });
-
-initQuiz();
