@@ -51,9 +51,9 @@ body {
     max-height: 200px;
     height: auto;
     margin-bottom: 20px;
-    border: 3px solid black; /* 太めの黒枠 */
-    border-radius: 10px;    /* 枠の角を丸く */
-    padding: 10px;          /* 枠と画像の間の隙間 */
+    border: 2px solid black; /* 太めの黒枠 */
+    border-radius: 5px;    /* 枠の角を丸く */
+    padding: 0;          /* 枠と画像の間の隙間 */
     background-color: #fff; /* 画像の背景を白に固定 */
 }
 
