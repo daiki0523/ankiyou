@@ -1,4 +1,4 @@
-const data = [
+const flagdata = [
     { q: "アイダホ州", a: "ボイシ", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Flag_of_Idaho.svg/250px-Flag_of_Idaho.svg.png" },
     { q: "アイオワ州", a: "デモイン", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Flag_of_Iowa.svg/250px-Flag_of_Iowa.svg.png" },
     { q: "アラバマ州", a: "モンゴメリー", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Flag_of_Alabama.svg/250px-Flag_of_Alabama.svg.png" },
@@ -50,79 +50,77 @@ const data = [
     { q: "ワイオミング州", a: "シャイアン", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Flag_of_Wyoming.svg/250px-Flag_of_Wyoming.svg.png" },
     { q: "ワシントン州", a: "オリンピア", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/54/Flag_of_Washington.svg/250px-Flag_of_Washington.svg.png" },
 ];
-let quizData = []; 
+
+let quizData = [];
 let shuffledData = [];
 let currentIndex = 0;
 let isShowingAnswer = false;
+let wrongList = [];
 
-// 要素の取得
-const cardElement = document.getElementById('card');
-const qElement = document.getElementById('question');
-const aElement = document.getElementById('answer');
-const imgElement = document.getElementById('state-img');
-const counterElement = document.getElementById('counter');
-const menuScreen = document.getElementById('menu-screen');
-const quizScreen = document.getElementById('quiz-screen');
+const card = document.getElementById('card');
+const checkBtn = document.getElementById('check-btn');
 
-// クイズ開始関数（グローバルに公開）
+// クイズ開始
 window.startQuiz = function(genre) {
-    if (genre === 'flags') {
-        quizData = flagData;
-    }
-    
-    menuScreen.style.display = 'none';
-    quizScreen.style.display = 'flex';
-    
+    if (genre === 'flags') quizData = flagData;
+    document.getElementById('menu-screen').classList.remove('active');
+    document.getElementById('quiz-screen').classList.add('active');
     initQuiz();
 };
 
-function shuffleArray(array) {
-    const newArray = [...array];
-    for (let i = newArray.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
-    }
-    return newArray;
-}
-
 function initQuiz() {
-    shuffledData = shuffleArray(quizData);
+    shuffledData = [...quizData].sort(() => Math.random() - 0.5);
     currentIndex = 0;
+    wrongList = [];
     updateCard();
 }
 
 function updateCard() {
     isShowingAnswer = false;
-    const currentData = shuffledData[currentIndex];
-    counterElement.innerText = `${currentIndex + 1} / ${shuffledData.length}`;
-
-    setTimeout(() => {
-        qElement.innerText = currentData.q;
-        imgElement.src = ""; 
-        imgElement.src = currentData.img;
-        aElement.innerText = currentData.a;
-    }, 150);
-
-    cardElement.classList.remove('is-flipped');
+    checkBtn.style.visibility = 'hidden';
+    const data = shuffledData[currentIndex];
+    document.getElementById('counter').innerText = `${currentIndex + 1} / ${shuffledData.length}`;
+    document.getElementById('question').innerText = data.q;
+    document.getElementById('state-img').src = data.img;
+    document.getElementById('answer').innerText = data.a;
+    card.classList.remove('is-flipped');
 }
 
-cardElement.addEventListener('click', () => {
+// カードタップ
+card.addEventListener('click', () => {
     if (!isShowingAnswer) {
-        cardElement.classList.add('is-flipped');
+        card.classList.add('is-flipped');
         isShowingAnswer = true;
+        checkBtn.style.visibility = 'visible';
     } else {
-        cardElement.style.opacity = "0";
-        setTimeout(() => {
-            currentIndex++;
-            if (currentIndex >= shuffledData.length) {
-                alert("全問クリア！");
-                location.reload(); 
-            } else {
-                updateCard();
-            }
-            setTimeout(() => {
-                cardElement.style.opacity = "1";
-            }, 100);
-        }, 300);
+        nextQuestion();
     }
 });
+
+// ！ボタンタップ
+checkBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    wrongList.push(shuffledData[currentIndex].q);
+    checkBtn.style.transform = "scale(0.9)";
+    setTimeout(() => {
+        checkBtn.style.transform = "scale(1)";
+        nextQuestion();
+    }, 100);
+});
+
+function nextQuestion() {
+    currentIndex++;
+    if (currentIndex < shuffledData.length) {
+        updateCard();
+    } else {
+        showResult();
+    }
+}
+
+function showResult() {
+    document.getElementById('quiz-screen').classList.remove('active');
+    document.getElementById('result-screen').classList.add('active');
+    document.getElementById('result-stats').innerText = `${shuffledData.length}問中 ${shuffledData.length - wrongList.length}問 正解！`;
+    const listHtml = wrongList.length > 0 ? "・" + wrongList.join("<br>・") : "なし！完璧です！";
+    document.getElementById('wrong-list').innerHTML = listHtml;
+}
