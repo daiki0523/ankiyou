@@ -1,0 +1,96 @@
+/* 画面中央に配置 */
+body {
+    background-color: #f4f7f6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    font-family: sans-serif;
+}
+
+/* 3Dのための奥行き設定 */
+.card-container {
+    perspective: 1000px;
+    width: 350px;
+    height: 250px;
+}
+
+/* 実際に回転するカードの板 */
+.card {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-style: preserve-3d; /* これが重要！表裏を3Dで保つ */
+}
+
+/* JavaScriptでこのクラスがつくと180度回る */
+.card.is-flipped {
+    transform: rotateY(180deg);
+}
+
+/* 表と裏の共通設定 */
+.card-face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    
+    /* これが重要！裏側を向いているときは非表示にする */
+    backface-visibility: hidden; 
+    -webkit-backface-visibility: hidden; /* iPhoneやMacのブラウザ用 */
+    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #333;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    padding: 20px;
+    box-sizing: border-box;
+    background-color: white;
+}
+
+/* 表面（問題）の設定 */
+.card-front {
+    z-index: 2; /* 表面を常に上に持ってくる */
+}
+
+/* 裏面（答え）の設定 */
+.card-back {
+    background-color: #e7f3ff;
+    transform: rotateY(180deg);
+    z-index: 1; /* 裏面は下にする */
+}
+
+/* 裏面（答え）の設定 */
+.card-back {
+    background-color: #e7f3ff;
+    transform: rotateY(180deg); /* 最初から裏を向けておく */
+}
+
+#card-image {
+    max-height: 120px;
+    width: auto;
+    margin-bottom: 10px;
+    border: 2px solid black;   /* 2ピクセルの太さで黒い一本線 */
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.2); /* 軽く影をつけるとさらに見やすいです */
+
+}
+
+.text-display {
+    font-size: 28px;
+    font-weight: bold;
+}
+/* 「州都」というラベルだけを大きく、見やすくする */
+.card-back .label {
+    font-size: 24px;      /* 以前よりかなり大きく */
+    font-weight: bold;    /* 太字にして強調 */
+    color: #555;          /* 少し濃いめのグレーで見やすく */
+    margin-bottom: 15px;  /* 州都の名前との間に少しスキマを作る */
+    border-bottom: 2px solid #ccc; /* 下に線を引くと「見出し」っぽくなります */
+    padding-bottom: 5px;
+}
+
+}
