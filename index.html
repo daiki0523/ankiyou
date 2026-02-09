@@ -2,15 +2,15 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>学習アプリ</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>アメリカ50州学習</title>
     <meta name="apple-mobile-web-app-capable" content="yes">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <div id="menu-screen" class="screen active">
-        <h1>なにを勉強する？</h1>
+        <h1 style="margin-bottom: 30px;">なにを勉強する？</h1>
         <div class="menu-container">
             <button class="menu-btn" onclick="startQuiz('flags')">🇺🇸 アメリカ50州（旗）</button>
         </div>
@@ -18,10 +18,10 @@
 
     <div id="quiz-screen" class="screen">
         <div id="counter">1 / 50</div>
-        <div id="exit-btn" onclick="location.reload()">🚪</div>
+        <div id="exit-btn" onclick="goHome()">🚪</div>
 
         <div class="card-container">
-            <div id="card" class="card">
+            <div id="card" class="card" onclick="handleCardClick()">
                 <div class="card-face card-front">
                     <div class="label">この州の州都は？</div>
                     <img id="state-img" src="" alt="問題画像">
@@ -33,17 +33,18 @@
                 </div>
             </div>
         </div>
-        <div id="check-btn" class="check-btn">！</div>
+        
+        <div id="check-btn" class="check-btn" onclick="markWrong(event)">！</div>
     </div>
 
     <div id="result-screen" class="screen">
         <h1>お疲れ様でした！</h1>
-        <div id="result-stats"></div>
+        <div id="result-stats" style="font-size: 24px; font-weight: bold; margin: 20px 0;"></div>
         <div class="wrong-section">
-            <h3>要チェックリスト：</h3>
+            <h3 style="margin-top: 0;">要チェックリスト：</h3>
             <div id="wrong-list" class="wrong-list"></div>
         </div>
-        <button class="menu-btn" onclick="location.reload()" style="margin-top: 30px;">メニューに戻る</button>
+        <button class="menu-btn" onclick="goHome()">メニューに戻る</button>
     </div>
 
     <script src="script.js"></script>
