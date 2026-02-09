@@ -1,68 +1,73 @@
-/* 全体のベース */
-body {
+/* 基本設定：画面からはみ出さない */
+html, body {
     margin: 0;
     padding: 0;
-    background-color: #f0f2f5;
-    font-family: sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100dvh; /* スマホのツールバーを除いた高さ */
-    overflow: hidden;
-}
-
-.screen {
-    display: none;
-    flex-direction: column;
-    align-items: center;
     width: 100%;
     height: 100%;
-    position: relative;
+    overflow: hidden;
+    background-color: #f0f2f5;
+    font-family: sans-serif;
 }
 
-.screen.active { display: flex; }
+/* 画面の切り替え：activeがない時は完全に消す */
+.screen {
+    display: none; 
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #f0f2f5; /* 背景色で後ろを隠す */
+    z-index: 1;
+}
 
-/* 上部カウンター：高さを抑えて固定 */
+.screen.active {
+    display: flex;
+    z-index: 10; /* 前に出す */
+}
+
+/* 上部カウンター */
 #counter {
     position: absolute;
     top: 0;
     width: 100%;
-    height: 50px;
+    height: 60px;
     background: white;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 18px;
+    font-size: 20px;
     font-weight: bold;
-    box-shadow: 0 1px 5px rgba(0,0,0,0.1);
-    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
-/* 右上の扉：カウンターの横、または少し下に配置 */
+/* 右上の扉（🚪） */
 #exit-btn {
     position: absolute;
-    top: 60px; /* カウンターより下にする */
+    top: 10px;
     right: 15px;
-    font-size: 28px;
+    font-size: 30px;
+    z-index: 100;
+    cursor: pointer;
     background: white;
-    width: 45px;
-    height: 45px;
+    width: 44px;
+    height: 44px;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-    z-index: 2000;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
-/* カードの配置エリア：中央に寄せる */
+/* カードの入れ物 */
 .card-container {
-    margin-top: 100px; /* カウンターと扉の分を空ける */
-    width: 90vw;
-    max-width: 320px;
-    height: 60vh; /* 画面の高さに合わせる */
-    max-height: 400px;
+    width: 85vw;
+    max-width: 300px;
+    height: 400px;
     perspective: 1000px;
+    margin-top: 20px;
 }
 
 .card {
@@ -85,7 +90,7 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 15px;
+    padding: 20px;
     box-sizing: border-box;
     background: white;
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
@@ -93,44 +98,51 @@ body {
 
 .card-back { background-color: #e7f3ff; transform: rotateY(180deg); }
 
-/* 画像：枠からはみ出さないように */
+/* 画像：カード内に収める */
 #state-img {
-    max-width: 100%;
+    width: 100%;
     max-height: 180px;
+    object-fit: contain;
     border: 2px solid #333;
     margin-bottom: 15px;
-    object-fit: contain;
 }
 
-.text-display { font-size: 24px; font-weight: bold; text-align: center; }
-
-/* 「！」ボタン：画面下部に固定して押しやすく */
+/* 「！」ボタン：画面下部に固定 */
 .check-btn {
     visibility: hidden;
-    position: absolute;
-    bottom: 40px;
+    margin-top: 30px;
     width: 70px;
     height: 70px;
     background-color: #ff9800;
     color: white;
-    font-size: 35px;
+    font-size: 32px;
     font-weight: bold;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    box-shadow: 0 4px 12px rgba(255, 152, 0, 0.4);
-    z-index: 3000;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
 
 /* メニューボタン */
 .menu-btn {
-    padding: 15px 30px;
+    padding: 20px 40px;
     font-size: 18px;
+    font-weight: bold;
     background: #007bff;
     color: white;
     border: none;
-    border-radius: 12px;
-    box-shadow: 0 4px 0 #0056b3;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
-.menu-btn:active { transform: translateY(2px); box-shadow: none; }
+
+/* 結果リストの調整 */
+.wrong-section {
+    width: 80%;
+    max-height: 50vh;
+    overflow-y: auto;
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    margin: 15px 0;
+}
