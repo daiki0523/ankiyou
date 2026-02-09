@@ -50,19 +50,41 @@ const data = [
     { q: "ワイオミング州", a: "シャイアン", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Flag_of_Wyoming.svg/250px-Flag_of_Wyoming.svg.png" },
     { q: "ワシントン州", a: "オリンピア", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/54/Flag_of_Washington.svg/250px-Flag_of_Washington.svg.png" },
 ];
-let currentIndex = 0;
+let shuffledData = []; // シャッフル後のデータ
+let currentIndex = 0;  // 今、何枚目か
 let isShowingAnswer = false;
 
 const cardElement = document.getElementById('card');
 const qElement = document.getElementById('question');
 const aElement = document.getElementById('answer');
-const imgElement = document.getElementById('state-img'); // ここを統一
+const imgElement = document.getElementById('state-img');
+const counterElement = document.getElementById('counter');
+
+// --- 配列をバラバラに混ぜる関数（フィッシャー・イェーツのシャッフル） ---
+function shuffleArray(array) {
+    const newArray = [...array];
+    for (let i = newArray.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+    }
+    return newArray;
+}
+
+// --- クイズを初期化する（最初に一回だけ実行） ---
+function initQuiz() {
+    shuffledData = shuffleArray(data); // 50枚をシャッフル
+    currentIndex = 0;                  // 1枚目からスタート
+    updateCard();
+}
 
 function updateCard() {
     isShowingAnswer = false;
-    const currentData = data[currentIndex];
+    const currentData = shuffledData[currentIndex];
 
-    // カードが真横を向いたときに中身を入れ替える
+    // カウンターの表示を更新 (例: 1 / 50)
+    counterElement.innerText = `${currentIndex + 1} / ${shuffledData.length}`;
+
+    // カードの切り替え演出（中身の入れ替え）
     setTimeout(() => {
         qElement.innerText = currentData.q;
         if (currentData.img) {
@@ -79,13 +101,23 @@ function updateCard() {
 
 cardElement.addEventListener('click', () => {
     if (!isShowingAnswer) {
+        // 表なら裏返す
         cardElement.classList.add('is-flipped');
         isShowingAnswer = true;
     } else {
+        // 裏なら次へ（透明にしてから切り替え）
         cardElement.style.opacity = "0";
         setTimeout(() => {
-            currentIndex = Math.floor(Math.random() * data.length);
-            updateCard();
+            currentIndex++; // 次の番号へ
+            
+            // 全問終わったらリセット
+            if (currentIndex >= shuffledData.length) {
+                alert("全50州クリア！お疲れ様でした。もう一度シャッフルします！");
+                initQuiz();
+            } else {
+                updateCard();
+            }
+            
             setTimeout(() => {
                 cardElement.style.opacity = "1";
             }, 100);
@@ -93,6 +125,5 @@ cardElement.addEventListener('click', () => {
     }
 });
 
-// 初期表示もランダム
-currentIndex = Math.floor(Math.random() * data.length);
-updateCard();
+// アプリ起動！
+initQuiz();
