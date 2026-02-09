@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>アメリカ50州クイズ</title>
+    <title>学習アプリ</title>
     
-    <meta name="apple-mobile-web-app-title" content="州クイズ">
+    <meta name="apple-mobile-web-app-title" content="学習アプリ">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="mobile-web-app-capable" content="yes">
@@ -14,20 +14,32 @@
 </head>
 <body>
 
-    <div id="counter">1 / 50</div>
+    <div id="menu-screen">
+        <h1>なにを勉強する？</h1>
+        <div class="menu-container">
+            <button class="menu-btn" onclick="startQuiz('flags')">🇺🇸 アメリカ50州（旗）</button>
+            <button class="menu-btn" onclick="alert('準備中！')" style="background-color: #999;">🔒 次のジャンル</button>
+        </div>
+    </div>
 
-    <div class="card-container">
-        <div id="card" class="card">
-            <div class="card-face card-front">
-                <div class="label">この州の州都は？</div>
-                <img id="state-img" src="" alt="州の形">
-                <div id="question" class="text-display"></div>
-            </div>
-            <div class="card-face card-back">
-                <div class="label">州都</div>
-                <div id="answer" class="text-display"></div>
+    <div id="quiz-screen" style="display: none;">
+        <div id="counter">1 / 50</div>
+
+        <div class="card-container">
+            <div id="card" class="card">
+                <div class="card-face card-front">
+                    <div class="label">この州の州都は？</div>
+                    <img id="state-img" src="" alt="問題画像">
+                    <div id="question" class="text-display"></div>
+                </div>
+                <div class="card-face card-back">
+                    <div class="label">州都</div>
+                    <div id="answer" class="text-display"></div>
+                </div>
             </div>
         </div>
+
+        <button class="back-btn" onclick="location.reload()">メニューに戻る</button>
     </div>
 
     <script src="script.js"></script>
