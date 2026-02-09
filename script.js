@@ -50,24 +50,20 @@ const data = [
     { q: "ワイオミング州", a: "シャイアン", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Flag_of_Wyoming.svg/250px-Flag_of_Wyoming.svg.png" },
     { q: "ワシントン州", a: "オリンピア", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/54/Flag_of_Washington.svg/250px-Flag_of_Washington.svg.png" },
 ];
-
 let currentIndex = 0;
 let isShowingAnswer = false;
 
-// HTMLのパーツを捕まえる
+const cardElement = document.getElementById('card');
 const qElement = document.getElementById('question');
 const aElement = document.getElementById('answer');
-const imgElement = document.getElementById('card-image');
-const cardElement = document.getElementById('card'); // 回転する板そのもの
+const imgElement = document.getElementById('state-img'); // ここを統一
 
-// 表示を更新する関数
 function updateCard() {
     isShowingAnswer = false;
     const currentData = data[currentIndex];
 
-    // すぐに文字を変えず、カードが「表」に戻る時間を稼ぐ
+    // カードが真横を向いたときに中身を入れ替える
     setTimeout(() => {
-        // 表側の文字と画像をセット
         qElement.innerText = currentData.q;
         if (currentData.img) {
             imgElement.src = currentData.img;
@@ -75,50 +71,28 @@ function updateCard() {
         } else {
             imgElement.style.display = "none";
         }
-
-        // 裏側の文字をセット
         aElement.innerText = currentData.a;
-    }, 150); // 0.15秒だけ待ってから文字を書き換える（ここがコツ！）
+    }, 150);
 
-    // カードの回転を元に戻す
     cardElement.classList.remove('is-flipped');
 }
 
-
-// カードをクリックした時の動き
 cardElement.addEventListener('click', () => {
     if (!isShowingAnswer) {
-        // --- 1. 表から裏へ（くるっとめくる） ---
         cardElement.classList.add('is-flipped');
         isShowingAnswer = true;
     } else {
-        // --- 2. 裏から次の問題へ（ここが修正ポイント！） ---
-        
-        // まず、カードを「透明」にしてユーザーの目から隠します
         cardElement.style.opacity = "0";
-
-        // 0.2秒待って、カードが完全に隠れたタイミングで中身を入れ替えます
         setTimeout(() => {
-            // ランダムに次の問題を選択
             currentIndex = Math.floor(Math.random() * data.length);
-            
-            // 【重要】まず「表向き」の状態に戻してから、文字と画像を更新
-            cardElement.classList.remove('is-flipped');
             updateCard();
-            
-            // 全ての書き換えが終わった一瞬後（0.05秒後）に、カードをパッと表示
             setTimeout(() => {
                 cardElement.style.opacity = "1";
-            }, 50); 
-            
-        }, 200); 
+            }, 100);
+        }, 300);
     }
 });
 
-// --- ここを書き換え ---
-
-// ページを開いた瞬間に、ランダムな番号をセットする
+// 初期表示もランダム
 currentIndex = Math.floor(Math.random() * data.length);
-
-// そのランダムな番号でカードを表示する
 updateCard();
