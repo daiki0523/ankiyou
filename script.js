@@ -134,17 +134,22 @@ function updateCard() {
     card.classList.remove('is-flipped');
     
     const item = shuffledData[currentIndex];
-    
-    // 画像のラグ対策
     const imgElement = document.getElementById('state-img');
+    
+    // 一旦画像を消して枠も隠す（ラグ防止）
     imgElement.style.opacity = "0";
+    
+    // 画像URLセット
     imgElement.src = getWikiImg(item.img);
-    imgElement.onload = () => { imgElement.style.opacity = "1"; };
+    
+    // 画像が読み込み終わったら枠と一緒に表示
+    imgElement.onload = () => { 
+        imgElement.style.opacity = "1"; 
+    };
 
-    // 問題文切替
+    // ラベルとテキストの更新
     document.getElementById('front-label').innerText = (currentGenre === 'presidents') ? "この大統領の名前は？" : "この州の州都は？";
     document.getElementById('back-label').innerText = (currentGenre === 'presidents') ? "名前" : "州都";
-
     document.getElementById('counter').innerText = `${currentIndex + 1} / ${shuffledData.length}`;
     document.getElementById('question').innerText = item.q;
     document.getElementById('answer').innerText = item.a;
