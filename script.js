@@ -58,7 +58,7 @@ const flagData = [
 
 const presidentData = [
     { q: "第1代", a: "ジョージ・ワシントン", img: "George_Washington.jpg" },
-    { q: "第2代", a: "ジョン・アダムズ", img: "John_Adams_Official_Presidential_Portrait.jpg" },
+    { q: "第2代", a: "John_Adams_Official_Presidential_Portrait.jpg", img: "John_Adams_Official_Presidential_Portrait.jpg" },
     { q: "第3代", a: "トーマス・ジェファーソン", img: "Official_Presidential_Portrait_of_Thomas_Jefferson.jpg" },
     { q: "第4代", a: "ジェームズ・マディソン", img: "James_Madison.jpg" },
     { q: "第5代", a: "ジェームズ・モンロー", img: "James_Monroe_White_House_portrait_1819.jpg" },
@@ -67,15 +67,15 @@ const presidentData = [
     { q: "第8代", a: "マーティン・ヴァン・ビューレン", img: "Martin_Van_Buren.jpg" },
     { q: "第9代", a: "ウィリアム・ヘンリー・ハリソン", img: "William_Henry_Harrison_daguerreotype_edit.jpg" },
     { q: "第10代", a: "ジョン・タイラー", img: "John_Tyler.jpg" },
-    { q: "第11代", a: "ジェームズ・K・ポーク", img: "James_K._Polk.jpg" },
+    { q: "第11代", a: "ジェームズ・K・ポーク", img: "James_K._Polk_official_presidential_portrait.jpg" },
     { q: "第12代", a: "ザカリー・テイラー", img: "Zachary_Taylor.jpg" },
     { q: "第13代", a: "ミラード・フィルモア", img: "Millard_Fillmore.jpg" },
     { q: "第14代", a: "フランクリン・ピアース", img: "Franklin_Pierce.jpg" },
-    { q: "第15代", a: "ジェームズ_ブキャナン", img: "James_Buchanan.jpg" },
+    { q: "第15代", a: "ジェームズ・ブキャナン", img: "James_Buchanan.jpg" },
     { q: "第16代", a: "エイブラハム・リンカーン", img: "Abraham_Lincoln_head_on_shoulders_photo_portrait.jpg" },
     { q: "第17代", a: "アンドリュー・ジョンソン", img: "Andrew_Johnson.jpg" },
-    { q: "第18代", a: "ユリシーズ・S・グラント", img: "Ulysses_S._Grant_1870-1880.jpg" },
-    { q: "第19代", a: "ラザフォード・B・ヘイズ", img: "Rutherford_B._Hayes.png" },
+    { q: "第18代", a: "ユリシーズ・S・グラント", img: "Ulysses_S_Grant_1870-1880.jpg" },
+    { q: "第19代", a: "ラザフォード・B・ヘイズ", img: "RutherfordBHayes.png" },
     { q: "第20代", a: "ジェームズ・ガーフィールド", img: "James_Garfield_official_presidential_portrait.jpg" },
     { q: "第21代", a: "チェスター・A・アーサー", img: "Chester_Alan_Arthur.jpg" },
     { q: "第22代", a: "グロバー・クリーブランド", img: "Grover_Cleveland_-_NARA_-_518139.jpg" },
@@ -90,7 +90,7 @@ const presidentData = [
     { q: "第31代", a: "ハーバート・フーヴァー", img: "Herbert_Hoover_official_presidential_portrait.jpg" },
     { q: "第32代", a: "フランクリン・D・ルーズベルト", img: "FDR_1944.jpg" },
     { q: "第33代", a: "ハリー・S・トルーマン", img: "Harry-truman.jpg" },
-    { q: "第34代", a: "ドワイト・D・アイゼンハワー", img: "Dwight_D._Eisenhower_official_photograph.jpg" },
+    { q: "第34代", a: "ドワイト_D_アイゼンハワー", img: "Dwight_D._Eisenhower_official_photograph.jpg" },
     { q: "第35代", a: "ジョン・F・ケネディ", img: "John_F._Kennedy_Official_Portrait.jpg" },
     { q: "第36代", a: "リンドン・B・ジョンソン", img: "Lyndon_B._Johnson.jpg" },
     { q: "第37代", a: "リチャード・ニクソン", img: "Richard_Nixon.jpg" },
@@ -102,7 +102,7 @@ const presidentData = [
     { q: "第43代", a: "ジョージ・W・ブッシュ", img: "George-W-Bush.jpg" },
     { q: "第44代", a: "バラク・オバマ", img: "Official_portrait_of_Barack_Obama.jpg" },
     { q: "第45代", a: "ドナルド・トランプ", img: "Donald_Trump_official_portrait.jpg" },
-    { q: "第46代", a: "ジョー・バイデン", img: "Joe_Biden_presidential_portrait.jpg" },
+    { q: "第46代", a: "ジョー_バイデン", img: "Joe_Biden_presidential_portrait.jpg" },
     { q: "第47代", a: "ドナルド・トランプ", img: "Donald_Trump_official_portrait.jpg" }
 ];
 
