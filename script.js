@@ -1,4 +1,4 @@
-// Wikipedia画像取得（安定URL）
+// Wikipediaの安定した画像URLを取得
 function getWikiImg(fileName) {
     return `https://commons.wikimedia.org/wiki/Special:FilePath/${fileName}?width=400`;
 }
@@ -62,10 +62,10 @@ const presidentData = [
     { q: "第3代", a: "トーマス・ジェファーソン", img: "Thomas_Jefferson.jpg" },
     { q: "第4代", a: "ジェームズ・マディソン", img: "James_Madison.jpg" },
     { q: "第5代", a: "ジェームズ・モンロー", img: "James_Monroe.jpg" },
-    { q: "第6代", a: "ジョン・Q・アダムズ", img: "John_Quincy_Adams.jpg" },
+    { q: "第6代", a: "ジョン・クィンシー・アダムズ", img: "John_Quincy_Adams_National_Portrait_Gallery_2.jpg" },
     { q: "第7代", a: "アンドリュー・ジャクソン", img: "Andrew_jackson_head.jpg" },
     { q: "第8代", a: "マーティン・ヴァン・ビューレン", img: "Martin_Van_Buren.jpg" },
-    { q: "第9代", a: "ウィリアム・H・ハリソン", img: "William_Henry_Harrison.jpg" },
+    { q: "第9代", a: "ウィリアム・ヘンリー・ハリソン", img: "William_Henry_Harrison_daguerreotype_edit.jpg" },
     { q: "第10代", a: "ジョン・タイラー", img: "John_Tyler.jpg" },
     { q: "第11代", a: "ジェームズ・K・ポーク", img: "James_K._Polk.jpg" },
     { q: "第12代", a: "ザカリー・テイラー", img: "Zachary_Taylor.jpg" },
@@ -77,13 +77,13 @@ const presidentData = [
     { q: "第18代", a: "ユリシーズ・S・グラント", img: "Ulysses_S._Grant.jpg" },
     { q: "第19代", a: "ラザフォード・B・ヘイズ", img: "Rutherford_B._Hayes.png" },
     { q: "第20代", a: "ジェームズ・A・ガーフィールド", img: "James_Abram_Garfield.jpg" },
-    { q: "第21代", a: "チェスター・A・アーサー", img: "Chester_Alan_Arthur.jpg" },
+    { q: "第21代", a: "チェスター・A_アーサー", img: "Chester_Alan_Arthur.jpg" },
     { q: "第22代", a: "グロバー・クリーブランド", img: "Grover_Cleveland.jpg" },
     { q: "第23代", a: "ベンジャミン_ハリソン", img: "Benjamin_Harrison.jpg" },
     { q: "第24代", a: "グロバー・クリーブランド", img: "Grover_Cleveland.jpg" },
     { q: "第25代", a: "ウィリアム_マッキンリー", img: "William_McKinley.jpg" },
     { q: "第26代", a: "セオドア・ルーズベルト", img: "Theodore_Roosevelt.jpg" },
-    { q: "第27代", a: "ウィリアム・H・タフト", img: "William_Howard_Taft.jpg" },
+    { q: "第27代", a: "ウィリアム・ハワード・タフト", img: "William_Howard_Taft.jpg" },
     { q: "第28代", a: "ウッドロウ・ウィルソン", img: "Woodrow_Wilson.jpg" },
     { q: "第29代", a: "ウォレン・G・ハーディング", img: "Warren_G._Harding.jpg" },
     { q: "第30代", a: "カルビン・クーリッジ", img: "Calvin_Coolidge.jpg" },
@@ -130,16 +130,16 @@ window.startQuiz = function(genre) {
 function updateCard() {
     isShowingAnswer = false;
     document.getElementById('check-btn').style.visibility = 'hidden';
-    document.getElementById('card').classList.remove('is-flipped');
+    const card = document.getElementById('card');
+    card.classList.remove('is-flipped');
     
     const item = shuffledData[currentIndex];
     
-    // ラグ防止：一度画像を空にしてからセット
+    // 画像のラグ対策
     const imgElement = document.getElementById('state-img');
-    imgElement.src = ""; 
-    setTimeout(() => {
-        imgElement.src = getWikiImg(item.img);
-    }, 50);
+    imgElement.style.opacity = "0";
+    imgElement.src = getWikiImg(item.img);
+    imgElement.onload = () => { imgElement.style.opacity = "1"; };
 
     // 問題文切替
     document.getElementById('front-label').innerText = (currentGenre === 'presidents') ? "この大統領の名前は？" : "この州の州都は？";
@@ -180,7 +180,7 @@ function showResult() {
     const score = shuffledData.length - wrongList.length;
     document.getElementById('result-stats').innerText = `${shuffledData.length}問中 ${score}問 正解！`;
     const list = document.getElementById('wrong-list');
-    list.innerHTML = (wrongList.length === 0) ? "全問正解！" : 
+    list.innerHTML = (wrongList.length === 0) ? "パーフェクト！" : 
         wrongList.map(item => `<div style="padding:10px; border-bottom:1px solid #ddd;"><b>${item.q}</b> → ${item.a}</div>`).join('');
 }
 
