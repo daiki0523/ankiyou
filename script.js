@@ -51,6 +51,56 @@ const flagData = [
     { q: "ワシントン州", a: "オリンピア", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/54/Flag_of_Washington.svg/250px-Flag_of_Washington.svg.png" },
 ];
 
+const presidentData = [
+    { q: "第1代大統領", a: "ジョージ・ワシントン", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Gilbert_Stuart_William_Einstman_Portrait_of_George_Washington.jpg/250px-Gilbert_Stuart_William_Einstman_Portrait_of_George_Washington.jpg" },
+    { q: "第2代大統領", a: "ジョン・アダムズ", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/John_Adams%2C_official_Presidential_portrait.jpg/250px-John_Adams%2C_official_Presidential_portrait.jpg" },
+    { q: "第3代大統領", a: "トーマス・ジェファーソン", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Thomas_Jefferson_by_Rembrandt_Peale_1800.jpg/250px-Thomas_Jefferson_by_Rembrandt_Peale_1800.jpg" },
+    { q: "第4代大統領", a: "ジェームズ・マディソン", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/James_Madison.jpg/250px-James_Madison.jpg" },
+    { q: "第5代大統領", a: "ジェームズ・モンロー", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/James_Monroe_White_House_portrait_1819.jpg/250px-James_Monroe_White_House_portrait_1819.jpg" },
+    { q: "第6代大統領", a: "ジョン・Q・アダムズ", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/John_Quincy_Adams_by_George_Healy%2C_1858.jpg/250px-John_Quincy_Adams_by_George_Healy%2C_1858.jpg" },
+    { q: "第7代大統領", a: "アンドリュー・ジャクソン", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Andrew_jackson_head.jpg/250px-Andrew_jackson_head.jpg" },
+    { q: "第8代大統領", a: "マーティン・ヴァン・ビューレン", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Martin_Van_Buren_White_House_portrait_1858.jpg/250px-Martin_Van_Buren_White_House_portrait_1858.jpg" },
+    { q: "第9代大統領", a: "ウィリアム・H・ハリソン", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/William_Henry_Harrison_daguerreotype_edit.jpg/250px-William_Henry_Harrison_daguerreotype_edit.jpg" },
+    { q: "第10代大統領", a: "ジョン・タイラー", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/John_Tyler.jpg/250px-John_Tyler.jpg" },
+    { q: "第11代大統領", a: "ジェームズ・K・ポーク", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/James_K._Polk_official_portrait.jpg/250px-James_K._Polk_official_portrait.jpg" },
+    { q: "第12代大統領", a: "ザカリー・テイラー", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Zachary_Taylor_restored_and_cropped.jpg/250px-Zachary_Taylor_restored_and_cropped.jpg" },
+    { q: "第13代大統領", a: "ミラード・フィルモア", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Millard_Fillmore.jpg/250px-Millard_Fillmore.jpg" },
+    { q: "第14代大統領", a: "フランクリン・ピアース", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Franklin_Pierce_by_George_Healy%2C_1853.jpg/250px-Franklin_Pierce_by_George_Healy%2C_1853.jpg" },
+    { q: "第15代大統領", a: "ジェームズ・ブキャナン", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/James_Buchanan.jpg/250px-James_Buchanan.jpg" },
+    { q: "第16代大統領", a: "エイブラハム・リンカーン", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Abraham_Lincoln_O-77_matte_collodion_print.jpg/250px-Abraham_Lincoln_O-77_matte_collodion_print.jpg" },
+    { q: "第17代大統領", a: "アンドリュー・ジョンソン", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/ce/Andrew_Johnson_photo_portrait_c1860-1865.jpg/250px-Andrew_Johnson_photo_portrait_c1860-1865.jpg" },
+    { q: "第18代大統領", a: "ユリシーズ・S・グラント", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Ulysses_S._Grant_1870-1880.jpg/250px-Ulysses_S._Grant_1870-1880.jpg" },
+    { q: "第19代大統領", a: "ラザフォード・B・ヘイズ", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/RutherfordBHayes.png/250px-RutherfordBHayes.png" },
+    { q: "第20代大統領", a: "ジェームズ・A・ガーフィールド", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/James_Abram_Garfield%2C_photo_portrait%2C_1881.jpg/250px-James_Abram_Garfield%2C_photo_portrait%2C_1881.jpg" },
+    { q: "第21代大統領", a: "チェスター・A・アーサー", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/Chester_Alan_Arthur.jpg/250px-Chester_Alan_Arthur.jpg" },
+    { q: "第22代大統領", a: "グロバー・クリーブランド", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Grover_Cleveland_-_NARA_-_518139_%28cropped%29.jpg/250px-Grover_Cleveland_-_NARA_-_518139_%28cropped%29.jpg" },
+    { q: "第23代大統領", a: "ベンジャミン・ハリソン", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/Benjamin_Harrison_by_Pach_Bros%2C_1888.jpg/250px-Benjamin_Harrison_by_Pach_Bros%2C_1888.jpg" },
+    { q: "第24代大統領", a: "グロバー・クリーブランド", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Grover_Cleveland_-_NARA_-_518139_%28cropped%29.jpg/250px-Grover_Cleveland_-_NARA_-_518139_%28cropped%29.jpg" },
+    { q: "第25代大統領", a: "ウィリアム・マッキンリー", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Mckinley.jpg/250px-Mckinley.jpg" },
+    { q: "第26代大統領", a: "セオドア・ルーズベルト", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/President_Thodore_Roosevelt%2C_1904.jpg/250px-President_Thodore_Roosevelt%2C_1904.jpg" },
+    { q: "第27代大統領", a: "ウィリアム・H・タフト", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/William_Howard_Taft_1909.jpg/250px-William_Howard_Taft_1909.jpg" },
+    { q: "第28代大統領", a: "ウッドロウ・ウィルソン", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2d/Woodrow_Wilson-Harris_%26_Ewing.jpg/250px-Woodrow_Wilson-Harris_%26_Ewing.jpg" },
+    { q: "第29代大統領", a: "ウォレン・G・ハーディング", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Warren_G_Harding_portrait_as_Senator_June_1920.jpg/250px-Warren_G_Harding_portrait_as_Senator_June_1920.jpg" },
+    { q: "第30代大統領", a: "カルビン・クーリッジ", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/Calvin_Coolidge%2C_White_House_color_photo_portrait.jpg/250px-Calvin_Coolidge%2C_White_House_color_photo_portrait.jpg" },
+    { q: "第31代大統領", a: "ハーバート・フーヴァー", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/HerbertHoover.jpg/250px-HerbertHoover.jpg" },
+    { q: "第32代大統領", a: "フランクリン・D・ルーズベルト", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/FDR_1944_Color_Portrait.jpg/250px-FDR_1944_Color_Portrait.jpg" },
+    { q: "第33代大統領", a: "ハリー・S・トルーマン", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/06/Harry-truman.jpg/250px-Harry-truman.jpg" },
+    { q: "第34代大統領", a: "ドワイト・D・アイゼンハワー", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/Dwight_D._Eisenhower%2C_official_photo_portrait%2C_May_1959.jpg/250px-Dwight_D._Eisenhower%2C_official_photo_portrait%2C_May_1959.jpg" },
+    { q: "第35代大統領", a: "ジョン・F・ケネディ", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/John_F._Kennedy%2C_White_House_color_photo_portrait.jpg/250px-John_F._Kennedy%2C_White_House_color_photo_portrait.jpg" },
+    { q: "第36代大統領", a: "リンドン・B・ジョンソン", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Lyndon_B._Johnson_official_portrait.jpg/250px-Lyndon_B._Johnson_official_portrait.jpg" },
+    { q: "第37代大統領", a: "リチャード・ニクソン", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Richard_Nixon.jpg/250px-Richard_Nixon.jpg" },
+    { q: "第38代大統領", a: "ジェラルド・フォード", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Gerald_Ford_official_portrait_1974.jpg/250px-Gerald_Ford_official_portrait_1974.jpg" },
+    { q: "第39代大統領", a: "ジミー・カーター", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/JimmyCarterPortrait2.jpg/250px-JimmyCarterPortrait2.jpg" },
+    { q: "第40代大統領", a: "ロナルド・レーガン", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/Official_Portrait_of_President_Reagan_1981.jpg/250px-Official_Portrait_of_President_Reagan_1981.jpg" },
+    { q: "第41代大統領", a: "ジョージ・H・W・ブッシュ", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/George_H._W._Bush_official_presidential_portrait.jpg/250px-George_H._W._Bush_official_presidential_portrait.jpg" },
+    { q: "第42代大統領", a: "ビル・クリントン", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Bill_Clinton.jpg/250px-Bill_Clinton.jpg" },
+    { q: "第43代大統領", a: "ジョージ・W・ブッシュ", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/George-W-Bush.jpg/250px-George-W-Bush.jpg" },
+    { q: "第44代大統領", a: "バラク・オバマ", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/President_Barack_Obama.jpg/250px-President_Barack_Obama.jpg" },
+    { q: "第45代大統領", a: "ドナルド・トランプ", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Donald_Trump_official_portrait.jpg/250px-Donald_Trump_official_portrait.jpg" },
+    { q: "第46代大統領", a: "ジョー・バイデン", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/Joe_Biden_presidential_portrait.jpg/250px-Joe_Biden_presidential_portrait.jpg" }
+    { q: "第47代大統領", a: "ドナルド・トランプ", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Donald_Trump_official_portrait.jpg/250px-Donald_Trump_official_portrait.jpg" },
+];
+
 let shuffledData = [];
 let currentIndex = 0;
 let isShowingAnswer = false;
@@ -72,11 +122,26 @@ function switchScreen(screenId) {
 
 // 1. クイズ開始
 window.startQuiz = function(genre) {
+    // 1. まず、使うデータをリセットして選び直す
+    if (genre === 'flags') {
+        quizData = flagData;
+    } else if (genre === 'presidents') {
+        quizData = presidentData; // ここが大統領になる
+    } else {
+        quizData = flagData; // 念のため、それ以外は50州にする
+    }
+
+    // 2. 画面をクイズ画面に切り替える
     switchScreen('quiz-screen');
-    shuffledData = [...flagData].sort(() => Math.random() - 0.5);
+
+    // 3. 選ばれたデータ（quizData）をシャッフルしてセットする
+    shuffledData = [...quizData].sort(() => Math.random() - 0.5);
     currentIndex = 0;
     wrongList = [];
+    
+    // 4. 最初のカードを表示
     updateCard();
+};
 };
 
 function updateCard() {
