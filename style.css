@@ -128,16 +128,40 @@ html, body {
 
 .check-btn:active { transform: scale(0.9); }
 
-/* メニューボタン */
+/* メニューのボタンが入っている箱 */
+.menu-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 80%;        /* 画面の8割くらいの幅にする */
+    max-width: 300px;  /* 大きくなりすぎないように制限 */
+    position: relative; 
+    z-index: 101;      /* ボタンを確実にクリック可能にする */
+}
+
+/* ボタン自体の設定 */
 .menu-btn {
-    width: 100%;
-    padding: 18px 36px;
-　　font-size: 18px;
+    width: 100%;       /* これで幅を揃える */
+    min-height: 60px;  /* 押しやすい高さに固定 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
     font-weight: bold;
-    background: #007bff;
-    color: white;
     border: none;
     border-radius: 12px;
+    color: white;
+    background-color: #007bff; /* 基本は青 */
+    cursor: pointer;
+    box-shadow: 0 4px 0 #0056b3; /* 立体感を出す */
+    -webkit-tap-highlight-color: transparent; /* タップ時の反応を良くする */
+}
+
+/* 押した時の凹む動き */
+.menu-btn:active {
+    transform: translateY(2px);
+    box-shadow: none;
+
 }
 
 /* 結果リスト */
