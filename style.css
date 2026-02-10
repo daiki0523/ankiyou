@@ -130,8 +130,9 @@ html, body {
 
 /* メニューボタン */
 .menu-btn {
+    width: 100%;
     padding: 18px 36px;
-    font-size: 18px;
+　　font-size: 18px;
     font-weight: bold;
     background: #007bff;
     color: white;
