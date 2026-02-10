@@ -122,14 +122,23 @@ function switchScreen(screenId) {
 
 // 1. クイズ開始
 window.startQuiz = function(genre) {
-    // 1. まず、使うデータをリセットして選び直す
-    if (genre === 'flags') {
-        quizData = flagData;
-    } else if (genre === 'presidents') {
-        quizData = presidentData; // ここが大統領になる
+    // どっちのボタンが押されたかでデータを切り替える
+    if (genre === 'presidents') {
+        quizData = presidentData;
     } else {
-        quizData = flagData; // 念のため、それ以外は50州にする
+        // それ以外（'flags'など）はすべて州のデータにする
+        quizData = flagData;
     }
+
+    switchScreen('quiz-screen');
+    
+    // 選ばれたデータをコピーしてシャッフル
+    shuffledData = [...quizData].sort(() => Math.random() - 0.5);
+    currentIndex = 0;
+    wrongList = [];
+    
+    updateCard();
+};
 
     // 2. 画面をクイズ画面に切り替える
     switchScreen('quiz-screen');
@@ -194,3 +203,4 @@ function showResult() {
 window.goHome = function() {
     location.reload();
 };
+
