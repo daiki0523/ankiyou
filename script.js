@@ -88,7 +88,7 @@ const presidentData = [
     { q: "第29代", a: "ウォレン・G・ハーディング", img: "Warren_G_Harding_portrait_as_President_-_Restored.jpg" },
     { q: "第30代", a: "カルビン・クーリッジ", img: "Calvin_Coolidge_official_presidential_portrait.jpg" },
     { q: "第31代", a: "ハーバート・フーヴァー", img: "Herbert_Hoover_official_presidential_portrait.jpg" },
-    { q: "第32代", a: "フランクリン・D・ルーズベルト", img: "FDR_1944.jpg" },
+    { q: "第32代", a: "フランクリン_D_ルーズベルト", img: "FDR_1944.jpg" },
     { q: "第33代", a: "ハリー・S・トルーマン", img: "Harry-truman.jpg" },
     { q: "第34代", a: "ドワイト・D・アイゼンハワー", img: "Dwight_D._Eisenhower_official_photograph.jpg" },
     { q: "第35代", a: "ジョン・F・ケネディ", img: "John_F._Kennedy_Official_Portrait.jpg" },
