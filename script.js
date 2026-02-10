@@ -58,7 +58,7 @@ const flagData = [
 
 const presidentData = [
     { q: "第1代", a: "ジョージ・ワシントン", img: "George_Washington.jpg" },
-    { q: "第2代", a: "John_Adams_Official_Presidential_Portrait.jpg", img: "John_Adams_Official_Presidential_Portrait.jpg" },
+    { q: "第2代", a: "ジョン・アダムズ", img: "John_Adams_Official_Presidential_Portrait.jpg" },
     { q: "第3代", a: "トーマス・ジェファーソン", img: "Official_Presidential_Portrait_of_Thomas_Jefferson.jpg" },
     { q: "第4代", a: "ジェームズ・マディソン", img: "James_Madison.jpg" },
     { q: "第5代", a: "ジェームズ・モンロー", img: "James_Monroe_White_House_portrait_1819.jpg" },
@@ -90,7 +90,7 @@ const presidentData = [
     { q: "第31代", a: "ハーバート・フーヴァー", img: "Herbert_Hoover_official_presidential_portrait.jpg" },
     { q: "第32代", a: "フランクリン・D・ルーズベルト", img: "FDR_1944.jpg" },
     { q: "第33代", a: "ハリー・S・トルーマン", img: "Harry-truman.jpg" },
-    { q: "第34代", a: "ドワイト_D_アイゼンハワー", img: "Dwight_D._Eisenhower_official_photograph.jpg" },
+    { q: "第34代", a: "ドワイト・D・アイゼンハワー", img: "Dwight_D._Eisenhower_official_photograph.jpg" },
     { q: "第35代", a: "ジョン・F・ケネディ", img: "John_F._Kennedy_Official_Portrait.jpg" },
     { q: "第36代", a: "リンドン・B・ジョンソン", img: "Lyndon_B._Johnson.jpg" },
     { q: "第37代", a: "リチャード・ニクソン", img: "Richard_Nixon.jpg" },
@@ -102,7 +102,7 @@ const presidentData = [
     { q: "第43代", a: "ジョージ・W・ブッシュ", img: "George-W-Bush.jpg" },
     { q: "第44代", a: "バラク・オバマ", img: "Official_portrait_of_Barack_Obama.jpg" },
     { q: "第45代", a: "ドナルド・トランプ", img: "Donald_Trump_official_portrait.jpg" },
-    { q: "第46代", a: "ジョー_バイデン", img: "Joe_Biden_presidential_portrait.jpg" },
+    { q: "第46代", a: "ジョー・バイデン", img: "Joe_Biden_presidential_portrait.jpg" },
     { q: "第47代", a: "ドナルド・トランプ", img: "Donald_Trump_official_portrait.jpg" }
 ];
 
@@ -136,18 +136,12 @@ function updateCard() {
     const item = shuffledData[currentIndex];
     const imgElement = document.getElementById('state-img');
     
-    // 一旦画像を消して枠も隠す（ラグ防止）
     imgElement.style.opacity = "0";
-    
-    // 画像URLセット
     imgElement.src = getWikiImg(item.img);
-    
-    // 画像が読み込み終わったら枠と一緒に表示
     imgElement.onload = () => { 
         imgElement.style.opacity = "1"; 
     };
 
-    // ラベルとテキストの更新
     document.getElementById('front-label').innerText = (currentGenre === 'presidents') ? "この大統領の名前は？" : "この州の州都は？";
     document.getElementById('back-label').innerText = (currentGenre === 'presidents') ? "名前" : "州都";
     document.getElementById('counter').innerText = `${currentIndex + 1} / ${shuffledData.length}`;
