@@ -1,4 +1,4 @@
-// --- 1. データ定義 ---
+// --- 1. 50州データ ---
 const flagData = [
     { q: "アイダホ州", a: "ボイシ", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Flag_of_Idaho.svg/250px-Flag_of_Idaho.svg.png" },
     { q: "アイオワ州", a: "デモイン", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Flag_of_Iowa.svg/250px-Flag_of_Iowa.svg.png" },
@@ -48,10 +48,11 @@ const flagData = [
     { q: "ユタ州", a: "ソルトレイクシティ", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Flag_of_Utah.svg/250px-Flag_of_Utah.svg.png" },
     { q: "ルイジアナ州", a: "バトンルージュ", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Flag_of_Louisiana.svg/250px-Flag_of_Louisiana.svg.png" },
     { q: "ロードアイランド州", a: "プロビデンス", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Flag_of_Rhode_Island.svg/250px-Rhode_Island.svg.png" },
-    { q: "ワイオミング州", a: "シャイアン", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Flag_of_Wyoming.svg/250px-Wyoming.svg.png" },
+    { q: "ワイオミング州", a: "シャイアン", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Flag_of_Wyoming.svg/250px-Flag_of_Wyoming.svg.png" },
     { q: "ワシントン州", a: "オリンピア", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/54/Flag_of_Washington.svg/250px-Flag_of_Washington.svg.png" }
 ];
 
+// --- 2. 大統領データ ---
 const presidentData = [
     { q: "第1代大統領", a: "ジョージ・ワシントン", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Gilbert_Stuart_William_Einstman_Portrait_of_George_Washington.jpg/250px-Gilbert_Stuart_William_Einstman_Portrait_of_George_Washington.jpg" },
     { q: "第2代大統領", a: "ジョン・アダムズ", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/John_Adams%2C_official_Presidential_portrait.jpg/250px-John_Adams%2C_official_Presidential_portrait.jpg" },
@@ -62,7 +63,7 @@ const presidentData = [
     { q: "第7代大統領", a: "アンドリュー・ジャクソン", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Andrew_jackson_head.jpg/250px-Andrew_jackson_head.jpg" },
     { q: "第8代大統領", a: "マーティン・ヴァン・ビューレン", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Martin_Van_Buren_White_House_portrait_1858.jpg/250px-Martin_Van_Buren_White_House_portrait_1858.jpg" },
     { q: "第9代大統領", a: "ウィリアム・H・ハリソン", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/William_Henry_Harrison_daguerreotype_edit.jpg/250px-William_Henry_Harrison_daguerreotype_edit.jpg" },
-    { q: "第10代大統領", a: "ジョン・タイラー", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/John_Tyler.jpg/250px-John_Tyler.jpg" },
+    { q: "第10代大統領", a: "ジョン_タイラー", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/John_Tyler.jpg/250px-John_Tyler.jpg" },
     { q: "第11代大統領", a: "ジェームズ・K・ポーク", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/James_K._Polk_official_portrait.jpg/250px-James_K._Polk_official_portrait.jpg" },
     { q: "第12代大統領", a: "ザカリー・テイラー", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Zachary_Taylor_restored_and_cropped.jpg/250px-Zachary_Taylor_restored_and_cropped.jpg" },
     { q: "第13代大統領", a: "ミラード・フィルモア", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Millard_Fillmore.jpg/250px-Millard_Fillmore.jpg" },
@@ -73,27 +74,27 @@ const presidentData = [
     { q: "第18代大統領", a: "ユリシーズ・S・グラント", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Ulysses_S._Grant_1870-1880.jpg/250px-Ulysses_S._Grant_1870-1880.jpg" },
     { q: "第19代大統領", a: "ラザフォード・B・ヘイズ", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/RutherfordBHayes.png/250px-RutherfordBHayes.png" },
     { q: "第20代大統領", a: "ジェームズ・A・ガーフィールド", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/James_Abram_Garfield%2C_photo_portrait%2C_1881.jpg/250px-James_Abram_Garfield%2C_photo_portrait%2C_1881.jpg" },
-    { q: "第21代大統領", a: "チェスター・A・アーサー", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/Chester_Alan_Arthur.jpg/250px-Chester_Alan_Arthur.jpg" },
+    { q: "第21代大統領", a: "チェスター_A_アーサー", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/Chester_Alan_Arthur.jpg/250px-Chester_Alan_Arthur.jpg" },
     { q: "第22代大統領", a: "グロバー・クリーブランド", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Grover_Cleveland_-_NARA_-_518139_%28cropped%29.jpg/250px-Grover_Cleveland_-_NARA_-_518139_%28cropped%29.jpg" },
     { q: "第23代大統領", a: "ベンジャミン・ハリソン", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/Benjamin_Harrison_by_Pach_Bros%2C_1888.jpg/250px-Benjamin_Harrison_by_Pach_Bros%2C_1888.jpg" },
     { q: "第24代大統領", a: "グロバー・クリーブランド", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Grover_Cleveland_-_NARA_-_518139_%28cropped%29.jpg/250px-Grover_Cleveland_-_NARA_-_518139_%28cropped%29.jpg" },
     { q: "第25代大統領", a: "ウィリアム・マッキンリー", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Mckinley.jpg/250px-Mckinley.jpg" },
     { q: "第26代大統領", a: "セオドア・ルーズベルト", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/President_Thodore_Roosevelt%2C_1904.jpg/250px-President_Thodore_Roosevelt%2C_1904.jpg" },
-    { q: "第27代大統領", a: "ウィリアム・H・タフト", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/William_Howard_Taft_1909.jpg/250px-William_Howard_Taft_1909.jpg" },
+    { q: "第27代大統領", a: "ウィリアム_H_タフト", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/William_Howard_Taft_1909.jpg/250px-William_Howard_Taft_1909.jpg" },
     { q: "第28代大統領", a: "ウッドロウ・ウィルソン", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2d/Woodrow_Wilson-Harris_%26_Ewing.jpg/250px-Woodrow_Wilson-Harris_%26_Ewing.jpg" },
     { q: "第29代大統領", a: "ウォレン・G・ハーディング", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Warren_G_Harding_portrait_as_Senator_June_1920.jpg/250px-Warren_G_Harding_portrait_as_Senator_June_1920.jpg" },
     { q: "第30代大統領", a: "カルビン・クーリッジ", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/Calvin_Coolidge%2C_White_House_color_photo_portrait.jpg/250px-Calvin_Coolidge%2C_White_House_color_photo_portrait.jpg" },
     { q: "第31代大統領", a: "ハーバート・フーヴァー", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/HerbertHoover.jpg/250px-HerbertHoover.jpg" },
-    { q: "第32代大統領", a: "フランクリン・D・ルーズベルト", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/FDR_1944_Color_Portrait.jpg/250px-FDR_1944_Color_Portrait.jpg" },
+    { q: "第32代大統領", a: "フランクリン_D_ルーズベルト", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/FDR_1944_Color_Portrait.jpg/250px-FDR_1944_Color_Portrait.jpg" },
     { q: "第33代大統領", a: "ハリー・S・トルーマン", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/06/Harry-truman.jpg/250px-Harry-truman.jpg" },
     { q: "第34代大統領", a: "ドワイト・D・アイゼンハワー", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/Dwight_D._Eisenhower%2C_official_photo_portrait%2C_May_1959.jpg/250px-Dwight_D._Eisenhower%2C_official_photo_portrait%2C_May_1959.jpg" },
     { q: "第35代大統領", a: "ジョン・F・ケネディ", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/John_F._Kennedy%2C_White_House_color_photo_portrait.jpg/250px-John_F._Kennedy%2C_White_House_color_photo_portrait.jpg" },
-    { q: "第36代大統領", a: "リンドン・B・ジョンソン", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Lyndon_B._Johnson_official_portrait.jpg/250px-Lyndon_B._Johnson_official_portrait.jpg" },
+    { q: "第36代大統領", a: "リンドン・B_ジョンソン", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Lyndon_B._Johnson_official_portrait.jpg/250px-Lyndon_B._Johnson_official_portrait.jpg" },
     { q: "第37代大統領", a: "リチャード・ニクソン", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Richard_Nixon.jpg/250px-Richard_Nixon.jpg" },
     { q: "第38代大統領", a: "ジェラルド・フォード", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Gerald_Ford_official_portrait_1974.jpg/250px-Gerald_Ford_official_portrait_1974.jpg" },
     { q: "第39代大統領", a: "ジミー・カーター", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/JimmyCarterPortrait2.jpg/250px-JimmyCarterPortrait2.jpg" },
     { q: "第40代大統領", a: "ロナルド・レーガン", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/Official_Portrait_of_President_Reagan_1981.jpg/250px-Official_Portrait_of_President_Reagan_1981.jpg" },
-    { q: "第41代大統領", a: "ジョージ・H・W・ブッシュ", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/George_H._W._Bush_official_presidential_portrait.jpg/250px-George_H._W._Bush_official_presidential_portrait.jpg" },
+    { q: "第41代大統領", a: "ジョージ・H・W_ブッシュ", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/George_H._W._Bush_official_presidential_portrait.jpg/250px-George_H._W._Bush_official_presidential_portrait.jpg" },
     { q: "第42代大統領", a: "ビル・クリントン", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Bill_Clinton.jpg/250px-Bill_Clinton.jpg" },
     { q: "第43代大統領", a: "ジョージ・W・ブッシュ", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/George-W-Bush.jpg/250px-George-W-Bush.jpg" },
     { q: "第44代大統領", a: "バラク・オバマ", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/President_Barack_Obama.jpg/250px-President_Barack_Obama.jpg" },
@@ -102,7 +103,7 @@ const presidentData = [
     { q: "第47代大統領", a: "ドナルド・トランプ", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Donald_Trump_official_portrait.jpg/250px-Donald_Trump_official_portrait.jpg" }
 ];
 
-// --- 2. 状態管理変数 ---
+// --- 3. 変数管理 ---
 let quizData = [];
 let shuffledData = [];
 let currentIndex = 0;
@@ -112,7 +113,7 @@ let wrongList = [];
 const card = document.getElementById('card');
 const checkBtn = document.getElementById('check-btn');
 
-// --- 3. 画面切り替え ---
+// --- 4. 画面切り替え ---
 function switchScreen(screenId) {
     document.querySelectorAll('.screen').forEach(s => {
         s.classList.remove('active');
@@ -125,25 +126,26 @@ function switchScreen(screenId) {
     }
 }
 
-// --- 4. クイズ開始関数 ---
+// --- 5. クイズ開始 ---
 window.startQuiz = function(genre) {
+    // データをセット
     if (genre === 'presidents') {
         quizData = presidentData;
     } else {
         quizData = flagData;
     }
 
-    switchScreen('quiz-screen');
-    
-    // シャッフルして初期化
+    // 初期化
     shuffledData = [...quizData].sort(() => Math.random() - 0.5);
     currentIndex = 0;
     wrongList = [];
     
+    // 画面移動
+    switchScreen('quiz-screen');
     updateCard();
 };
 
-// --- 5. カードの表示更新 ---
+// --- 6. カード更新 ---
 function updateCard() {
     isShowingAnswer = false;
     checkBtn.style.visibility = 'hidden';
@@ -157,7 +159,7 @@ function updateCard() {
     card.classList.remove('is-flipped');
 }
 
-// --- 6. カードクリック（答え合わせ） ---
+// --- 7. クリック処理 ---
 window.handleCardClick = function() {
     if (!isShowingAnswer) {
         card.classList.add('is-flipped');
@@ -168,16 +170,15 @@ window.handleCardClick = function() {
     }
 };
 
-// --- 7. 「！」ボタン（間違い保存） ---
+// --- 8. 間違いチェック ---
 window.markWrong = function(event) {
     event.stopPropagation();
-    const current = shuffledData[currentIndex];
-    // 名前と答えをセットで保存（復習用）
-    wrongList.push({ q: current.q, a: current.a });
+    const item = shuffledData[currentIndex];
+    wrongList.push({ q: item.q, a: item.a });
     nextQuestion();
 };
 
-// --- 8. 次の問題へ ---
+// --- 9. 次へ ---
 function nextQuestion() {
     currentIndex++;
     if (currentIndex < shuffledData.length) {
@@ -187,7 +188,7 @@ function nextQuestion() {
     }
 }
 
-// --- 9. 結果表示 ---
+// --- 10. 結果表示 ---
 function showResult() {
     switchScreen('result-screen');
     document.getElementById('result-stats').innerText = `${shuffledData.length}問中 ${shuffledData.length - wrongList.length}問 正解！`;
@@ -198,12 +199,12 @@ function showResult() {
                 <span style="color: #d32f2f; font-weight: bold;">${item.q}</span><br>
                 <span style="color: #555; font-size: 0.9em;">正解：${item.a}</span>
             </div>`).join("")
-        : "全問正解！完璧です！";
+        : "全問正解！素晴らしい！";
         
     document.getElementById('wrong-list').innerHTML = listHtml;
 }
 
-// --- 10. ホームへ戻る ---
+// --- 11. ホームへ戻る ---
 window.goHome = function() {
-    location.reload();
+    switchScreen('menu-screen');
 };
