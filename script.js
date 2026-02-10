@@ -56,6 +56,13 @@ const flagData = [
     { q: "ワシントン州", a: "オリンピア", img: "Flag_of_Washington.svg" }
 ];
 
+// Wikipediaから直接画像を取得するための関数
+function getWikiImg(fileName) {
+    // スペースをアンダースコアに変換し、URLエンコードを確実にする
+    const cleanFileName = encodeURIComponent(fileName.replace(/ /g, '_'));
+    return `https://commons.wikimedia.org/wiki/Special:FilePath/${cleanFileName}?width=400`;
+}
+
 const presidentData = [
     { q: "第1代", a: "ジョージ・ワシントン", img: "George_Washington.jpg" },
     { q: "第2代", a: "ジョン・アダムズ", img: "John_Adams_Official_Presidential_Portrait.jpg" },
@@ -68,7 +75,7 @@ const presidentData = [
     { q: "第9代", a: "ウィリアム・ヘンリー・ハリソン", img: "William_Henry_Harrison_daguerreotype_edit.jpg" },
     { q: "第10代", a: "ジョン・タイラー", img: "John_Tyler.jpg" },
     { q: "第11代", a: "ジェームズ・K・ポーク", img: "James_K._Polk_official_presidential_portrait.jpg" },
-    { q: "第12代", a: "ザカリー・テイラー", img: "Zachary_Taylor.jpg" },
+    { q: "第12代", a: "ザカリー_テイラー", img: "Zachary_Taylor.jpg" },
     { q: "第13代", a: "ミラード・フィルモア", img: "Millard_Fillmore.jpg" },
     { q: "第14代", a: "フランクリン・ピアース", img: "Franklin_Pierce.jpg" },
     { q: "第15代", a: "ジェームズ・ブキャナン", img: "James_Buchanan.jpg" },
@@ -88,7 +95,7 @@ const presidentData = [
     { q: "第29代", a: "ウォレン・G・ハーディング", img: "Warren_G_Harding_portrait_as_President_-_Restored.jpg" },
     { q: "第30代", a: "カルビン・クーリッジ", img: "Calvin_Coolidge_official_presidential_portrait.jpg" },
     { q: "第31代", a: "ハーバート・フーヴァー", img: "Herbert_Hoover_official_presidential_portrait.jpg" },
-    { q: "第32代", a: "フランクリン_D_ルーズベルト", img: "FDR_1944.jpg" },
+    { q: "第32代", a: "フランクリン・D・ルーズベルト", img: "FDR_1944.jpg" },
     { q: "第33代", a: "ハリー・S・トルーマン", img: "Harry-truman.jpg" },
     { q: "第34代", a: "ドワイト・D・アイゼンハワー", img: "Dwight_D._Eisenhower_official_photograph.jpg" },
     { q: "第35代", a: "ジョン・F・ケネディ", img: "John_F._Kennedy_Official_Portrait.jpg" },
@@ -105,7 +112,6 @@ const presidentData = [
     { q: "第46代", a: "ジョー・バイデン", img: "Joe_Biden_presidential_portrait.jpg" },
     { q: "第47代", a: "ドナルド・トランプ", img: "Donald_Trump_official_portrait.jpg" }
 ];
-
 let currentGenre = '';
 let shuffledData = [];
 let currentIndex = 0;
