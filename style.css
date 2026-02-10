@@ -1,48 +1,60 @@
-html, body { 
-    margin: 0; padding: 0; width: 100%; height: 100%; 
-    overflow: hidden; background-color: #f0f2f5; font-family: sans-serif; 
-    -webkit-tap-highlight-color: transparent; 
-}
-.screen { 
-    display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-    flex-direction: column; align-items: center; justify-content: center; 
-    background-color: #f0f2f5; z-index: 1; 
-}
-.screen.active { display: flex !important; z-index: 100; }
+/* 基本設定（省略なしで出します） */
+html, body { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background-color: #f0f2f5; font-family: sans-serif; -webkit-tap-highlight-color: transparent; }
+.screen { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; flex-direction: column; align-items: center; justify-content: center; background-color: #f0f2f5; }
+.screen.active { display: flex !important; }
 
 #counter { position: absolute; top: 0; width: 100%; height: 60px; background: white; display: flex; justify-content: center; align-items: center; font-size: 20px; font-weight: bold; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-#exit-btn { position: absolute; top: 8px; right: 12px; font-size: 24px; z-index: 200; background: white; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; border-radius: 50%; border: 1px solid #ddd; }
+#exit-btn { position: absolute; top: 8px; right: 12px; font-size: 24px; background: white; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; border-radius: 50%; border: 1px solid #ddd; z-index: 200; }
 
+/* カードの外枠 */
 .card-container { width: 85vw; max-width: 300px; height: 400px; perspective: 1000px; margin-top: 20px; }
 .card { width: 100%; height: 100%; position: relative; transition: transform 0.6s; transform-style: preserve-3d; }
 .card.is-flipped { transform: rotateY(180deg); }
 
-.card-face {
-    position: absolute; width: 100%; height: 100%;
-    backface-visibility: hidden; -webkit-backface-visibility: hidden;
-    border-radius: 15px; display: flex; flex-direction: column;
-    align-items: center; justify-content: center; padding: 20px;
-    box-sizing: border-box; background: white; box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+/* カードの共通デザイン */
+.card-face { 
+    position: absolute; width: 100%; height: 100%; 
+    backface-visibility: hidden; -webkit-backface-visibility: hidden; 
+    border-radius: 15px; display: flex; flex-direction: column; 
+    align-items: center; justify-content: center; padding: 20px; 
+    box-sizing: border-box; background: white; box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
 }
 
-/* 表面の設定 */
+/* --- 表面・裏面の切り替えロジック --- */
 .card-front { z-index: 2; transform: rotateY(0deg); display: flex; }
-.card.is-flipped .card-front { display: none; } /* めくったら消す */
+/* めくっている途中や後の「透け」を物理的に防ぐ */
+.card.is-flipped .card-front { visibility: hidden; pointer-events: none; } 
 
-/* 裏面の設定 */
 .card-back { 
     background-color: #e7f3ff; 
     transform: rotateY(180deg); 
     z-index: 1; 
-    display: none; /* 最初は消しておく */
+    /* 最初は非表示。めくった時だけ出す */
+    visibility: hidden; 
 }
-.card.is-flipped .card-back { display: flex; } /* めくったら出す */
+.card.is-flipped .card-back { visibility: visible; }
 
+/* --- 画像と黒枠 --- */
 .label { font-size: 14px; color: #666; margin-bottom: 10px; }
-#state-img { width: 100%; max-height: 180px; object-fit: contain; background: #eee; margin-bottom: 15px; border-radius: 8px; transition: opacity 0.2s; }
+#state-img { 
+    width: 95%; 
+    max-height: 180px; 
+    object-fit: contain; 
+    background: #fff; 
+    margin-bottom: 15px; 
+    border-radius: 2px;
+    /* ★ここが黒枠★ */
+    border: 2px solid #000000; 
+    box-shadow: 0 0 0 1px #000; /* 二重線っぽくして強調 */
+    box-sizing: border-box;
+    transition: opacity 0.2s; 
+}
+
 .text-display { font-size: 24px; font-weight: bold; text-align: center; }
 
+/* ボタンとその他（前回と同じ） */
 .check-btn { visibility: hidden; margin-top: 20px; width: 70px; height: 70px; background-color: #ff9800; color: white; font-size: 32px; font-weight: bold; display: flex; align-items: center; justify-content: center; border-radius: 50%; box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
-.menu-btn { width: 100%; min-height: 60px; border: none; border-radius: 12px; color: white; background-color: #007bff; font-size: 18px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 0 #0056b3; margin-bottom: 10px;}
+.menu-container { display: flex; flex-direction: column; gap: 15px; width: 80%; max-width: 300px; }
+.menu-btn { width: 100%; min-height: 60px; border: none; border-radius: 12px; color: white; background-color: #007bff; font-size: 18px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 0 #0056b3; margin-bottom: 10px; }
 .menu-btn:active { transform: translateY(2px); box-shadow: 0 2px 0 #0056b3; }
 .wrong-section { width: 85%; max-height: 40vh; overflow-y: auto; background: white; padding: 15px; border-radius: 12px; text-align: left; }
