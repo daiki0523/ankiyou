@@ -1,3 +1,4 @@
+// --- 1. データ定義 ---
 const flagData = [
     { q: "アイダホ州", a: "ボイシ", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Flag_of_Idaho.svg/250px-Flag_of_Idaho.svg.png" },
     { q: "アイオワ州", a: "デモイン", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Flag_of_Iowa.svg/250px-Flag_of_Iowa.svg.png" },
@@ -47,8 +48,8 @@ const flagData = [
     { q: "ユタ州", a: "ソルトレイクシティ", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Flag_of_Utah.svg/250px-Flag_of_Utah.svg.png" },
     { q: "ルイジアナ州", a: "バトンルージュ", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Flag_of_Louisiana.svg/250px-Flag_of_Louisiana.svg.png" },
     { q: "ロードアイランド州", a: "プロビデンス", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Flag_of_Rhode_Island.svg/250px-Rhode_Island.svg.png" },
-    { q: "ワイオミング州", a: "シャイアン", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Flag_of_Wyoming.svg/250px-Flag_of_Wyoming.svg.png" },
-    { q: "ワシントン州", a: "オリンピア", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/54/Flag_of_Washington.svg/250px-Flag_of_Washington.svg.png" },
+    { q: "ワイオミング州", a: "シャイアン", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Flag_of_Wyoming.svg/250px-Wyoming.svg.png" },
+    { q: "ワシントン州", a: "オリンピア", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/54/Flag_of_Washington.svg/250px-Flag_of_Washington.svg.png" }
 ];
 
 const presidentData = [
@@ -97,10 +98,12 @@ const presidentData = [
     { q: "第43代大統領", a: "ジョージ・W・ブッシュ", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/George-W-Bush.jpg/250px-George-W-Bush.jpg" },
     { q: "第44代大統領", a: "バラク・オバマ", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/President_Barack_Obama.jpg/250px-President_Barack_Obama.jpg" },
     { q: "第45代大統領", a: "ドナルド・トランプ", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Donald_Trump_official_portrait.jpg/250px-Donald_Trump_official_portrait.jpg" },
-    { q: "第46代大統領", a: "ジョー・バイデン", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/Joe_Biden_presidential_portrait.jpg/250px-Joe_Biden_presidential_portrait.jpg" }
-    { q: "第47代大統領", a: "ドナルド・トランプ", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Donald_Trump_official_portrait.jpg/250px-Donald_Trump_official_portrait.jpg" },
+    { q: "第46代大統領", a: "ジョー・バイデン", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/Joe_Biden_presidential_portrait.jpg/250px-Joe_Biden_presidential_portrait.jpg" },
+    { q: "第47代大統領", a: "ドナルド・トランプ", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Donald_Trump_official_portrait.jpg/250px-Donald_Trump_official_portrait.jpg" }
 ];
 
+// --- 2. 状態管理変数 ---
+let quizData = [];
 let shuffledData = [];
 let currentIndex = 0;
 let isShowingAnswer = false;
@@ -109,30 +112,30 @@ let wrongList = [];
 const card = document.getElementById('card');
 const checkBtn = document.getElementById('check-btn');
 
-// 画面切り替え関数
+// --- 3. 画面切り替え ---
 function switchScreen(screenId) {
     document.querySelectorAll('.screen').forEach(s => {
         s.classList.remove('active');
         s.style.display = 'none';
     });
     const target = document.getElementById(screenId);
-    target.classList.add('active');
-    target.style.display = 'flex';
+    if (target) {
+        target.classList.add('active');
+        target.style.display = 'flex';
+    }
 }
 
-// 1. クイズ開始
+// --- 4. クイズ開始関数 ---
 window.startQuiz = function(genre) {
-    // どっちのボタンが押されたかでデータを切り替える
     if (genre === 'presidents') {
         quizData = presidentData;
     } else {
-        // それ以外（'flags'など）はすべて州のデータにする
         quizData = flagData;
     }
 
     switchScreen('quiz-screen');
     
-    // 選ばれたデータをコピーしてシャッフル
+    // シャッフルして初期化
     shuffledData = [...quizData].sort(() => Math.random() - 0.5);
     currentIndex = 0;
     wrongList = [];
@@ -140,31 +143,21 @@ window.startQuiz = function(genre) {
     updateCard();
 };
 
-    // 2. 画面をクイズ画面に切り替える
-    switchScreen('quiz-screen');
-
-    // 3. 選ばれたデータ（quizData）をシャッフルしてセットする
-    shuffledData = [...quizData].sort(() => Math.random() - 0.5);
-    currentIndex = 0;
-    wrongList = [];
-    
-    // 4. 最初のカードを表示
-    updateCard();
-};
-};
-
+// --- 5. カードの表示更新 ---
 function updateCard() {
     isShowingAnswer = false;
     checkBtn.style.visibility = 'hidden';
     const data = shuffledData[currentIndex];
+    
     document.getElementById('counter').innerText = `${currentIndex + 1} / ${shuffledData.length}`;
     document.getElementById('question').innerText = data.q;
     document.getElementById('state-img').src = data.img;
     document.getElementById('answer').innerText = data.a;
+    
     card.classList.remove('is-flipped');
 }
 
-// 2. カードクリック処理
+// --- 6. カードクリック（答え合わせ） ---
 window.handleCardClick = function() {
     if (!isShowingAnswer) {
         card.classList.add('is-flipped');
@@ -175,13 +168,16 @@ window.handleCardClick = function() {
     }
 };
 
-// 3. 「！」ボタン（間違い）
+// --- 7. 「！」ボタン（間違い保存） ---
 window.markWrong = function(event) {
-    event.stopPropagation(); // カードのクリックを邪魔しない
-    wrongList.push(shuffledData[currentIndex].q);
+    event.stopPropagation();
+    const current = shuffledData[currentIndex];
+    // 名前と答えをセットで保存（復習用）
+    wrongList.push({ q: current.q, a: current.a });
     nextQuestion();
 };
 
+// --- 8. 次の問題へ ---
 function nextQuestion() {
     currentIndex++;
     if (currentIndex < shuffledData.length) {
@@ -191,16 +187,23 @@ function nextQuestion() {
     }
 }
 
-// 4. 結果表示
+// --- 9. 結果表示 ---
 function showResult() {
     switchScreen('result-screen');
     document.getElementById('result-stats').innerText = `${shuffledData.length}問中 ${shuffledData.length - wrongList.length}問 正解！`;
-    const listHtml = wrongList.length > 0 ? "・" + wrongList.join("<br>・") : "なし！完璧です！";
+    
+    const listHtml = wrongList.length > 0 
+        ? wrongList.map(item => `
+            <div style="margin-bottom: 10px; border-bottom: 1px dashed #ccc; padding-bottom: 5px;">
+                <span style="color: #d32f2f; font-weight: bold;">${item.q}</span><br>
+                <span style="color: #555; font-size: 0.9em;">正解：${item.a}</span>
+            </div>`).join("")
+        : "全問正解！完璧です！";
+        
     document.getElementById('wrong-list').innerHTML = listHtml;
 }
 
-// 5. 戻るボタン
+// --- 10. ホームへ戻る ---
 window.goHome = function() {
     location.reload();
 };
-
