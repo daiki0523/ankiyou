@@ -1,35 +1,18 @@
-/* 基本設定 */
 html, body { 
     margin: 0; padding: 0; width: 100%; height: 100%; 
     overflow: hidden; background-color: #f0f2f5; 
     font-family: sans-serif; -webkit-tap-highlight-color: transparent; 
 }
-.screen { 
-    display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-    flex-direction: column; align-items: center; justify-content: center; 
-    background-color: #f0f2f5; 
-}
+.screen { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; flex-direction: column; align-items: center; justify-content: center; }
 .screen.active { display: flex !important; }
 
-#counter { 
-    position: absolute; top: 0; width: 100%; height: 60px; 
-    background: white; display: flex; justify-content: center; 
-    align-items: center; font-size: 20px; font-weight: bold; 
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1); 
-}
-#exit-btn { 
-    position: absolute; top: 8px; right: 12px; font-size: 24px; 
-    background: white; width: 44px; height: 44px; display: flex; 
-    align-items: center; justify-content: center; border-radius: 50%; 
-    border: 1px solid #ddd; z-index: 200; 
-}
+#counter { position: absolute; top: 0; width: 100%; height: 60px; background: white; display: flex; justify-content: center; align-items: center; font-size: 20px; font-weight: bold; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+#exit-btn { position: absolute; top: 8px; right: 12px; font-size: 24px; background: white; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; border-radius: 50%; border: 1px solid #ddd; z-index: 200; }
 
-/* カードの外枠 */
-.card-container { width: 85vw; max-width: 300px; height: 400px; perspective: 1000px; margin-top: 20px; }
+.card-container { width: 85vw; max-width: 300px; height: 400px; perspective: 1000px; }
 .card { width: 100%; height: 100%; position: relative; transition: transform 0.6s; transform-style: preserve-3d; }
 .card.is-flipped { transform: rotateY(180deg); }
 
-/* カードの共通デザイン */
 .card-face { 
     position: absolute; width: 100%; height: 100%; 
     backface-visibility: hidden; -webkit-backface-visibility: hidden; 
@@ -38,43 +21,21 @@ html, body {
     box-sizing: border-box; background: white; box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
 }
 
-/* --- 表面・裏面の切り替えロジック（透け防止） --- */
-.card-front { z-index: 2; transform: rotateY(0deg); display: flex; }
-/* めくった時に表面を完全に隠す */
-.card.is-flipped .card-front { visibility: hidden !important; } 
+/* 透け防止ロジック */
+.card-front { z-index: 2; transform: rotateY(0deg); }
+.card.is-flipped .card-front { visibility: hidden; }
+.card-back { background-color: #e7f3ff; transform: rotateY(180deg); display: none; }
+.card.is-flipped .card-back { display: flex !important; }
 
-.card-back { 
-    background-color: #e7f3ff; 
-    transform: rotateY(180deg); 
-    z-index: 1; 
-    visibility: hidden; /* 最初は非表示 */
-}
-/* めくった時に裏面を出す */
-.card.is-flipped .card-back { visibility: visible !important; }
-
-/* --- 画像と黒枠 --- */
-.label { font-size: 14px; color: #666; margin-bottom: 10px; }
-
+/* 黒枠の設定 */
 #state-img { 
-    width: 95% !important; 
-    max-height: 180px !important; 
-    object-fit: contain !important; 
-    background-color: #ffffff !important; 
-    margin-bottom: 15px !important; 
-    
-    /* 黒枠を強力に指定 */
-    border: 3px solid #000000 !important; 
-    box-sizing: border-box !important;
-    border-radius: 2px;
-    display: block; 
-    transition: opacity 0.2s; 
+    width: 95%; max-height: 180px; object-fit: contain; 
+    border: 3px solid #000000 !important; /* 絶対に黒枠 */
+    background-color: #fff; margin-bottom: 15px; opacity: 0; transition: opacity 0.3s;
 }
 
+.label { font-size: 14px; color: #666; margin-bottom: 10px; }
 .text-display { font-size: 24px; font-weight: bold; text-align: center; }
-
-/* ボタン・リザルト */
-.check-btn { visibility: hidden; margin-top: 20px; width: 70px; height: 70px; background-color: #ff9800; color: white; font-size: 32px; font-weight: bold; display: flex; align-items: center; justify-content: center; border-radius: 50%; box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
-.menu-container { display: flex; flex-direction: column; gap: 15px; width: 80%; max-width: 300px; }
-.menu-btn { width: 100%; min-height: 60px; border: none; border-radius: 12px; color: white; background-color: #007bff; font-size: 18px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 0 #0056b3; margin-bottom: 10px; }
-.menu-btn:active { transform: translateY(2px); box-shadow: 0 2px 0 #0056b3; }
-.wrong-section { width: 85%; max-height: 40vh; overflow-y: auto; background: white; padding: 15px; border-radius: 12px; text-align: left; }
+.check-btn { visibility: hidden; margin-top: 20px; width: 70px; height: 70px; background-color: #ff9800; color: white; font-size: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+.menu-btn { width: 100%; min-height: 60px; border: none; border-radius: 12px; color: white; background-color: #007bff; font-size: 18px; font-weight: bold; margin-bottom: 10px; }
+.wrong-section { width: 85%; max-height: 40vh; overflow-y: auto; background: white; padding: 15px; border-radius: 12px; }
