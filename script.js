@@ -1,9 +1,11 @@
-// Wikipediaの画像URL生成（再試行用にタイムスタンプを追加可能にする）
-function getWikiImg(fileName, retryCount = 0) {
-    const name = fileName.replace(/ /g, '_');
-    const baseUrl = `https://commons.wikimedia.org/wiki/Special:FilePath/${name}?width=400`;
-    // 再試行時はURLを変えてキャッシュを回避
-    return retryCount > 0 ? `${baseUrl}&retry=${retryCount}` : baseUrl;
+// Wikipediaの画像を「強制的に最新で取得」する関数
+function getWikiImg(fileName) {
+    if (!fileName) return "";
+    // ファイル名の正規化
+    const cleanName = fileName.trim().replace(/\s/g, '_');
+    // ブラウザの「画像が出ない記憶」を壊すためのランダム文字列を付加
+    const cacheBust = new Date().getTime(); 
+    return `https://commons.wikimedia.org/wiki/Special:FilePath/${cleanName}?width=400&v=${cacheBust}`;
 }
 
 const flagData = [
@@ -65,7 +67,7 @@ const presidentData = [
     { q: "第3代", a: "トーマス・ジェファーソン", img: "Official_Presidential_Portrait_of_Thomas_Jefferson.jpg" },
     { q: "第4代", a: "ジェームズ・マディソン", img: "James_Madison.jpg" },
     { q: "第5代", a: "ジェームズ・モンロー", img: "James_Monroe_White_House_portrait_1819.jpg" },
-    { q: "第6代", a: "ジョン・クィンシー・アダムズ", img: "John_Quincy_Adams_National_Portrait_Gallery.jpg" },
+    { q: "第6代", a: "ジョン・Q・アダムズ", img: "John_Quincy_Adams_National_Portrait_Gallery.jpg" },
     { q: "第7代", a: "アンドリュー・ジャクソン", img: "Andrew_jackson_head.jpg" },
     { q: "第8代", a: "マーティン・ヴァン・ビューレン", img: "Martin_Van_Buren.jpg" },
     { q: "第9代", a: "ウィリアム・H・ハリソン", img: "William_Henry_Harrison_daguerreotype_edit.jpg" },
@@ -86,12 +88,12 @@ const presidentData = [
     { q: "第24代", a: "グロバー・クリーブランド", img: "Grover_Cleveland_-_NARA_-_518139.jpg" },
     { q: "第25代", a: "ウィリアム・マッキンリー", img: "William_McKinley_presidential_portrait.jpg" },
     { q: "第26代", a: "セオドア・ルーズベルト", img: "Theodore_Roosevelt_official_portrait.jpg" },
-    { q: "第27代", a: "ウィリアム・ハワード・タフト", img: "William_Howard_Taft.jpg" },
+    { q: "第27代", a: "ウィリアム・H・タフト", img: "William_Howard_Taft.jpg" },
     { q: "第28代", a: "ウッドロウ・ウィルソン", img: "Woodrow_Wilson-Harris_&_Ewing.jpg" },
     { q: "第29代", a: "ウォレン・G・ハーディング", img: "Warren_G_Harding_portrait_as_President_-_Restored.jpg" },
     { q: "第30代", a: "カルビン・クーリッジ", img: "Calvin_Coolidge_official_presidential_portrait.jpg" },
     { q: "第31代", a: "ハーバート・フーヴァー", img: "Herbert_Hoover_official_presidential_portrait.jpg" },
-    { q: "第32代", a: "フランクリン・D・ルーズベルト", img: "FDR_1944.jpg" },
+    { q: "第32代", a: "F・ルーズベルト", img: "FDR_1944.jpg" },
     { q: "第33代", a: "ハリー・S・トルーマン", img: "Harry-truman.jpg" },
     { q: "第34代", a: "ドワイト・D・アイゼンハワー", img: "Dwight_D._Eisenhower_official_photograph.jpg" },
     { q: "第35代", a: "ジョン・F・ケネディ", img: "John_F._Kennedy_Official_Portrait.jpg" },
@@ -108,6 +110,8 @@ const presidentData = [
     { q: "第46代", a: "ジョー・バイデン", img: "Joe_Biden_presidential_portrait.jpg" },
     { q: "第47代", a: "ドナルド・トランプ", img: "Donald_Trump_official_portrait.jpg" }
 ];
+
+// ... (以下、startQuiz関数やupdateCard関数などのロジック部分は前回のままでOKです)
 
 let currentGenre = '';
 let shuffledData = [];
