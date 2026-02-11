@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>アメリカ学習アプリ</title>
+    <title>アメリカ学習アプリ - 最終完全版</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <div id="menu-screen" class="screen active">
-        <h1 style="margin-bottom: 30px;">なにを勉強する？</h1>
+        <h1>なにを勉強する？</h1>
         <div class="menu-container">
             <button class="menu-btn" onclick="startQuiz('flags')">🇺🇸 アメリカ50州（旗）</button>
             <button class="menu-btn" onclick="startQuiz('presidents')" style="background-color: #002868;">🇺🇸 歴代大統領</button>
@@ -17,14 +17,17 @@
     </div>
 
     <div id="quiz-screen" class="screen">
-        <div id="counter">1 / 50</div>
+        <div id="counter">1 / --</div>
         <div id="exit-btn" onclick="goHome()">🏠</div>
 
         <div class="card-container">
             <div id="card" class="card" onclick="handleCardClick()">
                 <div class="card-face card-front">
                     <div id="front-label" class="label"></div>
-                    <img id="state-img" src="" alt="問題画像">
+                    <div id="img-wrapper" style="position:relative; width:100%; display:flex; justify-content:center;">
+                        <img id="state-img" src="" alt="問題画像" onerror="handleImageError()">
+                        <div id="retry-hint" style="display:none; position:absolute; font-size:12px; color:red; bottom:-20px;">画像を再読み込み中...</div>
+                    </div>
                     <div id="question" class="text-display"></div>
                 </div>
                 <div class="card-face card-back">
@@ -33,15 +36,14 @@
                 </div>
             </div>
         </div>
-        
         <div id="check-btn" class="check-btn" onclick="markWrong(event)">！</div>
     </div>
 
     <div id="result-screen" class="screen">
         <h1>結果発表</h1>
-        <div id="result-stats" style="font-size: 24px; font-weight: bold; margin: 20px 0;"></div>
+        <div id="result-stats"></div>
         <div class="wrong-section">
-            <h3 style="margin-top: 0;">間違えた問題：</h3>
+            <h3 style="margin-top: 0;">復習リスト：</h3>
             <div id="wrong-list"></div>
         </div>
         <button class="menu-btn" onclick="goHome()" style="margin-top: 20px;">メニューに戻る</button>
