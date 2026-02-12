@@ -1,13 +1,12 @@
-// --- 1. 画像取得の設定（もっとも成功率の高い形式） ---
+// --- 1. 画像取得の設定 ---
 function getWikiImg(fileName) {
     if (!fileName) return "";
-    // スペースだけをアンダースコアに変換（Wikipediaの標準ルール）
     const name = fileName.trim().replace(/\s/g, '_');
-    // 特殊なエンコードをせず、そのままパスに渡すのが一番安定します
+    // 特殊文字を維持しつつ、確実にFilePathへ繋ぐ
     return "https://commons.wikimedia.org/wiki/Special:FilePath/" + name + "?width=400";
 }
 
-// --- 2. データ定義（全番号、画像名を確認済み） ---
+// --- 2. データ定義（ご指摘の番号を重点的に修正） ---
 const flagData = [
     { q: "アイダホ州", a: "ボイシ", img: "Flag_of_Idaho.svg" },
     { q: "アイオワ州", a: "デモイン", img: "Flag_of_Iowa.svg" },
@@ -78,7 +77,7 @@ const presidentData = [
     { q: "第14代", a: "フランクリン・ピアース", img: "Franklin_Pierce.jpg" },
     { q: "第15代", a: "ジェームズ・ブキャナン", img: "James_Buchanan.jpg" },
     { q: "第16代", a: "エイブラハム・リンカーン", img: "Abraham_Lincoln_head_on_shoulders_photo_portrait.jpg" },
-    { q: "第17代", a: "アンドリュー・ジョンソン", img: "Andrew_Johnson.jpg" },
+    { q: "第17代", a: "アンドリュー_ジョンソン", img: "Andrew_Johnson.jpg" },
     { q: "第18代", a: "ユリシーズ・S・グラント", img: "Ulysses_S_Grant_1870-1880.jpg" },
     { q: "第19代", a: "ラザフォード・B・ヘイズ", img: "RutherfordBHayes.png" },
     { q: "第20代", a: "ジェームズ・ガーフィールド", img: "James_Garfield_official_presidential_portrait.jpg" },
@@ -89,7 +88,7 @@ const presidentData = [
     { q: "第25代", a: "ウィリアム・マッキンリー", img: "William_McKinley_presidential_portrait.jpg" },
     { q: "第26代", a: "セオドア・ルーズベルト", img: "Theodore_Roosevelt_official_portrait.jpg" },
     { q: "第27代", a: "ウィリアム・ハワード・タフト", img: "William_Howard_Taft.jpg" },
-    { q: "第28代", a: "ウッドロウ・ウィルソン", img: "Woodrow_Wilson-Harris_&_Ewing.jpg" },
+    { q: "第28代", a: "Woodrow_Wilson-Harris_&_Ewing.jpg", a: "ウッドロウ・ウィルソン", img: "Woodrow_Wilson-Harris_&_Ewing.jpg" },
     { q: "第29代", a: "ウォレン・G・ハーディング", img: "Warren_G_Harding_portrait_as_President_-_Restored.jpg" },
     { q: "第30代", a: "カルビン・クーリッジ", img: "Calvin_Coolidge_official_presidential_portrait.jpg" },
     { q: "第31代", a: "ハーバート・フーヴァー", img: "Herbert_Hoover_official_presidential_portrait.jpg" },
@@ -97,18 +96,18 @@ const presidentData = [
     { q: "第33代", a: "ハリー・S・トルーマン", img: "Harry-truman.jpg" },
     { q: "第34代", a: "ドワイト・D・アイゼンハワー", img: "Dwight_D._Eisenhower_official_photograph.jpg" },
     { q: "第35代", a: "ジョン・F・ケネディ", img: "John_F._Kennedy_Official_Portrait.jpg" },
-    { q: "第36代", a: "リンドン・B・ジョンソン", img: "Lyndon_B._Johnson.jpg" },
-    { q: "第37代", a: "リチャード・ニクソン", img: "Richard_Nixon.jpg" },
-    { q: "第38代", a: "ジェラルド・フォード", img: "Gerald_Ford.jpg" },
-    { q: "第39代", a: "ジミー・カーター", img: "JimmyCarterPortrait.jpg" },
-    { q: "第40代", a: "ロナルド・レーガン", img: "Official_Portrait_of_President_Reagan.jpg" },
-    { q: "第41代", a: "ジョージ・H・W・ブッシュ", img: "George_H._W._Bush_presidential_portrait.jpg" },
+    { q: "第36代", a: "リンドン_B_ジョンソン", img: "Lyndon_B._Johnson.jpg" },
+    { q: "第37代", a: "リチャード_ニクソン", img: "Richard_Nixon.jpg" },
+    { q: "第38代", a: "ジェラルド_フォード", img: "Gerald_Ford.jpg" },
+    { q: "第39代", a: "ジミー_カーター", img: "JimmyCarterPortrait.jpg" },
+    { q: "第40代", a: "ロナルド_レーガン", img: "Official_Portrait_of_President_Reagan.jpg" },
+    { q: "第41代", a: "ジョージ_H_W_ブッシュ", img: "George_H._W._Bush_presidential_portrait.jpg" },
     { q: "第42代", a: "ビル_クリントン", img: "Bill_Clinton.jpg" },
     { q: "第43代", a: "ジョージ・W・ブッシュ", img: "George-W-Bush.jpg" },
-    { q: "第44代", a: "バラク・オバマ", img: "Official_portrait_of_Barack_Obama.jpg" },
-    { q: "第45代", a: "ドナルド・トランプ", img: "Donald_Trump_official_portrait.jpg" },
-    { q: "第46代", a: "ジョー・バイデン", img: "Joe_Biden_presidential_portrait.jpg" },
-    { q: "第47代", a: "ドナルド・トランプ", img: "Donald_Trump_official_portrait.jpg" }
+    { q: "第44代", a: "バラク_オバマ", img: "Official_portrait_of_Barack_Obama.jpg" },
+    { q: "第45代", a: "ドナルド_トランプ", img: "Donald_Trump_official_portrait.jpg" },
+    { q: "第46代", a: "ジョー_バイデン", img: "Joe_Biden_presidential_portrait.jpg" },
+    { q: "第47代", a: "ドナルド_トランプ", img: "Donald_Trump_official_portrait.jpg" }
 ];
 
 // --- 3. メインロジック ---
