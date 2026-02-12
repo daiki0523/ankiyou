@@ -1,9 +1,9 @@
 // --- 1. 画像取得の設定 ---
 function getWikiImg(fileName) {
     if (!fileName) return "";
+    // スペースだけアンダースコアに変換し、特殊文字を壊さないようにエンコードして結合
     const name = fileName.trim().replace(/\s/g, '_');
-    // 特殊文字を維持しつつ、確実にFilePathへ繋ぐ
-    return "https://commons.wikimedia.org/wiki/Special:FilePath/" + name + "?width=400";
+    return "https://commons.wikimedia.org/wiki/Special:FilePath/" + encodeURIComponent(name) + "?width=400";
 }
 
 // --- 2. データ定義（ご指摘の番号を重点的に修正） ---
@@ -95,7 +95,7 @@ const presidentData = [
     { q: "第32代", a: "フランクリン・D・ルーズベルト", img: "FDR_1944.jpg" },
     { q: "第33代", a: "ハリー・S・トルーマン", img: "Harry-truman.jpg" },
     { q: "第34代", a: "ドワイト・D・アイゼンハワー", img: "Dwight_D._Eisenhower_official_photograph.jpg" },
-    { q: "第35代", a: "ジョン・F・ケネディ", img: "John_F._Kennedy_Official_Portrait.jpg" },
+    { q: "第35代", a: "ジョン・F・ケネディ", img: "John_F._Kennedy_Official_Portrait.jpg"}
     { q: "第36代", a: "リンドン_B_ジョンソン", img: "Lyndon_B._Johnson.jpg" },
     { q: "第37代", a: "リチャード_ニクソン", img: "Richard_Nixon.jpg" },
     { q: "第38代", a: "ジェラルド_フォード", img: "Gerald_Ford.jpg" },
