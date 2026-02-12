@@ -1,12 +1,13 @@
-// --- 1. 画像取得の設定（最もシンプルで確実な方法に変更） ---
+// --- 1. 画像取得の設定（もっとも成功率の高い形式） ---
 function getWikiImg(fileName) {
     if (!fileName) return "";
-    // スペースをアンダースコアに置換するだけで、余計なエンコードはしないのがWikipediaのコツです
+    // スペースだけをアンダースコアに変換（Wikipediaの標準ルール）
     const name = fileName.trim().replace(/\s/g, '_');
+    // 特殊なエンコードをせず、そのままパスに渡すのが一番安定します
     return "https://commons.wikimedia.org/wiki/Special:FilePath/" + name + "?width=400";
 }
 
-// --- 2. データ定義（ファイル名をさらに精査しました） ---
+// --- 2. データ定義（全番号、画像名を確認済み） ---
 const flagData = [
     { q: "アイダホ州", a: "ボイシ", img: "Flag_of_Idaho.svg" },
     { q: "アイオワ州", a: "デモイン", img: "Flag_of_Iowa.svg" },
@@ -89,7 +90,7 @@ const presidentData = [
     { q: "第26代", a: "セオドア・ルーズベルト", img: "Theodore_Roosevelt_official_portrait.jpg" },
     { q: "第27代", a: "ウィリアム・ハワード・タフト", img: "William_Howard_Taft.jpg" },
     { q: "第28代", a: "ウッドロウ・ウィルソン", img: "Woodrow_Wilson-Harris_&_Ewing.jpg" },
-    { q: "第29代", a: "Warren_G_Harding_portrait_as_President_-_Restored.jpg", a: "ウォレン・G・ハーディング", img: "Warren_G_Harding_portrait_as_President_-_Restored.jpg" },
+    { q: "第29代", a: "ウォレン・G・ハーディング", img: "Warren_G_Harding_portrait_as_President_-_Restored.jpg" },
     { q: "第30代", a: "カルビン・クーリッジ", img: "Calvin_Coolidge_official_presidential_portrait.jpg" },
     { q: "第31代", a: "ハーバート・フーヴァー", img: "Herbert_Hoover_official_presidential_portrait.jpg" },
     { q: "第32代", a: "フランクリン・D・ルーズベルト", img: "FDR_1944.jpg" },
@@ -102,7 +103,7 @@ const presidentData = [
     { q: "第39代", a: "ジミー・カーター", img: "JimmyCarterPortrait.jpg" },
     { q: "第40代", a: "ロナルド・レーガン", img: "Official_Portrait_of_President_Reagan.jpg" },
     { q: "第41代", a: "ジョージ・H・W・ブッシュ", img: "George_H._W._Bush_presidential_portrait.jpg" },
-    { q: "第42代", a: "ビル・クリントン", img: "Bill_Clinton.jpg" },
+    { q: "第42代", a: "ビル_クリントン", img: "Bill_Clinton.jpg" },
     { q: "第43代", a: "ジョージ・W・ブッシュ", img: "George-W-Bush.jpg" },
     { q: "第44代", a: "バラク・オバマ", img: "Official_portrait_of_Barack_Obama.jpg" },
     { q: "第45代", a: "ドナルド・トランプ", img: "Donald_Trump_official_portrait.jpg" },
@@ -110,7 +111,7 @@ const presidentData = [
     { q: "第47代", a: "ドナルド・トランプ", img: "Donald_Trump_official_portrait.jpg" }
 ];
 
-// --- 3. アプリのメインロジック ---
+// --- 3. メインロジック ---
 let currentGenre = '';
 let shuffledData = [];
 let currentIndex = 0;
@@ -119,8 +120,7 @@ let wrongList = [];
 
 function switchScreen(id) {
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-    const target = document.getElementById(id);
-    if (target) target.classList.add('active');
+    document.getElementById(id).classList.add('active');
 }
 
 window.startQuiz = function(genre) {
@@ -142,11 +142,12 @@ function updateCard() {
     const item = shuffledData[currentIndex];
     const imgElement = document.getElementById('state-img');
     
-    // 画像URLを設定
+    imgElement.style.opacity = "0";
     imgElement.src = getWikiImg(item.img);
-    
+    imgElement.onload = () => { imgElement.style.opacity = "1"; };
+
     document.getElementById('front-label').innerText = (currentGenre === 'presidents') ? "この大統領の名前は？" : "この州の州都は？";
-    document.getElementById('back-label').innerText = (currentGenre === 'presidents') ? "名前" : "州都";
+    document.getElementById('back-label').innerText = (currentGenre === 'presidents') ? "正解" : "州都";
     document.getElementById('counter').innerText = (currentIndex + 1) + " / " + shuffledData.length;
     document.getElementById('question').innerText = item.q;
     document.getElementById('answer').innerText = item.a;
