@@ -1,12 +1,12 @@
-// --- 1. 画像取得の設定 ---
+// --- 1. 画像取得の設定（最もシンプルで確実な方法に変更） ---
 function getWikiImg(fileName) {
     if (!fileName) return "";
-    // 特殊文字やスペースをWikipediaが理解できる形に変換
-    const name = encodeURIComponent(fileName.trim().replace(/\s/g, '_'));
-    return `https://commons.wikimedia.org/wiki/Special:FilePath/${name}?width=400`;
+    // スペースをアンダースコアに置換するだけで、余計なエンコードはしないのがWikipediaのコツです
+    const name = fileName.trim().replace(/\s/g, '_');
+    return "https://commons.wikimedia.org/wiki/Special:FilePath/" + name + "?width=400";
 }
 
-// --- 2. データ定義 ---
+// --- 2. データ定義（ファイル名をさらに精査しました） ---
 const flagData = [
     { q: "アイダホ州", a: "ボイシ", img: "Flag_of_Idaho.svg" },
     { q: "アイオワ州", a: "デモイン", img: "Flag_of_Iowa.svg" },
@@ -89,7 +89,7 @@ const presidentData = [
     { q: "第26代", a: "セオドア・ルーズベルト", img: "Theodore_Roosevelt_official_portrait.jpg" },
     { q: "第27代", a: "ウィリアム・ハワード・タフト", img: "William_Howard_Taft.jpg" },
     { q: "第28代", a: "ウッドロウ・ウィルソン", img: "Woodrow_Wilson-Harris_&_Ewing.jpg" },
-    { q: "第29代", a: "ウォレン・G・ハーディング", img: "Warren_G_Harding_portrait_as_President_-_Restored.jpg" },
+    { q: "第29代", a: "Warren_G_Harding_portrait_as_President_-_Restored.jpg", a: "ウォレン・G・ハーディング", img: "Warren_G_Harding_portrait_as_President_-_Restored.jpg" },
     { q: "第30代", a: "カルビン・クーリッジ", img: "Calvin_Coolidge_official_presidential_portrait.jpg" },
     { q: "第31代", a: "ハーバート・フーヴァー", img: "Herbert_Hoover_official_presidential_portrait.jpg" },
     { q: "第32代", a: "フランクリン・D・ルーズベルト", img: "FDR_1944.jpg" },
@@ -117,14 +117,12 @@ let currentIndex = 0;
 let isShowingAnswer = false;
 let wrongList = [];
 
-// 画面切り替え関数
 function switchScreen(id) {
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
     const target = document.getElementById(id);
     if (target) target.classList.add('active');
 }
 
-// クイズ開始（ボタンが反応するのはこれがあるからです）
 window.startQuiz = function(genre) {
     currentGenre = genre;
     const data = (genre === 'presidents') ? presidentData : flagData;
@@ -135,7 +133,6 @@ window.startQuiz = function(genre) {
     updateCard();
 };
 
-// カードの内容を更新
 function updateCard() {
     isShowingAnswer = false;
     document.getElementById('check-btn').style.visibility = 'hidden';
@@ -145,17 +142,16 @@ function updateCard() {
     const item = shuffledData[currentIndex];
     const imgElement = document.getElementById('state-img');
     
-    // 画像の読み込み（ここでエラー対策の関数を呼び出す）
+    // 画像URLを設定
     imgElement.src = getWikiImg(item.img);
     
     document.getElementById('front-label').innerText = (currentGenre === 'presidents') ? "この大統領の名前は？" : "この州の州都は？";
     document.getElementById('back-label').innerText = (currentGenre === 'presidents') ? "名前" : "州都";
-    document.getElementById('counter').innerText = `${currentIndex + 1} / ${shuffledData.length}`;
+    document.getElementById('counter').innerText = (currentIndex + 1) + " / " + shuffledData.length;
     document.getElementById('question').innerText = item.q;
     document.getElementById('answer').innerText = item.a;
 }
 
-// カードをクリックした時の挙動
 window.handleCardClick = function() {
     if (!isShowingAnswer) {
         document.getElementById('card').classList.add('is-flipped');
@@ -166,7 +162,6 @@ window.handleCardClick = function() {
     }
 };
 
-// 不正解（！）ボタン
 window.markWrong = function(e) {
     e.stopPropagation();
     wrongList.push(shuffledData[currentIndex]);
@@ -185,16 +180,10 @@ function nextQuestion() {
 function showResult() {
     switchScreen('result-screen');
     const score = shuffledData.length - wrongList.length;
-    document.getElementById('result-stats').innerText = `${shuffledData.length}問中 ${score}問 正解！`;
+    document.getElementById('result-stats').innerText = shuffledData.length + "問中 " + score + "問 正解！";
     const list = document.getElementById('wrong-list');
     list.innerHTML = (wrongList.length === 0) ? "パーフェクト！" : 
-        wrongList.map(item => `<div style="padding:10px; border-bottom:1px solid #ddd;"><b>${item.q}</b> → ${item.a}</div>`).join('');
+        wrongList.map(item => '<div style="padding:10px; border-bottom:1px solid #ddd;"><b>' + item.q + '</b> → ' + item.a + '</div>').join('');
 }
 
 window.goHome = function() { switchScreen('menu-screen'); };
-
-// 画像読み込みエラー時のリトライ（簡易版）
-window.handleImageError = function() {
-    console.log("Image load failed, retrying...");
-    // 必要に応じて代替画像などを設定可能
-};
