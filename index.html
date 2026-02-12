@@ -2,162 +2,92 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>アメリカクイズ</title>
+    <title>クイズアプリ</title>
     <style>
-        body { font-family: sans-serif; text-align: center; background: #f0f4f8; margin: 0; padding: 20px; }
-        .screen { display: none; }
-        .active { display: block; }
-        .btn { padding: 15px 30px; font-size: 18px; cursor: pointer; background: #007bff; color: white; border: none; border-radius: 8px; margin: 10px; transition: 0.3s; }
-        .btn:hover { background: #0056b3; }
-        
-        /* カードのデザイン */
-        .card-container { width: 320px; height: 400px; perspective: 1000px; margin: 20px auto; }
-        .card { width: 100%; height: 100%; transition: transform 0.6s; transform-style: preserve-3d; cursor: pointer; position: relative; }
-        .card.is-flipped { transform: rotateY(180deg); }
-        .card-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 15px; background: white; box-shadow: 0 4px 15px rgba(0,0,0,0.1); padding: 20px; box-sizing: border-box; }
-        .card-back { transform: rotateY(180deg); background: #e3f2fd; }
-        
-        img { max-width: 100%; max-height: 200px; border-radius: 5px; margin-bottom: 15px; }
-        #wrong-list { text-align: left; max-width: 400px; margin: 20px auto; background: white; padding: 10px; border-radius: 8px; }
+        body { font-family: sans-serif; display: flex; flex-direction: column; align-items: center; background-color: #f0f0f0; margin: 0; padding: 20px; }
+        #quiz-container { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); width: 100%; max-width: 500px; text-align: center; position: relative; }
+        #home-btn { position: absolute; top: 10px; right: 10px; padding: 5px 10px; cursor: pointer; background: #eee; border: 1px solid #ccc; border-radius: 5px; font-size: 12px; }
+        .menu-btn { width: 100%; padding: 15px; margin: 10px 0; font-size: 18px; cursor: pointer; color: white; background: #007bff; border: none; border-bottom: 5px solid #0056b3; border-radius: 8px; }
+        .menu-btn:active { border-bottom: 0; transform: translateY(5px); }
+        #question-img { width: 100%; height: 200px; object-fit: contain; margin-bottom: 15px; border: 2px solid #000; background: white; }
+        #question-text { font-size: 20px; margin-bottom: 15px; font-weight: bold; }
+        #answer-text { font-size: 24px; margin: 20px 0; padding: 15px; border: 3px solid #000; background-color: #fff; color: #000; min-height: 1.2em; display: none; border-radius: 5px; font-weight: bold; }
+        .action-btn { width: 45%; padding: 12px; font-size: 16px; cursor: pointer; border: none; border-radius: 5px; color: white; margin: 5px; }
+        #show-btn { background-color: #28a745; }
+        #hint-btn { background-color: #ff8c00; font-size: 20px; font-weight: bold; }
+        #next-btn { background-color: #007bff; display: none; width: 92%; }
+        .hidden { display: none; }
     </style>
 </head>
 <body>
 
-    <div id="menu-screen" class="screen active">
-        <h1>アメリカクイズ</h1>
-        <button class="btn" onclick="startQuiz('flags')">州都クイズ</button>
-        <button class="btn" onclick="startQuiz('presidents')">大統領クイズ</button>
+<div id="quiz-container">
+    <div id="menu">
+        <h1>クイズメニュー</h1>
+        <button class="menu-btn" onclick="startQuiz('flag')">アメリカ州都クイズ</button>
+        <button class="menu-btn" onclick="startQuiz('president')">歴代大統領クイズ</button>
     </div>
 
-    <div id="quiz-screen" class="screen">
-        <div id="counter" style="margin-bottom:10px;"></div>
-        <div class="card-container">
-            <div id="card" class="card" onclick="handleCardClick()">
-                <div class="card-face card-front">
-                    <small id="front-label"></small>
-                    <img id="state-img" src="">
-                    <h2 id="question"></h2>
-                </div>
-                <div class="card-face card-back">
-                    <small id="back-label">正解</small>
-                    <h2 id="answer" style="font-size: 24px; color: #d32f2f;"></h2>
-                    <p style="margin-top:20px; color:#666;">タップで次へ</p>
-                </div>
-            </div>
+    <div id="quiz" class="hidden">
+        <button id="home-btn" onclick="showMenu()">ホーム</button>
+        <div id="question-text"></div>
+        <img id="question-img" src="" alt="問題画像">
+        <div id="answer-text"></div>
+        <div id="controls">
+            <button id="show-btn" class="action-btn" onclick="showAnswer()">答え合わせ</button>
+            <button id="hint-btn" class="action-btn" onclick="showAnswer()">！</button>
+            <button id="next-btn" class="action-btn" onclick="nextQuestion()">次の問題へ</button>
         </div>
-        <button id="check-btn" class="btn" style="background:#dc3545; visibility:hidden;" onclick="markWrong(event)">わからなかった</button>
     </div>
+</div>
 
-    <div id="result-screen" class="screen">
-        <h1>結果発表</h1>
-        <h2 id="result-stats"></h2>
-        <div id="wrong-list"></div>
-        <button class="btn" onclick="goHome()">メニューへ戻る</button>
-    </div>
+<script src="data.js"></script>
+<script>
+let currentQuizData = [];
+let currentIndex = 0;
 
-    <script>
-    // --- 1. 画像取得の設定 ---
-    function getWikiImg(fileName) {
-        if (!fileName) return "";
-        const name = fileName.trim().replace(/\s/g, '_');
-        return "https://commons.wikimedia.org/wiki/Special:FilePath/" + encodeURIComponent(name) + "?width=400";
+function startQuiz(type) {
+    // data.jsにあるデータを使用
+    currentQuizData = type === 'flag' ? [...flagData] : [...presidentData];
+    currentQuizData.sort(() => Math.random() - 0.5);
+    currentIndex = 0;
+    document.getElementById('menu').classList.add('hidden');
+    document.getElementById('quiz').classList.remove('hidden');
+    showQuestion();
+}
+
+function showMenu() {
+    document.getElementById('menu').classList.remove('hidden');
+    document.getElementById('quiz').classList.add('hidden');
+}
+
+function showQuestion() {
+    const item = currentQuizData[currentIndex];
+    document.getElementById('question-text').textContent = item.q;
+    document.getElementById('question-img').src = "https://upload.wikimedia.org/wikipedia/commons/" + item.img;
+    document.getElementById('answer-text').textContent = item.a;
+    document.getElementById('answer-text').style.display = 'none';
+    document.getElementById('show-btn').style.display = 'inline-block';
+    document.getElementById('hint-btn').style.display = 'inline-block';
+    document.getElementById('next-btn').style.display = 'none';
+}
+
+function showAnswer() {
+    document.getElementById('answer-text').style.display = 'block';
+    document.getElementById('show-btn').style.display = 'none';
+    document.getElementById('hint-btn').style.display = 'none';
+    document.getElementById('next-btn').style.display = 'inline-block';
+}
+
+function nextQuestion() {
+    currentIndex++;
+    if (currentIndex < currentQuizData.length) {
+        showQuestion();
+    } else {
+        alert("全問終了しました！メニューに戻ります。");
+        showMenu();
     }
-
-    // --- 2. データ定義 ---
-    const flagData = [
-        { q: "アイダホ州", a: "ボイシ", img: "Flag_of_Idaho.svg" },
-        { q: "ニューヨーク州", a: "オールバニ", img: "Flag_of_New_York.svg" },
-        { q: "カリフォルニア州", a: "サクラメント", img: "Flag_of_California.svg" },
-        { q: "テキサス州", a: "オースティン", img: "Flag_of_Texas.svg" },
-        { q: "フロリダ州", a: "タラハシー", img: "Flag_of_Florida.svg" }
-    ];
-
-    const presidentData = [
-        { q: "第1代", a: "ジョージ・ワシントン", img: "George_Washington.jpg" },
-        { q: "第16代", a: "エイブラハム・リンカーン", img: "Abraham_Lincoln_head_on_shoulders_photo_portrait.jpg" },
-        { q: "第32代", a: "フランクリン・D・ルーズベルト", img: "FDR_1944.jpg" },
-        { q: "第35代", a: "ジョン・F・ケネディ", img: "John_F._Kennedy_Official_Portrait.jpg" },
-        { q: "第36代", a: "リンドン・B・ジョンソン", img: "Lyndon_B._Johnson.jpg" },
-        { q: "第44代", a: "バラク・オバマ", img: "Official_portrait_of_Barack_Obama.jpg" },
-        { q: "第45代", a: "ドナルド・トランプ", img: "Donald_Trump_official_portrait.jpg" },
-        { q: "第46代", a: "ジョー・バイデン", img: "Joe_Biden_presidential_portrait.jpg" },
-        { q: "第47代", a: "ドナルド・トランプ", img: "Donald_Trump_official_portrait.jpg" }
-    ];
-
-    // --- 3. メインロジック ---
-    let currentGenre = '';
-    let shuffledData = [];
-    let currentIndex = 0;
-    let isShowingAnswer = false;
-    let wrongList = [];
-
-    function switchScreen(id) {
-        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-        document.getElementById(id).classList.add('active');
-    }
-
-    window.startQuiz = function(genre) {
-        currentGenre = genre;
-        const data = (genre === 'presidents') ? presidentData : flagData;
-        shuffledData = [...data].sort(() => Math.random() - 0.5);
-        currentIndex = 0;
-        wrongList = [];
-        switchScreen('quiz-screen');
-        updateCard();
-    };
-
-    function updateCard() {
-        isShowingAnswer = false;
-        document.getElementById('check-btn').style.visibility = 'hidden';
-        const card = document.getElementById('card');
-        card.classList.remove('is-flipped');
-        
-        const item = shuffledData[currentIndex];
-        const imgElement = document.getElementById('state-img');
-        imgElement.src = getWikiImg(item.img);
-
-        document.getElementById('front-label').innerText = (currentGenre === 'presidents') ? "この大統領の名前は？" : "この州の州都は？";
-        document.getElementById('counter').innerText = (currentIndex + 1) + " / " + shuffledData.length;
-        document.getElementById('question').innerText = item.q;
-        document.getElementById('answer').innerText = item.a;
-    }
-
-    window.handleCardClick = function() {
-        if (!isShowingAnswer) {
-            document.getElementById('card').classList.add('is-flipped');
-            isShowingAnswer = true;
-            document.getElementById('check-btn').style.visibility = 'visible';
-        } else {
-            nextQuestion();
-        }
-    };
-
-    window.markWrong = function(e) {
-        e.stopPropagation();
-        wrongList.push(shuffledData[currentIndex]);
-        nextQuestion();
-    };
-
-    function nextQuestion() {
-        currentIndex++;
-        if (currentIndex < shuffledData.length) {
-            updateCard();
-        } else {
-            showResult();
-        }
-    }
-
-    function showResult() {
-        switchScreen('result-screen');
-        const score = shuffledData.length - wrongList.length;
-        document.getElementById('result-stats').innerText = shuffledData.length + "問中 " + score + "問 正解！";
-        const list = document.getElementById('wrong-list');
-        list.innerHTML = (wrongList.length === 0) ? "パーフェクト！" : 
-            wrongList.map(item => '<div style="padding:10px; border-bottom:1px solid #ddd;"><b>' + item.q + '</b> → ' + item.a + '</div>').join('');
-    }
-
-    window.goHome = function() { switchScreen('menu-screen'); };
-    </script>
+}
+</script>
 </body>
 </html>
