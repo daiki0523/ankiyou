@@ -2,41 +2,62 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>US Quiz</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>アメリカクイズ</title>
     <style>
+        body { font-family: sans-serif; text-align: center; background: #f0f4f8; margin: 0; padding: 20px; }
         .screen { display: none; }
         .active { display: block; }
-        .card { width: 300px; height: 200px; border: 1px solid #ccc; text-align: center; padding: 20px; cursor: pointer; }
+        .btn { padding: 15px 30px; font-size: 18px; cursor: pointer; background: #007bff; color: white; border: none; border-radius: 8px; margin: 10px; transition: 0.3s; }
+        .btn:hover { background: #0056b3; }
+        
+        /* カードのデザイン */
+        .card-container { width: 320px; height: 400px; perspective: 1000px; margin: 20px auto; }
+        .card { width: 100%; height: 100%; transition: transform 0.6s; transform-style: preserve-3d; cursor: pointer; position: relative; }
+        .card.is-flipped { transform: rotateY(180deg); }
+        .card-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 15px; background: white; box-shadow: 0 4px 15px rgba(0,0,0,0.1); padding: 20px; box-sizing: border-box; }
+        .card-back { transform: rotateY(180deg); background: #e3f2fd; }
+        
+        img { max-width: 100%; max-height: 200px; border-radius: 5px; margin-bottom: 15px; }
+        #wrong-list { text-align: left; max-width: 400px; margin: 20px auto; background: white; padding: 10px; border-radius: 8px; }
     </style>
 </head>
 <body>
+
     <div id="menu-screen" class="screen active">
-        <button onclick="startQuiz('presidents')">大統領クイズ開始</button>
-        <button onclick="startQuiz('states')">州都クイズ開始</button>
+        <h1>アメリカクイズ</h1>
+        <button class="btn" onclick="startQuiz('flags')">州都クイズ</button>
+        <button class="btn" onclick="startQuiz('presidents')">大統領クイズ</button>
     </div>
+
     <div id="quiz-screen" class="screen">
-        <div id="counter"></div>
-        <div id="card" onclick="handleCardClick()">
-            <div id="front">
-                <p id="front-label"></p>
-                <img id="state-img" style="width:200px; height:auto; transition: opacity 0.3s;">
-                <h2 id="question"></h2>
-            </div>
-            <div id="back" style="display:none;">
-                <p id="back-label"></p>
-                <h2 id="answer"></h2>
+        <div id="counter" style="margin-bottom:10px;"></div>
+        <div class="card-container">
+            <div id="card" class="card" onclick="handleCardClick()">
+                <div class="card-face card-front">
+                    <small id="front-label"></small>
+                    <img id="state-img" src="">
+                    <h2 id="question"></h2>
+                </div>
+                <div class="card-face card-back">
+                    <small id="back-label">正解</small>
+                    <h2 id="answer" style="font-size: 24px; color: #d32f2f;"></h2>
+                    <p style="margin-top:20px; color:#666;">タップで次へ</p>
+                </div>
             </div>
         </div>
-        <button id="check-btn" onclick="markWrong(event)" style="visibility:hidden;">わからなかった</button>
+        <button id="check-btn" class="btn" style="background:#dc3545; visibility:hidden;" onclick="markWrong(event)">わからなかった</button>
     </div>
+
     <div id="result-screen" class="screen">
+        <h1>結果発表</h1>
         <h2 id="result-stats"></h2>
         <div id="wrong-list"></div>
-        <button onclick="goHome()">メニューに戻る</button>
+        <button class="btn" onclick="goHome()">メニューへ戻る</button>
     </div>
 
     <script>
-    // --- 1. 画像取得 ---
+    // --- 1. 画像取得の設定 ---
     function getWikiImg(fileName) {
         if (!fileName) return "";
         const name = fileName.trim().replace(/\s/g, '_');
@@ -44,13 +65,24 @@
     }
 
     // --- 2. データ定義 ---
-    const flagData = [{ q: "アイダホ州", a: "ボイシ", img: "Flag_of_Idaho.svg" },{ q: "ニューヨーク州", a: "オールバニ", img: "Flag_of_New_York.svg" }]; // 一部省略
+    const flagData = [
+        { q: "アイダホ州", a: "ボイシ", img: "Flag_of_Idaho.svg" },
+        { q: "ニューヨーク州", a: "オールバニ", img: "Flag_of_New_York.svg" },
+        { q: "カリフォルニア州", a: "サクラメント", img: "Flag_of_California.svg" },
+        { q: "テキサス州", a: "オースティン", img: "Flag_of_Texas.svg" },
+        { q: "フロリダ州", a: "タラハシー", img: "Flag_of_Florida.svg" }
+    ];
+
     const presidentData = [
         { q: "第1代", a: "ジョージ・ワシントン", img: "George_Washington.jpg" },
+        { q: "第16代", a: "エイブラハム・リンカーン", img: "Abraham_Lincoln_head_on_shoulders_photo_portrait.jpg" },
+        { q: "第32代", a: "フランクリン・D・ルーズベルト", img: "FDR_1944.jpg" },
         { q: "第35代", a: "ジョン・F・ケネディ", img: "John_F._Kennedy_Official_Portrait.jpg" },
-        { q: "第36代", a: "リンドン_B_ジョンソン", img: "Lyndon_B._Johnson.jpg" },
-        { q: "第46代", a: "ジョー_バイデン", img: "Joe_Biden_presidential_portrait.jpg" },
-        { q: "第47代", a: "ドナルド_トランプ", img: "Donald_Trump_official_portrait.jpg" }
+        { q: "第36代", a: "リンドン・B・ジョンソン", img: "Lyndon_B._Johnson.jpg" },
+        { q: "第44代", a: "バラク・オバマ", img: "Official_portrait_of_Barack_Obama.jpg" },
+        { q: "第45代", a: "ドナルド・トランプ", img: "Donald_Trump_official_portrait.jpg" },
+        { q: "第46代", a: "ジョー・バイデン", img: "Joe_Biden_presidential_portrait.jpg" },
+        { q: "第47代", a: "ドナルド・トランプ", img: "Donald_Trump_official_portrait.jpg" }
     ];
 
     // --- 3. メインロジック ---
@@ -77,9 +109,9 @@
 
     function updateCard() {
         isShowingAnswer = false;
-        document.getElementById('back').style.display = 'none';
-        document.getElementById('front').style.display = 'block';
         document.getElementById('check-btn').style.visibility = 'hidden';
+        const card = document.getElementById('card');
+        card.classList.remove('is-flipped');
         
         const item = shuffledData[currentIndex];
         const imgElement = document.getElementById('state-img');
@@ -93,8 +125,7 @@
 
     window.handleCardClick = function() {
         if (!isShowingAnswer) {
-            document.getElementById('front').style.display = 'none';
-            document.getElementById('back').style.display = 'block';
+            document.getElementById('card').classList.add('is-flipped');
             isShowingAnswer = true;
             document.getElementById('check-btn').style.visibility = 'visible';
         } else {
@@ -123,7 +154,7 @@
         document.getElementById('result-stats').innerText = shuffledData.length + "問中 " + score + "問 正解！";
         const list = document.getElementById('wrong-list');
         list.innerHTML = (wrongList.length === 0) ? "パーフェクト！" : 
-            wrongList.map(item => '<div>' + item.q + ' → ' + item.a + '</div>').join('');
+            wrongList.map(item => '<div style="padding:10px; border-bottom:1px solid #ddd;"><b>' + item.q + '</b> → ' + item.a + '</div>').join('');
     }
 
     window.goHome = function() { switchScreen('menu-screen'); };
