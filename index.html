@@ -17,14 +17,22 @@
 
     <div id="quiz" class="hidden">
         <button id="home-btn" onclick="showMenu()">終了</button>
-        <div id="question-text" style="font-size:24px; margin-bottom:10px;"></div>
+        <div id="counter"></div>
+        <div id="question-label" style="font-size:14px; color:#666;"></div>
+        <div id="question-text" style="font-size:24px; font-weight:bold; margin-bottom:5px;"></div>
         
         <img id="question-img" src="" onclick="handleTouch()">
         <div id="answer-text" onclick="handleTouch()"></div>
         
         <div id="controls">
-            <button id="hint-btn" onclick="showAnswer()">！</button>
+            <button id="hint-btn" onclick="useHint()">！</button>
         </div>
+    </div>
+
+    <div id="result-screen" class="hidden">
+        <h2>終了！</h2>
+        <div id="wrong-results"></div>
+        <button class="menu-btn" onclick="showMenu()" style="margin-top:20px;">メニューに戻る</button>
     </div>
 </div>
 
