@@ -2,27 +2,28 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>クイズアプリ</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>暗記アプリ</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <div id="quiz-container">
     <div id="menu">
-        <h1>クイズメニュー</h1>
-        <button class="menu-btn" onclick="startQuiz('flag')">アメリカ州都クイズ</button>
-        <button class="menu-btn" onclick="startQuiz('president')">歴代大統領クイズ</button>
+        <h2 style="margin-bottom:20px;">クイズを選択</h2>
+        <button class="menu-btn" onclick="startQuiz('flag')">アメリカ州都</button>
+        <button class="menu-btn" onclick="startQuiz('president')">歴代大統領</button>
     </div>
 
     <div id="quiz" class="hidden">
-        <button id="home-btn" onclick="showMenu()">ホーム</button>
-        <div id="question-text"></div>
-        <img id="question-img" src="" alt="問題画像">
-        <div id="answer-text"></div>
+        <button id="home-btn" onclick="showMenu()">終了</button>
+        <div id="question-text" style="font-size:24px; margin-bottom:10px;"></div>
+        
+        <img id="question-img" src="" onclick="handleTouch()">
+        <div id="answer-text" onclick="handleTouch()"></div>
+        
         <div id="controls">
-            <button id="show-btn" class="action-btn" onclick="showAnswer()">答え合わせ</button>
-            <button id="hint-btn" class="action-btn" onclick="showAnswer()">！</button>
-            <button id="next-btn" class="action-btn" onclick="nextQuestion()">次の問題へ</button>
+            <button id="hint-btn" onclick="showAnswer()">！</button>
         </div>
     </div>
 </div>
