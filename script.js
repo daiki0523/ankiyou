@@ -1,15 +1,23 @@
 let currentQuizData = [];
 let currentIndex = 0;
+let isAnswerShowing = false;
 
-// 画像URLを取得する関数
 function getImageUrl(fileName) {
     if (!fileName) return "";
     const name = encodeURIComponent(fileName.trim().replace(/\s/g, '_'));
-    return "https://commons.wikimedia.org/wiki/Special:FilePath/" + name + "?width=400";
+    return "https://commons.wikimedia.org/wiki/Special:FilePath/" + name + "?width=500";
+}
+
+// 画像か答えをタップした時の処理
+function handleTouch() {
+    if (!isAnswerShowing) {
+        showAnswer();
+    } else {
+        nextQuestion();
+    }
 }
 
 function startQuiz(type) {
-    // data.jsにあるデータを使う
     currentQuizData = type === 'flag' ? [...flagData] : [...presidentData];
     currentQuizData.sort(() => Math.random() - 0.5);
     currentIndex = 0;
@@ -24,21 +32,17 @@ function showMenu() {
 }
 
 function showQuestion() {
+    isAnswerShowing = false;
     const item = currentQuizData[currentIndex];
     document.getElementById('question-text').textContent = item.q;
     document.getElementById('question-img').src = getImageUrl(item.img);
     document.getElementById('answer-text').textContent = item.a;
     document.getElementById('answer-text').style.display = 'none';
-    document.getElementById('show-btn').style.display = 'inline-block';
-    document.getElementById('hint-btn').style.display = 'inline-block';
-    document.getElementById('next-btn').style.display = 'none';
 }
 
 function showAnswer() {
+    isAnswerShowing = true;
     document.getElementById('answer-text').style.display = 'block';
-    document.getElementById('show-btn').style.display = 'none';
-    document.getElementById('hint-btn').style.display = 'none';
-    document.getElementById('next-btn').style.display = 'inline-block';
 }
 
 function nextQuestion() {
@@ -46,7 +50,7 @@ function nextQuestion() {
     if (currentIndex < currentQuizData.length) {
         showQuestion();
     } else {
-        alert("全問終了しました！メニューに戻ります。");
+        alert("全問終了！メニューに戻ります。");
         showMenu();
     }
 }
