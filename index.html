@@ -1,13 +1,3 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>暗記アプリ Pro</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-
 <div id="quiz-container">
     <button id="home-btn" class="hidden" onclick="showMenu()">終了</button>
 
@@ -23,7 +13,7 @@
         <div id="question-text"></div>
         
         <img id="question-img" src="" onclick="handleTouch()">
-        <div id="answer-text" onclick="handleTouch()"></div>
+        <div id="answer-text" class="hidden" onclick="handleTouch()"></div>
         
         <div id="controls">
             <button id="hint-btn" onclick="useHint()">！</button>
@@ -36,8 +26,3 @@
         <button class="menu-btn" onclick="showMenu()" style="margin-top:20px;">メニューに戻る 🇺🇸</button>
     </div>
 </div>
-
-<script src="data.js"></script>
-<script src="script.js"></script>
-</body>
-</html>
