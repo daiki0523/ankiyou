@@ -3,31 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>暗記アプリ</title>
+    <title>暗記アプリ Pro</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <div id="quiz-container">
+    <button id="home-btn" class="hidden" onclick="showMenu()">終了</button>
+
     <div id="menu">
-    <h2 style="margin-bottom:20px; color:#333;">クイズを選択</h2>
-    
-    <button class="menu-btn" onclick="startQuiz('flag')">
-        アメリカ州都 🇺🇸
-    </button>
-    
-    <button class="menu-btn" onclick="startQuiz('president')">
-        歴代大統領 🇺🇸
-    </button>
-</div>
-<div id="quiz" class="hidden">
+        <h2 style="margin-bottom:20px; color:#333;">クイズを選択</h2>
+        <button class="menu-btn" onclick="startQuiz('flag')">アメリカ州都 🇺🇸</button>
+        <button class="menu-btn" onclick="startQuiz('president')">歴代大統領 🇺🇸</button>
     </div>
 
     <div id="quiz" class="hidden">
-        <button id="home-btn" onclick="showMenu()">終了</button>
         <div id="counter"></div>
-        <div id="question-label" style="font-size:14px; color:#666;"></div>
-        <div id="question-text" style="font-size:24px; font-weight:bold; margin-bottom:5px;"></div>
+        <div id="question-label"></div>
+        <div id="question-text"></div>
         
         <img id="question-img" src="" onclick="handleTouch()">
         <div id="answer-text" onclick="handleTouch()"></div>
@@ -38,9 +31,9 @@
     </div>
 
     <div id="result-screen" class="hidden">
-        <h2>終了！</h2>
+        <h2>復習リスト</h2>
         <div id="wrong-results"></div>
-        <button class="menu-btn" onclick="showMenu()" style="margin-top:20px;">メニューに戻る</button>
+        <button class="menu-btn" onclick="showMenu()" style="margin-top:20px;">メニューに戻る 🇺🇸</button>
     </div>
 </div>
 
