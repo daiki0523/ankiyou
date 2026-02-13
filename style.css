@@ -2,7 +2,6 @@ body {
     font-family: -apple-system, sans-serif; 
     display: flex; justify-content: center; align-items: flex-start; 
     background-color: #f0f2f5; margin: 0; padding-top: 40px;
-    /* タップ時の青いハイライトを消す（スマホ用） */
     -webkit-tap-highlight-color: transparent;
 }
 
@@ -13,7 +12,6 @@ body {
     position: relative; box-sizing: border-box;
 }
 
-/* 終了ボタン：枠内の右上に固定 */
 #home-btn { 
     position: absolute; top: 15px; right: 15px; padding: 5px 12px; 
     background: #f0f0f0; color: #333; border: 1px solid #ddd; 
@@ -24,9 +22,8 @@ body {
 #question-label { font-size: 13px; color: #666; margin-top: 5px; }
 #question-text { font-size: 24px; font-weight: bold; margin: 5px 0 15px; }
 
-/* 画像：画面の高さに合わせて自動調整（スクロール防止） */
 #question-img { 
-    width: 100%; max-height: 35vh; /* 画面の高さの35%を上限に */
+    width: 100%; max-height: 35vh; 
     object-fit: contain; border: 2px solid #333; border-radius: 12px;
 }
 
@@ -42,7 +39,7 @@ body {
     border: none; border-bottom: 5px solid #002752; border-radius: 15px;
     margin-bottom: 15px;
 }
-/* スマホ用：押した時だけ沈む設定 */
+
 .menu-btn:active { border-bottom: 0; transform: translateY(5px); }
 
 #hint-btn { 
@@ -51,4 +48,6 @@ body {
 }
 
 .wrong-item { display: flex; align-items: center; gap: 15px; padding: 10px; border-bottom: 1px solid #eee; }
+
+/* 最も重要な部分：重なりを防ぎます */
 .hidden { display: none !important; }
