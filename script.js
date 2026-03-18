@@ -3,6 +3,7 @@ let currentIndex = 0;
 let isAnswerShowing = false;
 let lastClickTime = 0;
 
+// 画像URL生成
 function getImageUrl(fileName) {
     if (!fileName) return "";
     const name = encodeURIComponent(fileName.trim().replace(/\s/g, '_'));
@@ -14,16 +15,27 @@ function showHome() {
     document.getElementById('quiz-screen').classList.add('hidden');
 }
 
+// クイズ開始（ここを確実にデータを見つける方式に戻しました）
 function startQuiz(type) {
-    // window[type + 'Data'] で data.js の変数を安全に取得
-    const rawData = window[type + 'Data'];
-    if (!rawData) {
-        alert("データが見つかりません: " + type + "Data");
+    let rawData;
+    
+    // 省略せずに、すべてのデータを直接指定して読み込む
+    if (type === 'flag') rawData = flagData;
+    else if (type === 'constellation') rawData = constellationData;
+    else if (type === 'element') rawData = elementData;
+    else if (type === 'mountain') rawData = mountainData;
+    else if (type === 'olympic') rawData = olympicData;
+    else if (type === 'morse') rawData = morseData;
+    else if (type === 'president') rawData = presidentData;
+    else if (type === 'yamanote') rawData = yamanoteData;
+
+    if (!rawData || rawData.length === 0) {
+        alert("エラー：データが見つかりません。");
         return;
     }
 
     currentQuizData = rawData.map(item => ({...item, genre: type}));
-    currentQuizData.sort(() => Math.random() - 0.5);
+    currentQuizData.sort(() => Math.random() - 0.5); // シャッフル
     currentIndex = 0;
     
     document.getElementById('home-screen').classList.add('hidden');
@@ -40,8 +52,10 @@ function showQuestion() {
     const fallbackEl = document.getElementById('fallback-text');
     const labelEl = document.getElementById('question-label');
 
+    // カウンター
     document.getElementById('counter').textContent = `${currentIndex + 1} / ${currentQuizData.length}`;
 
+    // ラベル切り替え
     const labels = {
         flag: "この州の州都は？",
         constellation: "この星座の名前は？",
@@ -54,10 +68,10 @@ function showQuestion() {
     };
     labelEl.textContent = labels[item.genre] || "答えは何？";
 
-    // E: 基本的に問題(q)を表示（星座は空欄）
-    stateEl.textContent = (item.genre === 'constellation') ? "" : item.q;
+    // E: 州名・番号（星座以外は表示）
+    stateEl.textContent = (item.genre === 'constellation') ? "" : (item.q || "");
 
-    // A: 画像またはテキストの表示
+    // A: 画像またはテキスト
     if (item.img && item.img !== "") {
         imgEl.src = getImageUrl(item.img);
         imgEl.classList.remove('hidden');
@@ -65,15 +79,15 @@ function showQuestion() {
     } else {
         imgEl.classList.add('hidden');
         if (item.genre !== 'flag') {
-            fallbackEl.textContent = item.q;
+            fallbackEl.textContent = item.q || "";
             fallbackEl.classList.remove('hidden');
         } else {
             fallbackEl.classList.add('hidden');
         }
     }
 
-    // D: 答えをセットして隠す
-    ansEl.textContent = item.a;
+    // D: 答え
+    ansEl.textContent = item.a || "データなし";
     ansEl.classList.add('hidden');
 }
 
@@ -95,12 +109,11 @@ function nextQuestion() {
     if (currentIndex < currentQuizData.length) {
         showQuestion();
     } else {
-        alert("全問終了！ホームに戻ります。");
+        alert("全問終了！");
         showHome();
     }
 }
 
 function useHint() { if (!isAnswerShowing) handleTouch(); }
 
-// 最初にホーム画面を確実に表示
-document.addEventListener('DOMContentLoaded', showHome);
+window.onload = showHome;
