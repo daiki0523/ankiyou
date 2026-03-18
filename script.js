@@ -15,9 +15,10 @@ function showHome() {
 }
 
 function startQuiz(type) {
+    // window[type + 'Data'] で data.js の変数を安全に取得
     const rawData = window[type + 'Data'];
     if (!rawData) {
-        alert("データが見つかりません: " + type);
+        alert("データが見つかりません: " + type + "Data");
         return;
     }
 
@@ -41,7 +42,6 @@ function showQuestion() {
 
     document.getElementById('counter').textContent = `${currentIndex + 1} / ${currentQuizData.length}`;
 
-    // ジャンルごとのラベル(B)設定
     const labels = {
         flag: "この州の州都は？",
         constellation: "この星座の名前は？",
@@ -54,17 +54,16 @@ function showQuestion() {
     };
     labelEl.textContent = labels[item.genre] || "答えは何？";
 
-    // E: 基本的に問題文を表示（星座は形を見せたいので空欄に）
+    // E: 基本的に問題(q)を表示（星座は空欄）
     stateEl.textContent = (item.genre === 'constellation') ? "" : item.q;
 
-    // A: 画像またはテキストの表示制御
+    // A: 画像またはテキストの表示
     if (item.img && item.img !== "") {
         imgEl.src = getImageUrl(item.img);
         imgEl.classList.remove('hidden');
         fallbackEl.classList.add('hidden');
     } else {
         imgEl.classList.add('hidden');
-        // 旗以外で画像がない場合は中央に文字(q)を出す
         if (item.genre !== 'flag') {
             fallbackEl.textContent = item.q;
             fallbackEl.classList.remove('hidden');
@@ -103,5 +102,5 @@ function nextQuestion() {
 
 function useHint() { if (!isAnswerShowing) handleTouch(); }
 
-// 初期起動
-showHome();
+// 最初にホーム画面を確実に表示
+document.addEventListener('DOMContentLoaded', showHome);
