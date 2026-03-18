@@ -2,9 +2,10 @@ let currentQuizData = [];
 let currentIndex = 0;
 let isAnswerShowing = false;
 let lastClickTime = 0;
-
-// 🌟 新追加：わからなかった問題を記録するリスト
 let wrongAnswers = []; 
+
+// 🌟 新追加：選んだジャンルを一時的に覚えておく変数
+let selectedGenre = "";
 
 function getImageUrl(fileName) {
     if (!fileName) return "";
@@ -26,12 +27,22 @@ allQuizData.forEach(item => {
 
 function showHome() {
     document.getElementById('home-screen').classList.remove('hidden');
+    document.getElementById('mode-screen').classList.add('hidden'); // モード画面も隠す
     document.getElementById('quiz-screen').classList.add('hidden');
-    document.getElementById('result-screen').classList.add('hidden'); // 結果画面も隠す
+    document.getElementById('result-screen').classList.add('hidden');
 }
 
-function startQuiz(type) {
+// 🌟 新追加：ジャンルを選んだら「出題形式画面」へ移動
+function selectGenre(type) {
+    selectedGenre = type; // 選んだジャンルを記憶
+    document.getElementById('home-screen').classList.add('hidden');
+    document.getElementById('mode-screen').classList.remove('hidden');
+}
+
+// 🌟 変更：形式を選んでクイズを開始（isRandomがtrueならシャッフル、falseならそのまま）
+function startQuizMode(isRandom) {
     let rawData;
+    const type = selectedGenre;
     
     if (type === 'flag') rawData = flagData;
     else if (type === 'constellation') rawData = constellationData;
@@ -48,13 +59,16 @@ function startQuiz(type) {
     }
 
     currentQuizData = rawData.map(item => ({...item, genre: type}));
-    currentQuizData.sort(() => Math.random() - 0.5);
-    currentIndex = 0;
     
-    // 🌟 新追加：クイズ開始時に記録をリセット
+    // ランダムボタンが押された時だけシャッフルする！
+    if (isRandom) {
+        currentQuizData.sort(() => Math.random() - 0.5);
+    }
+
+    currentIndex = 0;
     wrongAnswers = []; 
     
-    document.getElementById('home-screen').classList.add('hidden');
+    document.getElementById('mode-screen').classList.add('hidden');
     document.getElementById('quiz-screen').classList.remove('hidden');
     showQuestion();
 }
@@ -120,36 +134,30 @@ function nextQuestion() {
     if (currentIndex < currentQuizData.length) {
         showQuestion();
     } else {
-        // 🌟 新追加：全問終わったら結果画面へ！
         showResult(); 
     }
 }
 
-// 🌟 新追加：ヒントボタン（！）を押した時の処理
 function useHint() { 
     if (!isAnswerShowing) {
         const currentItem = currentQuizData[currentIndex];
-        // まだリストに入っていなければ追加する
         if (!wrongAnswers.includes(currentItem)) {
             wrongAnswers.push(currentItem);
         }
-        handleTouch(); // 答えを表示
+        handleTouch(); 
     }
 }
 
-// 🌟 新追加：結果画面を表示する機能
 function showResult() {
     document.getElementById('quiz-screen').classList.add('hidden');
     document.getElementById('result-screen').classList.remove('hidden');
 
     const listContainer = document.getElementById('wrong-list');
-    listContainer.innerHTML = ""; // 前のリストを消去
+    listContainer.innerHTML = ""; 
 
-    // 1問も間違えなかった場合
     if (wrongAnswers.length === 0) {
         listContainer.innerHTML = "<div style='text-align:center; padding: 20px; font-weight:bold;'>全問ノーヒントクリア！<br>素晴らしい！🎉</div>";
     } else {
-        // 間違えた問題を順番に表示
         wrongAnswers.forEach(item => {
             const div = document.createElement('div');
             div.className = 'wrong-item';
