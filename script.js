@@ -9,32 +9,24 @@ function getImageUrl(fileName) {
     return "https://commons.wikimedia.org/wiki/Special:FilePath/" + name + "?width=500";
 }
 
-// ページ読み込み時に全画像をキャッシュ（爆速化）
-window.onload = () => {
-    const dataSources = ['flagData', 'constellationData', 'elementData'];
-    dataSources.forEach(ds => {
-        if (window[ds]) {
-            window[ds].forEach(item => {
-                if (item.img) {
-                    const img = new Image();
-                    img.src = getImageUrl(item.img);
-                }
-            });
-        }
-    });
-};
-
+// 起動時にデータを読み込むための安全な処理
 function showHome() {
     document.getElementById('home-screen').classList.remove('hidden');
     document.getElementById('quiz-screen').classList.add('hidden');
 }
 
 function startQuiz(type) {
-    let rawData = window[type + 'Data'];
-    if (!rawData) return;
+    // 確実にdata.jsの変数を参照
+    const rawData = window[type + 'Data'];
+    if (!rawData) {
+        alert("データが読み込めていません。data.jsを確認してください。");
+        return;
+    }
+
     currentQuizData = rawData.map(item => ({...item, genre: type}));
     currentQuizData.sort(() => Math.random() - 0.5);
     currentIndex = 0;
+    
     document.getElementById('home-screen').classList.add('hidden');
     document.getElementById('quiz-screen').classList.remove('hidden');
     showQuestion();
@@ -49,13 +41,14 @@ function showQuestion() {
     const fallbackEl = document.getElementById('fallback-text');
     const labelEl = document.getElementById('question-label');
 
+    // C: カウンター
     document.getElementById('counter').textContent = `${currentIndex + 1} / ${currentQuizData.length}`;
 
-    // ジャンルごとのラベル切り替え
+    // B: ジャンルごとのラベル
     const labels = {
         flag: "この州の州都は？",
         constellation: "この星座の名前は？",
-        element: "この番号の元素名は？",
+        element: "この原子番号の元素名は？",
         president: "この代の大統領は？",
         olympic: "この年の開催地は？",
         mountain: "この山の名前は？",
@@ -64,20 +57,26 @@ function showQuestion() {
     };
     labelEl.textContent = labels[item.genre] || "これの答えは？";
 
-    // Eの表示設定
+    // E: 基本的に問題文(q)を表示（星座だけは形を見せたいので空欄）
     stateEl.textContent = (item.genre === 'constellation') ? "" : item.q;
 
-    // A（画像・文字）の表示設定
-    if (item.img) {
+    // A: 画像の処理
+    if (item.img && item.img !== "") {
         imgEl.src = getImageUrl(item.img);
         imgEl.classList.remove('hidden');
         fallbackEl.classList.add('hidden');
     } else {
         imgEl.classList.add('hidden');
-        fallbackEl.textContent = (item.genre === 'flag') ? "" : item.q;
-        fallbackEl.classList.toggle('hidden', item.genre === 'flag');
+        // 州旗以外で画像がない場合は中央に文字を出す
+        if (item.genre !== 'flag') {
+            fallbackEl.textContent = item.q;
+            fallbackEl.classList.remove('hidden');
+        } else {
+            fallbackEl.classList.add('hidden');
+        }
     }
 
+    // D: 答えをセット
     ansEl.textContent = item.a;
     ansEl.classList.add('hidden');
 }
@@ -86,6 +85,7 @@ function handleTouch() {
     const now = Date.now();
     if (now - lastClickTime < 300) return;
     lastClickTime = now;
+
     if (!isAnswerShowing) {
         isAnswerShowing = true;
         document.getElementById('answer-text').classList.remove('hidden');
@@ -96,8 +96,15 @@ function handleTouch() {
 
 function nextQuestion() {
     currentIndex++;
-    if (currentIndex < currentQuizData.length) { showQuestion(); } else { alert("全問終了！"); showHome(); }
+    if (currentIndex < currentQuizData.length) {
+        showQuestion();
+    } else {
+        alert("全問終了！ホームに戻ります。");
+        showHome();
+    }
 }
 
 function useHint() { if (!isAnswerShowing) handleTouch(); }
+
+// 起動時にホームを表示
 showHome();
