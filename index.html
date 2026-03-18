@@ -1,28 +1,48 @@
-<div id="quiz-container">
-    <button id="home-btn" class="hidden" onclick="showMenu()">終了</button>
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>暗記アプリ</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-    <div id="menu">
-        <h2 style="margin-bottom:20px; color:#333;">クイズを選択</h2>
-        <button class="menu-btn" onclick="startQuiz('flag')">アメリカ州都 🇺🇸</button>
-        <button class="menu-btn" onclick="startQuiz('president')">歴代大統領 🇺🇸</button>
+<div id="app-container">
+    <div id="home-screen">
+        <h1 class="main-title">暗記</h1>
+        <div class="menu-grid">
+            <button class="menu-btn" onclick="startQuiz('flag')">州都🇺🇸</button>
+            <button class="menu-btn" onclick="startQuiz('constellation')">８８星座🌌</button>
+            <button class="menu-btn" onclick="startQuiz('element')">元素記号🧪</button>
+            <button class="menu-btn" onclick="startQuiz('mountain')">8000m峰🏔️</button>
+            <button class="menu-btn" onclick="startQuiz('olympic')">五輪開催地🏅</button>
+            <button class="menu-btn" onclick="startQuiz('morse')">モールス信号📟</button>
+            <button class="menu-btn" onclick="startQuiz('president')">大統領🇺🇸</button>
+            <button class="menu-btn" onclick="startQuiz('yamanote')">山手線🚃</button>
+        </div>
+        <div class="coming-soon">coming soon...</div>
     </div>
 
-    <div id="quiz" class="hidden">
-        <div id="counter"></div>
-        <div id="question-label"></div>
-        <div id="question-text"></div>
+    <div id="quiz-screen" class="hidden">
+        <div class="quiz-header">
+            <div id="counter" class="counter-box">C</div> <button id="exit-btn" onclick="showHome()"><img src="https://img.icons8.com/fluency/48/door.png" alt="home"/></button>
+        </div>
+
+        <div id="question-label" class="question-label-box">B</div> 
+
+        <div id="problem-area" class="problem-area-box" onclick="handleTouch()">
+            <img id="question-img" src="" class="hidden">
+            <div id="question-text">A</div> <div id="answer-text" class="hidden">答え</div>
+        </div>
         
-        <img id="question-img" src="" onclick="handleTouch()">
-        <div id="answer-text" class="hidden" onclick="handleTouch()"></div>
-        
-        <div id="controls">
-            <button id="hint-btn" onclick="useHint()">！</button>
+        <div class="quiz-footer">
+            <button id="hint-btn" onclick="useHint()">!</button>
         </div>
     </div>
-
-    <div id="result-screen" class="hidden">
-        <h2>復習リスト</h2>
-        <div id="wrong-results"></div>
-        <button class="menu-btn" onclick="showMenu()" style="margin-top:20px;">メニューに戻る 🇺🇸</button>
-    </div>
 </div>
+
+<script src="data.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
