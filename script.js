@@ -1,119 +1,182 @@
-let currentQuizData = [];
-let currentIndex = 0;
-let isAnswerShowing = false;
-let lastClickTime = 0;
+// 1. アメリカ50州（州都・旗画像入り）
+const flagData = [
+    { q: "アラバマ州", a: "モンゴメリー", img: "Flag_of_Alabama.svg" },
+    { q: "アラスカ州", a: "ジュノー", img: "Flag_of_Alaska.svg" },
+    { q: "アリゾナ州", a: "フェニックス", img: "Flag_of_Arizona.svg" },
+    { q: "アーカンソー州", a: "リトルロック", img: "Flag_of_Arkansas.svg" },
+    { q: "カリフォルニア州", a: "サクラメント", img: "Flag_of_California.svg" },
+    { q: "コロラド州", a: "デンバー", img: "Flag_of_Colorado.svg" },
+    { q: "コネチカット州", a: "ハートフォード", img: "Flag_of_Connecticut.svg" },
+    { q: "デラウェア州", a: "ドーバー", img: "Flag_of_Delaware.svg" },
+    { q: "フロリダ州", a: "タラハシー", img: "Flag_of_Florida.svg" },
+    { q: "ジョージア州", a: "アトランタ", img: "Flag_of_Georgia.svg" },
+    { q: "ハワイ州", a: "ホノルル", img: "Flag_of_Hawaii.svg" },
+    { q: "アイダホ州", a: "ボイシ", img: "Flag_of_Idaho.svg" },
+    { q: "イリノイ州", a: "スプリングフィールド", img: "Flag_of_Illinois.svg" },
+    { q: "インディアナ州", a: "インディアナポリス", img: "Flag_of_Indiana.svg" },
+    { q: "アイオワ州", a: "デモイン", img: "Flag_of_Iowa.svg" },
+    { q: "カンザス州", a: "トピカ", img: "Flag_of_Kansas.svg" },
+    { q: "ケンタッキー州", a: "フランクフォート", img: "Flag_of_Kentucky.svg" },
+    { q: "ルイジアナ州", a: "バトンルージュ", img: "Flag_of_Louisiana.svg" },
+    { q: "メイン州", a: "オーガスタ", img: "Flag_of_Maine.svg" },
+    { q: "メリーランド州", a: "アナポリス", img: "Flag_of_Maryland.svg" },
+    { q: "マサチューセッツ州", a: "ボストン", img: "Flag_of_Massachusetts.svg" },
+    { q: "ミシガン州", a: "ランシング", img: "Flag_of_Michigan.svg" },
+    { q: "ミネソタ州", a: "セントポール", img: "Flag_of_Minnesota.svg" },
+    { q: "ミシシッピ州", a: "ジャクソン", img: "Flag_of_Mississippi.svg" },
+    { q: "ミズーリ州", a: "ジェファーソンシティ", img: "Flag_of_Missouri.svg" },
+    { q: "モンタナ州", a: "ヘレナ", img: "Flag_of_Montana.svg" },
+    { q: "ネブラスカ州", a: "リンカーン", img: "Flag_of_Nebraska.svg" },
+    { q: "ネバダ州", a: "カーソンシティ", img: "Flag_of_Nevada.svg" },
+    { q: "ニューハンプシャー州", a: "コンコード", img: "Flag_of_New_Hampshire.svg" },
+    { q: "ニュージャージー州", a: "トレントン", img: "Flag_of_New_Jersey.svg" },
+    { q: "ニューメキシコ州", a: "サンタフェ", img: "Flag_of_New_Mexico.svg" },
+    { q: "ニューヨーク州", a: "オールバニ", img: "Flag_of_New_York.svg" },
+    { q: "ノースカロライナ州", a: "ローリー", img: "Flag_of_North_Carolina.svg" },
+    { q: "ノースダコタ州", a: "ビスマーク", img: "Flag_of_North_Dakota.svg" },
+    { q: "オハイオ州", a: "コロンバス", img: "Flag_of_Ohio.svg" },
+    { q: "オクラホマ州", a: "オクラホマシティ", img: "Flag_of_Oklahoma.svg" },
+    { q: "オレゴン州", a: "セイラム", img: "Flag_of_Oregon.svg" },
+    { q: "ペンシルベニア州", a: "ハリスバーグ", img: "Flag_of_Pennsylvania.svg" },
+    { q: "ロードアイランド州", a: "プロビデンス", img: "Flag_of_Rhode_Island.svg" },
+    { q: "サウスカロライナ州", a: "コロンビア", img: "Flag_of_South_Carolina.svg" },
+    { q: "サウスダコタ州", a: "ピア", img: "Flag_of_South_Dakota.svg" },
+    { q: "テネシー州", a: "ナッシュビル", img: "Flag_of_Tennessee.svg" },
+    { q: "テキサス州", a: "オースティン", img: "Flag_of_Texas.svg" },
+    { q: "ユタ州", a: "ソルトレイクシティ", img: "Flag_of_Utah.svg" },
+    { q: "バーモント州", a: "モンペリエ", img: "Flag_of_Vermont.svg" },
+    { q: "バージニア州", a: "リッチモンド", img: "Flag_of_Virginia.svg" },
+    { q: "ワシントン州", a: "オリンピア", img: "Flag_of_Washington.svg" },
+    { q: "ウェストバージニア州", a: "チャールストン", img: "Flag_of_West_Virginia.svg" },
+    { q: "ウィスコンシン州", a: "マディソン", img: "Flag_of_Wisconsin.svg" },
+    { q: "ワイオミング州", a: "シャイアン", img: "Flag_of_Wyoming.svg" }
+];
 
-// 画像URL生成
-function getImageUrl(fileName) {
-    if (!fileName) return "";
-    const name = encodeURIComponent(fileName.trim().replace(/\s/g, '_'));
-    return "https://commons.wikimedia.org/wiki/Special:FilePath/" + name + "?width=500";
-}
+// 2. 全天88星座（答えを和名に変更）
+const constellationData = [
+    { q: "アンドロメダ座", a: "アンドロメダ", img: "Andromeda_IAU.svg" },
+    { q: "いっかくじゅう座", a: "いっかくじゅう", img: "Monoceros_IAU.svg" },
+    { q: "いて座", a: "いて", img: "Sagittarius_IAU.svg" },
+    { q: "いるか座", a: "いるか", img: "Delphinus_IAU.svg" },
+    { q: "インディアン座", a: "インディアン", img: "Indus_IAU.svg" },
+    { q: "うお座", a: "うお", img: "Pisces_IAU.svg" },
+    { q: "うさぎ座", a: "うさぎ", img: "Lepus_IAU.svg" },
+    { q: "うしかい座", a: "うしかい", img: "Bootes_IAU.svg" },
+    { q: "うみへび座", a: "うみへび", img: "Hydra_IAU.svg" },
+    { q: "えかき座", a: "えかき", img: "Pictor_IAU.svg" },
+    { q: "エリダヌス座", a: "エリダヌス", img: "Eridanus_IAU.svg" },
+    { q: "おうし座", a: "おうし", img: "Taurus_IAU.svg" },
+    { q: "おおかみ座", a: "おおかみ", img: "Lupus_IAU.svg" },
+    { q: "おおぐま座", a: "おおぐま", img: "Ursa_Major_IAU.svg" },
+    { q: "おおいぬ座", a: "おおいぬ", img: "Canis_Major_IAU.svg" },
+    { q: "おかあき座", a: "はちぶんぎ", img: "Octans_IAU.svg" },
+    { q: "おとめ座", a: "おとめ", img: "Virgo_IAU.svg" },
+    { q: "おひつじ座", a: "おひつじ", img: "Aries_IAU.svg" },
+    { q: "オリオン座", a: "オリオン", img: "Orion_IAU.svg" },
+    { q: "かじき座", a: "かじき", img: "Dorado_IAU.svg" },
+    { q: "カシオペヤ座", a: "カシオペヤ", img: "Cassiopeia_IAU.svg" },
+    { q: "からす座", a: "からす", img: "Corvus_IAU.svg" },
+    { q: "かんむり座", a: "かんむり", img: "Corona_Borealis_IAU.svg" },
+    { q: "きょしちょう座", a: "きょしちょう", img: "Tucana_IAU.svg" },
+    { q: "ぎょしゃ座", a: "ぎょしゃ", img: "Auriga_IAU.svg" },
+    { q: "きりん座", a: "きりん", img: "Camelopardalis_IAU.svg" },
+    { q: "くじゃく座", a: "くじゃく", img: "Pavo_IAU.svg" },
+    { q: "くじら座", a: "くじら", img: "Cetus_IAU.svg" },
+    { q: "くも座", a: "レチクル", img: "Reticulum_IAU.svg" },
+    { q: "ケンタウルス座", a: "ケンタウルス", img: "Centaurus_IAU.svg" },
+    { q: "けんびきょう座", a: "けんびきょう", img: "Microscopium_IAU.svg" },
+    { q: "こいぬ座", a: "こいぬ", img: "Canis_Minor_IAU.svg" },
+    { q: "こうま座", a: "こうま", img: "Equuleus_IAU.svg" },
+    { q: "こぎつね座", a: "こぎつね", img: "Vulpecula_IAU.svg" },
+    { q: "こぐま座", a: "こぐま", img: "Ursa_Minor_IAU.svg" },
+    { q: "こじし座", a: "こじし", img: "Leo_Minor_IAU.svg" },
+    { q: "コップ座", a: "コップ", img: "Crater_IAU.svg" },
+    { q: "こと座", a: "こと", img: "Lyra_IAU.svg" },
+    { q: "コンパス座", a: "コンパス", img: "Circinus_IAU.svg" },
+    { q: "さいだん座", a: "さいだん", img: "Ara_IAU.svg" },
+    { q: "さそり座", a: "さそり", img: "Scorpius_IAU.svg" },
+    { q: "さんかく座", a: "さんかく", img: "Triangulum_IAU.svg" },
+    { q: "しし座", a: "しし", img: "Leo_IAU.svg" },
+    { q: "じょうぎ座", a: "じょうぎ", img: "Norma_IAU.svg" },
+    { q: "たて座", a: "たて", img: "Scutum_IAU.svg" },
+    { q: "ちょうこくしつ座", a: "ちょうこくしつ", img: "Sculptor_IAU.svg" },
+    { q: "ちょうこくぐ座", a: "ちょうこくぐ", img: "Caelum_IAU.svg" },
+    { q: "つる座", a: "つる", img: "Grus_IAU.svg" },
+    { q: "とかげ座", a: "とかげ", img: "Lacerta_IAU.svg" },
+    { q: "とけい座", a: "とけい", img: "Horologium_IAU.svg" },
+    { q: "とびうお座", a: "とびうお", img: "Volans_IAU.svg" },
+    { q: "とも座", a: "とも", img: "Puppis_IAU.svg" },
+    { q: "はくちょう座", a: "はくちょう", img: "Cygnus_IAU.svg" },
+    { q: "はちぶんぎ座", a: "はちぶんぎ", img: "Octans_IAU.svg" },
+    { q: "はと座", a: "はと", img: "Columba_IAU.svg" },
+    { q: "ふたご座", a: "ふたご", img: "Gemini_IAU.svg" },
+    { q: "ほうおう座", a: "ほうおう", img: "Phoenix_IAU.svg" },
+    { q: "ほ座", a: "ほ", img: "Vela", img: "Vela_IAU.svg" },
+    { q: "まいご座", a: "ポンプ", img: "Antlia_IAU.svg" },
+    { q: "みずがめ座", a: "みずがめ", img: "Aquarius_IAU.svg" },
+    { q: "みずへび座", a: "みずへび", img: "Hydrus_IAU.svg" },
+    { q: "みなみじゅうじ座", a: "みなみじゅうじ", img: "Crux_IAU.svg" },
+    { q: "みなみのうお座", a: "みなみのうお", img: "Piscis_Austrinus_IAU.svg" },
+    { q: "みなみのかんむり座", a: "みなみのかんむり", img: "Corona_Australis_IAU.svg" },
+    { q: "みなみのさんかく座", a: "みなみのさんかく", img: "Triangulum_Australe_IAU.svg" },
+    { q: "や座", a: "や", img: "Sagitta_IAU.svg" },
+    { q: "やぎ座", a: "やぎ", img: "Capricornus_IAU.svg" },
+    { q: "やまねこ座", a: "やまねこ", img: "Lynx_IAU.svg" },
+    { q: "りゅう座", a: "りゅう", img: "Draco_IAU.svg" },
+    { q: "りゅうこつ座", a: "りゅうこつ", img: "Carina_IAU.svg" },
+    { q: "りょうけん座", a: "りょうけん", img: "Canes_Venatici_IAU.svg" },
+    { q: "ろ座", a: "ろ", img: "Fornax_IAU.svg" },
+    { q: "ろくぶんぎ座", a: "ろくぶんぎ", img: "Sextans_IAU.svg" },
+    { q: "わし座", a: "わし", img: "Aquila_IAU.svg" }
+];
 
-function showHome() {
-    document.getElementById('home-screen').classList.remove('hidden');
-    document.getElementById('quiz-screen').classList.add('hidden');
-}
+// 3. 元素記号
+const elementData = [
+    { q: "1", a: "H (水素)", img: "" }, { q: "2", a: "He (ヘリウム)", img: "" }, { q: "3", a: "Li (リチウム)", img: "" }, { q: "4", a: "Be (ベリリウム)", img: "" }, { q: "5", a: "B (ホウ素)", img: "" }, { q: "6", a: "C (炭素)", img: "" }, { q: "7", a: "N (窒素)", img: "" }, { q: "8", a: "O (酸素)", img: "" }, { q: "9", a: "F (フッ素)", img: "" }, { q: "10", a: "Ne (ネオン)", img: "" },
+    { q: "11", a: "Na (ナトリウム)", img: "" }, { q: "12", a: "Mg (マグネシウム)", img: "" }, { q: "13", a: "Al (アルミニウム)", img: "" }, { q: "14", a: "Si (ケイ素)", img: "" }, { q: "15", a: "P (リン)", img: "" }, { q: "16", a: "S (硫黄)", img: "" }, { q: "17", a: "Cl (塩素)", img: "" }, { q: "18", a: "Ar (アルゴン)", img: "" }, { q: "19", a: "K (カリウム)", img: "" }, { q: "20", a: "Ca (カルシウム)", img: "" },
+    { q: "21", a: "Sc (スカンジウム)", img: "" }, { q: "22", a: "Ti (チタン)", img: "" }, { q: "23", a: "V (バナジウム)", img: "" }, { q: "24", a: "Cr (クロム)", img: "" }, { q: "25", a: "Mn (マンガン)", img: "" }, { q: "26", a: "Fe (鉄)", img: "" }, { q: "27", a: "Co (コバルト)", img: "" }, { q: "28", a: "Ni (ニッケル)", img: "" }, { q: "29", a: "Cu (銅)", img: "" }, { q: "30", a: "Zn (亜鉛)", img: "" },
+    { q: "31", a: "Ga (ガリウム)", img: "" }, { q: "32", a: "Ge (ゲルマニウム)", img: "" }, { q: "33", a: "As (ヒ素)", img: "" }, { q: "34", a: "Se (セレン)", img: "" }, { q: "35", a: "Br (臭素)", img: "" }, { q: "36", a: "Kr (クリプトン)", img: "" }, { q: "37", a: "Rb (ルビジウム)", img: "" }, { q: "38", a: "Sr (ストロンチウム)", img: "" }, { q: "39", a: "Y (イットリウム)", img: "" }, { q: "40", a: "Zr (ジルコニウム)", img: "" },
+    { q: "41", a: "Nb (ニオブ)", img: "" }, { q: "42", a: "Mo (モリブデン)", img: "" }, { q: "43", a: "Tc (テクネチウム)", img: "" }, { q: "44", a: "Ru (ルテニウム)", img: "" }, { q: "45", a: "Rh (ロジウム)", img: "" }, { q: "46", a: "Pd (パラジウム)", img: "" }, { q: "47", a: "Ag (銀)", img: "" }, { q: "48", a: "Cd (カドミウム)", img: "" }, { q: "49", a: "In (インジウム)", img: "" }, { q: "50", a: "Sn (スズ)", img: "" },
+    { q: "51", a: "Sb (アンチモン)", img: "" }, { q: "52", a: "Te (テルル)", img: "" }, { q: "53", a: "I (ヨウ素)", img: "" }, { q: "54", a: "Xe (キセノン)", img: "" }, { q: "55", a: "Cs (セシウム)", img: "" }, { q: "56", a: "Ba (バリウム)", img: "" }, { q: "57", a: "La (ランタン)", img: "" }, { q: "58", a: "Ce (セリウム)", img: "" }, { q: "59", a: "Pr (プラセオジム)", img: "" }, { q: "60", a: "Nd (ネオジム)", img: "" },
+    { q: "61", a: "Pm (プロメチウム)", img: "" }, { q: "62", a: "Sm (サマリウム)", img: "" }, { q: "63", a: "Eu (ユウロピウム)", img: "" }, { q: "64", a: "Gd (ガドリニウム)", img: "" }, { q: "65", a: "Tb (テルビウム)", img: "" }, { q: "66", a: "Dy (ジスプロシウム)", img: "" }, { q: "67", a: "Ho (ホルミウム)", img: "" }, { q: "68", a: "Er (エルビウム)", img: "" }, { q: "69", a: "Tm (ツリウム)", img: "" }, { q: "70", a: "Yb (イッテルビウム)", img: "" },
+    { q: "71", a: "Lu (ルテチウム)", img: "" }, { q: "72", a: "Hf (ハフニウム)", img: "" }, { q: "73", a: "Ta (タンタル)", img: "" }, { q: "74", a: "W (タングステン)", img: "" }, { q: "75", a: "Re (レニウム)", img: "" }, { q: "76", a: "Os (オスミウム)", img: "" }, { q: "77", a: "Ir (イリジウム)", img: "" }, { q: "78", a: "Pt (白金)", img: "" }, { q: "79", a: "Au (金)", img: "" }, { q: "80", a: "Hg (水銀)", img: "" },
+    { q: "81", a: "Tl (タリウム)", img: "" }, { q: "82", a: "Pb (鉛)", img: "" }, { q: "83", a: "Bi (ビスマス)", img: "" }, { q: "84", a: "Po (ポロニウム)", img: "" }, { q: "85", a: "At (アスタチン)", img: "" }, { q: "86", a: "Rn (ラドン)", img: "" }, { q: "87", a: "Fr (フランシウム)", img: "" }, { q: "88", a: "Ra (ラジウム)", img: "" }, { q: "89", a: "Ac (アクチニウム)", img: "" }, { q: "90", a: "Th (トリウム)", img: "" },
+    { q: "91", a: "Pa (プロトアクチニウム)", img: "" }, { q: "92", a: "U (ウラン)", img: "" }, { q: "93", a: "Np (ネプツニウム)", img: "" }, { q: "94", a: "Pu (プルトニウム)", img: "" }, { q: "95", a: "Am (アメリシウム)", img: "" }, { q: "96", a: "Cm (キュリウム)", img: "" }, { q: "97", a: "Bk (バークリウム)", img: "" }, { q: "98", a: "Cf (カリホルニウム)", img: "" }, { q: "99", a: "Es (アインシュタイニウム)", img: "" }, { q: "100", a: "Fm (フェルミウム)", img: "" },
+    { q: "101", a: "Md (メンデレビウム)", img: "" }, { q: "102", a: "No (ノーベリウム)", img: "" }, { q: "103", a: "Lr (ローレンシウム)", img: "" }, { q: "104", a: "Rf (ラザホージウム)", img: "" }, { q: "105", a: "Db (ドブニウム)", img: "" }, { q: "106", a: "Sg (シーボーギウム)", img: "" }, { q: "107", a: "Bh (ボーリウム)", img: "" }, { q: "108", a: "Hs (ハッシウム)", img: "" }, { q: "109", a: "Mt (マイトネリウム)", img: "" }, { q: "110", a: "Ds (ダームスタチウム)", img: "" },
+    { q: "111", a: "Rg (レントゲニウム)", img: "" }, { q: "112", a: "Cn (コペルニシウム)", img: "" }, { q: "113", a: "Nh (ニホニウム)", img: "" }, { q: "114", a: "Fl (フレロビウム)", img: "" }, { q: "115", a: "Mc (モスコビウム)", img: "" }, { q: "116", a: "Lv (リバモリウム)", img: "" }, { q: "117", a: "Ts (テネシン)", img: "" }, { q: "118", a: "Og (オガネソン)", img: "" }
+];
 
-// クイズ開始（ここを確実にデータを見つける方式に戻しました）
-function startQuiz(type) {
-    let rawData;
-    
-    // 省略せずに、すべてのデータを直接指定して読み込む
-    if (type === 'flag') rawData = flagData;
-    else if (type === 'constellation') rawData = constellationData;
-    else if (type === 'element') rawData = elementData;
-    else if (type === 'mountain') rawData = mountainData;
-    else if (type === 'olympic') rawData = olympicData;
-    else if (type === 'morse') rawData = morseData;
-    else if (type === 'president') rawData = presidentData;
-    else if (type === 'yamanote') rawData = yamanoteData;
+// 4. 8000m峰
+const mountainData = [
+    { q: "8,848m", a: "エベレスト", img: "" }, { q: "8,611m", a: "K2", img: "" }, { q: "8,586m", a: "カンチェンジュンガ", img: "" }, { q: "8,516m", a: "ローツェ", img: "" }, { q: "8,485m", a: "マカルー", img: "" }, { q: "8,188m", a: "チョ・オユー", img: "" }, { q: "8,167m", a: "ダウラギリ", img: "" }, { q: "8,163m", a: "マナスル", img: "" }, { q: "8,125m", a: "ナンガ・パルバット", img: "" }, { q: "8,091m", a: "アンナプルナ", img: "" }, { q: "8,080m", a: "ガッシャーブルムI峰", img: "" }, { q: "8,051m", a: "ブロード・ピーク", img: "" }, { q: "8,035m", a: "ガッシャーブルムII峰", img: "" }, { q: "8,027m", a: "シシャパンマ", img: "" }
+];
 
-    if (!rawData || rawData.length === 0) {
-        alert("エラー：データが見つかりません。");
-        return;
-    }
+// 5. モールス信号
+const morseData = [
+    { q: "・－", a: "A", img: "" }, { q: "－・・・", a: "B", img: "" }, { q: "－・－・", a: "C", img: "" }, { q: "－・・", a: "D", img: "" }, { q: "・", a: "E", img: "" }, { q: "・・－・", a: "F", img: "" }, { q: "－－・", a: "G", img: "" }, { q: "・・・・", a: "H", img: "" }, { q: "・・", a: "I", img: "" }, { q: "・－－－", a: "J", img: "" }, { q: "－・－", a: "K", img: "" }, { q: "・－・・", a: "L", img: "" }, { q: "－－", a: "M", img: "" }, { q: "－・", a: "N", img: "" }, { q: "－－－", a: "O", img: "" }, { q: "・－－・", a: "P", img: "" }, { q: "－－・－", a: "Q", img: "" }, { q: "・－・", a: "R", img: "" }, { q: "・・・", a: "S", img: "" }, { q: "－", a: "T", img: "" }, { q: "・・－", a: "U", img: "" }, { q: "・・・－", a: "V", img: "" }, { q: "・－－", a: "W", img: "" }, { q: "－・・－", a: "X", img: "" }, { q: "－・－－", a: "Y", img: "" }, { q: "－－・・", a: "Z", img: "" },
+    { q: "・－－－－", a: "1", img: "" }, { q: "・・－－－", a: "2", img: "" }, { q: "・・・－－", a: "3", img: "" }, { q: "・・・・－", a: "4", img: "" }, { q: "・・・・・", a: "5", img: "" }, { q: "－・・・・", a: "6", img: "" }, { q: "－－・・・", a: "7", img: "" }, { q: "－－－・・", a: "8", img: "" }, { q: "－－－－・", a: "9", img: "" }, { q: "－－－－－", a: "0", img: "" }
+];
 
-    currentQuizData = rawData.map(item => ({...item, genre: type}));
-    currentQuizData.sort(() => Math.random() - 0.5); // シャッフル
-    currentIndex = 0;
-    
-    document.getElementById('home-screen').classList.add('hidden');
-    document.getElementById('quiz-screen').classList.remove('hidden');
-    showQuestion();
-}
+// 6. アメリカ歴代大統領
+const presidentData = [
+    { q: "第1代", a: "ジョージ・ワシントン", img: "" }, { q: "第2代", a: "ジョン・アダムズ", img: "" }, { q: "第3代", a: "トーマス・ジェファーソン", img: "" }, { q: "第4代", a: "ジェームズ・マディソン", img: "" }, { q: "第5代", a: "ジェームズ・モンロー", img: "" }, { q: "第6代", a: "ジョン・クインシー・アダムズ", img: "" }, { q: "第7代", a: "アンドリュー・ジャクソン", img: "" }, { q: "第8代", a: "マーティン・ヴァン・ビューレン", img: "" }, { q: "第9代", a: "ウィリアム・ハリソン", img: "" }, { q: "第10代", a: "ジョン・タイラー", img: "" },
+    { q: "第11代", a: "ジェームズ・ポーク", img: "" }, { q: "第12代", a: "ザカリー・テイラー", img: "" }, { q: "第13代", a: "ミラード・フィルモア", img: "" }, { q: "第14代", a: "フランクリン・ピアース", img: "" }, { q: "第15代", a: "ジェームズ・ブキャナン", img: "" }, { q: "第16代", a: "エイブラハム・リンカーン", img: "" }, { q: "第17代", a: "アンドリュー・ジョンソン", img: "" }, { q: "第18代", a: "ユリシーズ・グラント", img: "" }, { q: "第19代", a: "ラザフォード・ヘイズ", img: "" }, { q: "第20代", a: "ジェームズ・ガーフィールド", img: "" },
+    { q: "第21代", a: "チェスター・A・アーサー", img: "" }, { q: "第22代", a: "グロバー・クリーブランド", img: "" }, { q: "第23代", a: "ベンジャミン・ハリソン", img: "" }, { q: "第24代", a: "グロバー・クリーブランド", img: "" }, { q: "第25代", a: "ウィリアム・マッキンリー", img: "" }, { q: "第26代", a: "セオドア・ルーズベルト", img: "" }, { q: "第27代", a: "ウィリアム・タフト", img: "" }, { q: "第28代", a: "ウッドロウ・ウィルソン", img: "" }, { q: "第29代", a: "ウォレン・ハーディング", img: "" }, { q: "第30代", a: "カルビン・クーリッジ", img: "" },
+    { q: "第31代", a: "ハーバート・フーヴァー", img: "" }, { q: "第32代", a: "フランクリン・ルーズベルト", img: "" }, { q: "第33代", a: "ハリー・S・トルーマン", img: "" }, { q: "第34代", a: "ドワイト・D・アイゼンハワー", img: "" }, { q: "第35代", a: "ジョン・F・ケネディ", img: "" }, { q: "第36代", a: "リンドン・ジョンソン", img: "" }, { q: "第37代", a: "リチャード・ニクソン", img: "" }, { q: "第38代", a: "ジェラルド・フォード", img: "" }, { q: "第39代", a: "ジミー・カーター", img: "" }, { q: "第40代", a: "ロナルド・レーガン", img: "" },
+    { q: "第41代", a: "ジョージ・H・W・ブッシュ", img: "" }, { q: "第42代", a: "ビル・クリントン", img: "" }, { q: "第43代", a: "ジョージ・W・ブッシュ", img: "" }, { q: "第44代", a: "バラク・オバマ", img: "" }, { q: "第45代", a: "ドナルド・トランプ", img: "" }, { q: "第46代", a: "ジョー・バイデン", img: "" }, { q: "第47代", a: "ドナルド・トランプ", img: "" }
+];
 
-function showQuestion() {
-    isAnswerShowing = false;
-    const item = currentQuizData[currentIndex];
-    const imgEl = document.getElementById('question-img');
-    const stateEl = document.getElementById('state-name-display');
-    const ansEl = document.getElementById('answer-text');
-    const fallbackEl = document.getElementById('fallback-text');
-    const labelEl = document.getElementById('question-label');
+// 7. 夏季オリンピック開催地
+const olympicData = [
+    { q: "1896年 第1回", a: "アテネ (ギリシャ)", img: "" }, { q: "1900年 第2回", a: "パリ (フランス)", img: "" }, { q: "1904年 第3回", a: "セントルイス (アメリカ)", img: "" }, { q: "1908年 第4回", a: "ロンドン (イギリス)", img: "" }, { q: "1912年 第5回", a: "ストックホルム (スウェーデン)", img: "" }, { q: "1916年 (第6回)", a: "ベルリン (中止)", img: "" }, { q: "1920年 第7回", a: "アントワープ (ベルギー)", img: "" }, { q: "1924年 第8回", a: "パリ (フランス)", img: "" }, { q: "1928年 第9回", a: "アムステルダム (オランダ)", img: "" }, { q: "1932年 第10回", a: "ロサンゼルス (アメリカ)", img: "" },
+    { q: "1936年 第11回", a: "ベルリン (ドイツ)", img: "" }, { q: "1940年 (第12回)", a: "東京/ヘルシンキ (中止)", img: "" }, { q: "1944年 (第13回)", a: "ロンドン (中止)", img: "" }, { q: "1948年 第14回", a: "ロンドン (イギリス)", img: "" }, { q: "1952年 第15回", a: "ヘルシンキ (フィンランド)", img: "" }, { q: "1956年 第16回", a: "メルボルン (オーストラリア)", img: "" }, { q: "1960年 第17回", a: "ローマ (イタリア)", img: "" }, { q: "1964年 第18回", a: "東京 (日本)", img: "" }, { q: "1968年 第19回", a: "メキシコシティ (メキシコ)", img: "" }, { q: "1972年 第20回", a: "ミュンヘン (西ドイツ)", img: "" },
+    { q: "1976年 第21回", a: "モントリオール (カナダ)", img: "" }, { q: "1980年 第22回", a: "モスクワ (ソ連)", img: "" }, { q: "1984年 第23回", a: "ロサンゼルス (アメリカ)", img: "" }, { q: "1988年 第24回", a: "ソウル (韓国)", img: "" }, { q: "1992年 第25回", a: "バルセロナ (スペイン)", img: "" }, { q: "1996年 第26回", a: "アトランタ (アメリカ)", img: "" }, { q: "2000年 第27回", a: "シドニー (オーストラリア)", img: "" }, { q: "2004年 第28回", a: "アテネ (ギリシャ)", img: "" }, { q: "2008年 第29回", a: "北京 (中国)", img: "" }, { q: "2012年 第30回", a: "ロンドン (イギリス)", img: "" },
+    { q: "2016年 第31回", a: "リオデジャネイロ (ブラジル)", img: "" }, { q: "2021年 第32回", a: "東京 (日本)", img: "" }, { q: "2024年 第33回", a: "パリ (フランス)", img: "" }, { q: "2028年 第34回", a: "ロサンゼルス (アメリカ)", img: "" }, { q: "2032年 第35回", a: "ブリスベン (オーストラリア)", img: "" }
+];
 
-    // カウンター
-    document.getElementById('counter').textContent = `${currentIndex + 1} / ${currentQuizData.length}`;
-
-    // ラベル切り替え
-    const labels = {
-        flag: "この州の州都は？",
-        constellation: "この星座の名前は？",
-        element: "この原子番号の元素名は？",
-        president: "この代の大統領は？",
-        olympic: "この年の開催地は？",
-        mountain: "この山の名前は？",
-        morse: "この信号の意味は？",
-        yamanote: "この駅名は？"
-    };
-    labelEl.textContent = labels[item.genre] || "答えは何？";
-
-    // E: 州名・番号（星座以外は表示）
-    stateEl.textContent = (item.genre === 'constellation') ? "" : (item.q || "");
-
-    // A: 画像またはテキスト
-    if (item.img && item.img !== "") {
-        imgEl.src = getImageUrl(item.img);
-        imgEl.classList.remove('hidden');
-        fallbackEl.classList.add('hidden');
-    } else {
-        imgEl.classList.add('hidden');
-        if (item.genre !== 'flag') {
-            fallbackEl.textContent = item.q || "";
-            fallbackEl.classList.remove('hidden');
-        } else {
-            fallbackEl.classList.add('hidden');
-        }
-    }
-
-    // D: 答え
-    ansEl.textContent = item.a || "データなし";
-    ansEl.classList.add('hidden');
-}
-
-function handleTouch() {
-    const now = Date.now();
-    if (now - lastClickTime < 300) return;
-    lastClickTime = now;
-
-    if (!isAnswerShowing) {
-        isAnswerShowing = true;
-        document.getElementById('answer-text').classList.remove('hidden');
-    } else {
-        nextQuestion();
-    }
-}
-
-function nextQuestion() {
-    currentIndex++;
-    if (currentIndex < currentQuizData.length) {
-        showQuestion();
-    } else {
-        alert("全問終了！");
-        showHome();
-    }
-}
-
-function useHint() { if (!isAnswerShowing) handleTouch(); }
-
-window.onload = showHome;
+// 8. 山手線駅名
+const yamanoteData = [
+    { q: "JY01", a: "東京", img: "" }, { q: "JY02", a: "神田", img: "" }, { q: "JY03", a: "秋葉原", img: "" }, { q: "JY04", a: "御徒町", img: "" }, { q: "JY05", a: "上野", img: "" }, { q: "JY06", a: "鶯谷", img: "" }, { q: "JY07", a: "日暮里", img: "" }, { q: "JY08", a: "西日暮里", img: "" }, { q: "JY09", a: "田端", img: "" }, { q: "JY10", a: "駒込", img: "" },
+    { q: "JY11", a: "巣鴨", img: "" }, { q: "JY12", a: "大塚", img: "" }, { q: "JY13", a: "池袋", img: "" }, { q: "JY14", a: "目白", img: "" }, { q: "JY15", a: "高田馬場", img: "" }, { q: "JY16", a: "新大久保", img: "" }, { q: "JY17", a: "新宿", img: "" }, { q: "JY18", a: "代々木", img: "" }, { q: "JY19", a: "原宿", img: "" }, { q: "JY20", a: "渋谷", img: "" },
+    { q: "JY21", a: "恵比寿", img: "" }, { q: "JY22", a: "目黒", img: "" }, { q: "JY23", a: "五反田", img: "" }, { q: "JY24", a: "大崎", img: "" }, { q: "JY25", a: "品川", img: "" }, { q: "JY26", a: "高輪ゲートウェイ", img: "" }, { q: "JY27", a: "田町", img: "" }, { q: "JY28", a: "浜松町", img: "" }, { q: "JY29", a: "新橋", img: "" }, { q: "JY30", a: "有楽町", img: "" }
+];
