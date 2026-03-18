@@ -26,20 +26,20 @@
 
     <div id="quiz-screen" class="hidden">
         <div class="quiz-header">
-            <div id="counter" class="counter-box">C</div>
+            <div id="counter" class="counter-box">0 / 0</div>
             <button id="exit-btn" onclick="showHome()">
                 <img src="https://img.icons8.com/fluency/48/door.png" alt="home"/>
             </button>
         </div>
-
         <div id="question-label" class="question-label-box">B</div> 
-
         <div id="problem-area" class="problem-area-box" onclick="handleTouch()">
-            <div id="state-name-display">E</div> <div class="image-container">
-                <img id="question-img" src="" class="hidden"> <div id="fallback-text" class="hidden">A</div> </div>
-
-            <div id="answer-text" class="hidden">D</div> </div>
-        
+            <div id="state-name-display">E</div>
+            <div class="image-container">
+                <img id="question-img" src="" class="hidden">
+                <div id="fallback-text" class="hidden"></div>
+            </div>
+            <div id="answer-text" class="hidden">D</div>
+        </div>
         <div class="quiz-footer">
             <button id="hint-btn" onclick="useHint()">!</button>
         </div>
