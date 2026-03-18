@@ -1,30 +1,181 @@
+/* 全体の設定 */
 body { 
-    font-family: -apple-system, sans-serif; 
-    background-color: #ffffff; margin: 0; 
-    display: flex; justify-content: center; align-items: flex-start;
+    font-family: -apple-system, "Helvetica Neue", Arial, sans-serif; 
+    background-color: #ffffff; 
+    margin: 0; 
+    display: flex; 
+    justify-content: center; 
+    align-items: flex-start;
     min-height: 100vh;
+    /* スマホのタップ時の青い枠を消す */
     -webkit-tap-highlight-color: transparent;
 }
 
-#app-container { width: 100%; max-width: 400px; padding: 20px; box-sizing: border-box; }
+#app-container {
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+    box-sizing: border-box;
+}
 
-/* ホーム画面 */
-#home-screen { text-align: center; padding-top: 40px; }
-.main-title { font-size: 60px; font-weight: normal; margin-bottom: 60px; }
-.menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 30px; }
-.menu-btn { background: #ffffff; border: 1px solid #000000; padding: 15px; font-size: 16px; cursor: pointer; }
-.coming-soon { border: 1px solid #000000; padding: 10px; width: fit-content; margin: 0 auto; }
+/* --- ホーム画面（左側イメージ） --- */
+#home-screen {
+    text-align: center;
+    padding-top: 40px;
+}
 
-/* 問題画面 */
-#quiz-screen { display: flex; flex-direction: column; align-items: center; padding-top: 10px; }
-.quiz-header { width: 100%; display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-.counter-box { border: 1px solid #000; padding: 5px 15px; font-size: 18px; }
-#exit-btn { background: none; border: none; cursor: pointer; }
-#exit-btn img { width: 30px; height: 30px; }
-.question-label-box { width: 100%; border: 1px solid #000; padding: 10px; font-size: 16px; margin-bottom: 20px; text-align: center; }
-.problem-area-box { width: 100%; border: 1px solid #000; min-height: 300px; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 10px; box-sizing: border-box; cursor: pointer; position: relative; }
-#question-img { max-width: 100%; max-height: 250px; object-fit: contain; }
-#question-text { font-size: 24px; font-weight: bold; text-align: center; }
-#answer-text { position: absolute; bottom: 0; width: 100%; background: #000000; color: #ffffff; padding: 10px; text-align: center; font-size: 18px; }
-#hint-btn { background: #ff8c00; color: white; border: none; width: 60px; height: 60px; border-radius: 50%; font-size: 30px; font-weight: bold; }
-.hidden { display: none !important; }
+.main-title {
+    font-size: 60px;
+    font-weight: normal;
+    margin-bottom: 60px;
+    letter-spacing: 5px;
+}
+
+.menu-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* 2列配置 */
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.menu-btn {
+    background: #ffffff;
+    border: 1px solid #000000;
+    padding: 18px 10px;
+    font-size: 16px;
+    cursor: pointer;
+    box-sizing: border-box;
+    transition: background 0.2s;
+}
+
+.menu-btn:active {
+    background-color: #f0f0f0;
+}
+
+.coming-soon {
+    border: 1px solid #000000;
+    padding: 10px 20px;
+    width: fit-content;
+    margin: 40px auto 0;
+    font-size: 14px;
+}
+
+/* --- 問題画面（右側イメージ） --- */
+#quiz-screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    padding-top: 10px;
+}
+
+/* C: カウンターとドアアイコン */
+.quiz-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.counter-box {
+    border: 1px solid #000;
+    padding: 4px 12px;
+    font-size: 18px;
+    min-width: 60px;
+    text-align: center;
+}
+
+#exit-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+#exit-btn img {
+    width: 32px;
+    height: 32px;
+}
+
+/* B: 問題ラベル（この州の州都は？など） */
+.question-label-box {
+    width: 100%;
+    border: 1px solid #000;
+    padding: 10px;
+    font-size: 16px;
+    margin-bottom: 15px;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+/* A, D, E を含むメインエリア */
+.problem-area-box {
+    width: 100%;
+    border: 1px solid #000;
+    min-height: 380px; /* 高さを確保 */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+
+/* E: 州の名前（常に表示） */
+#question-text {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+/* A: 画像 */
+#question-img {
+    max-width: 90%;
+    max-height: 200px;
+    height: auto;
+    border: 1px solid #000;
+    object-fit: contain;
+    background-color: #fff;
+}
+
+/* D: 答え（タップで表示） */
+#answer-text {
+    margin-top: 25px;
+    font-size: 32px;
+    font-weight: bold;
+    text-align: center;
+    border-top: 2px dashed #000;
+    width: 80%;
+    padding-top: 15px;
+}
+
+/* ！ボタン（ヒント） */
+.quiz-footer {
+    margin-top: 30px;
+}
+
+#hint-btn {
+    background: #ff8c00;
+    color: white;
+    border: none;
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+    font-size: 35px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 0 #cc7000;
+}
+
+#hint-btn:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 0 #cc7000;
+}
+
+/* 共通設定 */
+.hidden {
+    display: none !important;
+}
