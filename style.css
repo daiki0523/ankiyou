@@ -1,20 +1,50 @@
-body { font-family: -apple-system, sans-serif; background-color: #fff; margin: 0; display: flex; justify-content: center; -webkit-tap-highlight-color: transparent; }
-#app-container { width: 100%; max-width: 400px; padding: 20px; box-sizing: border-box; }
-#home-screen { text-align: center; padding-top: 40px; }
-.main-title { font-size: 60px; margin-bottom: 50px; letter-spacing: 5px; }
-.menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-.menu-btn { background: #fff; border: 1px solid #000; padding: 18px; font-size: 16px; cursor: pointer; border-radius: 0; }
+body { font-family: -apple-system, sans-serif; background-color: #f5f5f5; margin: 0; display: flex; justify-content: center; -webkit-tap-highlight-color: transparent; }
+#app-container { width: 100%; max-width: 400px; padding: 15px; box-sizing: border-box; }
+
+/* ホーム画面 */
+#home-screen { text-align: center; padding-top: 30px; }
+.main-title { font-size: 50px; margin-bottom: 40px; letter-spacing: 5px; }
+.menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.menu-btn { background: #fff; border: 2px solid #333; padding: 15px; font-size: 16px; cursor: pointer; border-radius: 8px; font-weight: bold; }
+
+/* 問題画面 */
 #quiz-screen { display: flex; flex-direction: column; align-items: center; width: 100%; }
-.quiz-header { width: 100%; display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-.counter-box { border: 1px solid #000; padding: 5px 15px; font-size: 18px; }
+.quiz-header { width: 100%; display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+.counter-box { background: #333; color: #fff; padding: 5px 15px; font-size: 18px; border-radius: 20px; font-weight: bold; }
 #exit-btn { background: none; border: none; padding: 0; cursor: pointer; }
-#exit-btn img { width: 32px; height: 32px; }
-.question-label-box { width: 100%; border: 1px solid #000; padding: 10px; margin-bottom: 15px; text-align: center; box-sizing: border-box; }
-.problem-area-box { width: 100%; border: 1px solid #000; min-height: 420px; display: flex; flex-direction: column; justify-content: flex-start; align-items: center; padding: 20px; box-sizing: border-box; cursor: pointer; }
-#state-name-display { font-size: 24px; font-weight: bold; margin-bottom: 15px; min-height: 1.2em; text-align: center; }
-.image-container { width: 100%; height: 180px; display: flex; justify-content: center; align-items: center; margin-bottom: 15px; overflow: hidden; }
-#question-img { max-width: 100%; max-height: 100%; border: 1px solid #000; object-fit: contain; }
-#fallback-text { font-size: 44px; font-weight: bold; text-align: center; }
-#answer-text { width: 100%; border-top: 2px dashed #000; padding-top: 20px; font-size: 32px; font-weight: bold; text-align: center; color: #d32f2f; }
-#hint-btn { background: #ff8c00; color: #fff; border: none; width: 65px; height: 65px; border-radius: 50%; font-size: 35px; margin-top: 25px; cursor: pointer; }
+#exit-btn img { width: 36px; height: 36px; }
+
+.question-label-box { width: 100%; background: #fff; border: 2px solid #333; border-radius: 8px; padding: 10px; margin-bottom: 15px; text-align: center; font-weight: bold; }
+
+/* メインエリア */
+.problem-area-box { 
+    width: 100%; background: #fff; border: 2px solid #333; border-radius: 12px; min-height: 450px; 
+    display: flex; flex-direction: column; justify-content: flex-start; align-items: center; 
+    padding: 15px; box-sizing: border-box; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+#state-name-display { font-size: 22px; font-weight: bold; margin-bottom: 10px; min-height: 1.2em; text-align: center; color: #333; }
+
+/* 🌟 ここが画像を見やすくするための超重要ポイント 🌟 */
+.image-container { 
+    width: 100%; 
+    height: 280px; /* ここを大きくしました */
+    display: flex; justify-content: center; align-items: center; 
+    margin-bottom: 15px; 
+    background-color: #ffffff; /* 透過画像でも白背景にして線を見せる */
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 5px;
+}
+#question-img { max-width: 100%; max-height: 100%; object-fit: contain; }
+#fallback-text { font-size: 36px; font-weight: bold; text-align: center; color: #555; }
+
+/* D: 下部の答え */
+#answer-text { 
+    width: 100%; border-top: 2px dashed #ccc; padding-top: 15px; 
+    font-size: 32px; font-weight: bold; text-align: center; color: #d32f2f;
+}
+
+#hint-btn { background: #ff8c00; color: #fff; border: none; width: 60px; height: 60px; border-radius: 50%; font-size: 30px; margin-top: 20px; cursor: pointer; box-shadow: 0 4px 0 #cc7000; }
+#hint-btn:active { transform: translateY(4px); box-shadow: none; }
 .hidden { display: none !important; }
