@@ -3,13 +3,15 @@ let currentIndex = 0;
 let isAnswerShowing = false;
 let lastClickTime = 0;
 
+// 🌟 新追加：わからなかった問題を記録するリスト
+let wrongAnswers = []; 
+
 function getImageUrl(fileName) {
     if (!fileName) return "";
     const name = encodeURIComponent(fileName.trim().replace(/\s/g, '_'));
     return "https://commons.wikimedia.org/wiki/Special:FilePath/" + name + "?width=500";
 }
 
-// 🚀 【ラグ対策】サイトを開いた瞬間に、最優先で全画像を裏読み込み
 const allQuizData = [
     typeof flagData !== 'undefined' ? flagData : [],
     typeof constellationData !== 'undefined' ? constellationData : []
@@ -25,6 +27,7 @@ allQuizData.forEach(item => {
 function showHome() {
     document.getElementById('home-screen').classList.remove('hidden');
     document.getElementById('quiz-screen').classList.add('hidden');
+    document.getElementById('result-screen').classList.add('hidden'); // 結果画面も隠す
 }
 
 function startQuiz(type) {
@@ -47,6 +50,9 @@ function startQuiz(type) {
     currentQuizData = rawData.map(item => ({...item, genre: type}));
     currentQuizData.sort(() => Math.random() - 0.5);
     currentIndex = 0;
+    
+    // 🌟 新追加：クイズ開始時に記録をリセット
+    wrongAnswers = []; 
     
     document.getElementById('home-screen').classList.add('hidden');
     document.getElementById('quiz-screen').classList.remove('hidden');
@@ -98,7 +104,6 @@ function showQuestion() {
 
 function handleTouch() {
     const now = Date.now();
-    // 連続タップ対策
     if (now - lastClickTime < 300) return;
     lastClickTime = now;
 
@@ -115,11 +120,43 @@ function nextQuestion() {
     if (currentIndex < currentQuizData.length) {
         showQuestion();
     } else {
-        alert("全問終了！ホームに戻ります。");
-        showHome();
+        // 🌟 新追加：全問終わったら結果画面へ！
+        showResult(); 
     }
 }
 
-function useHint() { if (!isAnswerShowing) handleTouch(); }
+// 🌟 新追加：ヒントボタン（！）を押した時の処理
+function useHint() { 
+    if (!isAnswerShowing) {
+        const currentItem = currentQuizData[currentIndex];
+        // まだリストに入っていなければ追加する
+        if (!wrongAnswers.includes(currentItem)) {
+            wrongAnswers.push(currentItem);
+        }
+        handleTouch(); // 答えを表示
+    }
+}
+
+// 🌟 新追加：結果画面を表示する機能
+function showResult() {
+    document.getElementById('quiz-screen').classList.add('hidden');
+    document.getElementById('result-screen').classList.remove('hidden');
+
+    const listContainer = document.getElementById('wrong-list');
+    listContainer.innerHTML = ""; // 前のリストを消去
+
+    // 1問も間違えなかった場合
+    if (wrongAnswers.length === 0) {
+        listContainer.innerHTML = "<div style='text-align:center; padding: 20px; font-weight:bold;'>全問ノーヒントクリア！<br>素晴らしい！🎉</div>";
+    } else {
+        // 間違えた問題を順番に表示
+        wrongAnswers.forEach(item => {
+            const div = document.createElement('div');
+            div.className = 'wrong-item';
+            div.innerHTML = `<span class="wrong-q">Q: ${item.q || "画像問題"}</span><span class="wrong-a">A: ${item.a}</span>`;
+            listContainer.appendChild(div);
+        });
+    }
+}
 
 window.onload = showHome;
