@@ -9,17 +9,15 @@ function getImageUrl(fileName) {
     return "https://commons.wikimedia.org/wiki/Special:FilePath/" + name + "?width=500";
 }
 
-// 起動時にデータを読み込むための安全な処理
 function showHome() {
     document.getElementById('home-screen').classList.remove('hidden');
     document.getElementById('quiz-screen').classList.add('hidden');
 }
 
 function startQuiz(type) {
-    // 確実にdata.jsの変数を参照
     const rawData = window[type + 'Data'];
     if (!rawData) {
-        alert("データが読み込めていません。data.jsを確認してください。");
+        alert("データが見つかりません: " + type);
         return;
     }
 
@@ -41,10 +39,9 @@ function showQuestion() {
     const fallbackEl = document.getElementById('fallback-text');
     const labelEl = document.getElementById('question-label');
 
-    // C: カウンター
     document.getElementById('counter').textContent = `${currentIndex + 1} / ${currentQuizData.length}`;
 
-    // B: ジャンルごとのラベル
+    // ジャンルごとのラベル(B)設定
     const labels = {
         flag: "この州の州都は？",
         constellation: "この星座の名前は？",
@@ -55,19 +52,19 @@ function showQuestion() {
         morse: "この信号の意味は？",
         yamanote: "この駅名は？"
     };
-    labelEl.textContent = labels[item.genre] || "これの答えは？";
+    labelEl.textContent = labels[item.genre] || "答えは何？";
 
-    // E: 基本的に問題文(q)を表示（星座だけは形を見せたいので空欄）
+    // E: 基本的に問題文を表示（星座は形を見せたいので空欄に）
     stateEl.textContent = (item.genre === 'constellation') ? "" : item.q;
 
-    // A: 画像の処理
+    // A: 画像またはテキストの表示制御
     if (item.img && item.img !== "") {
         imgEl.src = getImageUrl(item.img);
         imgEl.classList.remove('hidden');
         fallbackEl.classList.add('hidden');
     } else {
         imgEl.classList.add('hidden');
-        // 州旗以外で画像がない場合は中央に文字を出す
+        // 旗以外で画像がない場合は中央に文字(q)を出す
         if (item.genre !== 'flag') {
             fallbackEl.textContent = item.q;
             fallbackEl.classList.remove('hidden');
@@ -76,7 +73,7 @@ function showQuestion() {
         }
     }
 
-    // D: 答えをセット
+    // D: 答えをセットして隠す
     ansEl.textContent = item.a;
     ansEl.classList.add('hidden');
 }
@@ -106,5 +103,5 @@ function nextQuestion() {
 
 function useHint() { if (!isAnswerShowing) handleTouch(); }
 
-// 起動時にホームを表示
+// 初期起動
 showHome();
