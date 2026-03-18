@@ -53,6 +53,7 @@ const flagData = [
 ];
 
 // 2. 全天88星座（答えを和名に変更）
+// 2. 全天88星座（完全版・和名対応）
 const constellationData = [
     { q: "アンドロメダ座", a: "アンドロメダ", img: "Andromeda_IAU.svg" },
     { q: "いっかくじゅう座", a: "いっかくじゅう", img: "Monoceros_IAU.svg" },
@@ -69,7 +70,7 @@ const constellationData = [
     { q: "おおかみ座", a: "おおかみ", img: "Lupus_IAU.svg" },
     { q: "おおぐま座", a: "おおぐま", img: "Ursa_Major_IAU.svg" },
     { q: "おおいぬ座", a: "おおいぬ", img: "Canis_Major_IAU.svg" },
-    { q: "おかあき座", a: "はちぶんぎ", img: "Octans_IAU.svg" },
+    { q: "はちぶんぎ座", a: "はちぶんぎ", img: "Octans_IAU.svg" },
     { q: "おとめ座", a: "おとめ", img: "Virgo_IAU.svg" },
     { q: "おひつじ座", a: "おひつじ", img: "Aries_IAU.svg" },
     { q: "オリオン座", a: "オリオン", img: "Orion_IAU.svg" },
@@ -82,7 +83,7 @@ const constellationData = [
     { q: "きりん座", a: "きりん", img: "Camelopardalis_IAU.svg" },
     { q: "くじゃく座", a: "くじゃく", img: "Pavo_IAU.svg" },
     { q: "くじら座", a: "くじら", img: "Cetus_IAU.svg" },
-    { q: "くも座", a: "レチクル", img: "Reticulum_IAU.svg" },
+    { q: "レチクル座", a: "レチクル", img: "Reticulum_IAU.svg" },
     { q: "ケンタウルス座", a: "ケンタウルス", img: "Centaurus_IAU.svg" },
     { q: "けんびきょう座", a: "けんびきょう", img: "Microscopium_IAU.svg" },
     { q: "こいぬ座", a: "こいぬ", img: "Canis_Minor_IAU.svg" },
@@ -107,12 +108,11 @@ const constellationData = [
     { q: "とびうお座", a: "とびうお", img: "Volans_IAU.svg" },
     { q: "とも座", a: "とも", img: "Puppis_IAU.svg" },
     { q: "はくちょう座", a: "はくちょう", img: "Cygnus_IAU.svg" },
-    { q: "はちぶんぎ座", a: "はちぶんぎ", img: "Octans_IAU.svg" },
     { q: "はと座", a: "はと", img: "Columba_IAU.svg" },
     { q: "ふたご座", a: "ふたご", img: "Gemini_IAU.svg" },
     { q: "ほうおう座", a: "ほうおう", img: "Phoenix_IAU.svg" },
-    { q: "ほ座", a: "ほ", img: "Vela", img: "Vela_IAU.svg" },
-    { q: "まいご座", a: "ポンプ", img: "Antlia_IAU.svg" },
+    { q: "ほ座", a: "ほ", img: "Vela_IAU.svg" },
+    { q: "ポンプ座", a: "ポンプ", img: "Antlia_IAU.svg" },
     { q: "みずがめ座", a: "みずがめ", img: "Aquarius_IAU.svg" },
     { q: "みずへび座", a: "みずへび", img: "Hydrus_IAU.svg" },
     { q: "みなみじゅうじ座", a: "みなみじゅうじ", img: "Crux_IAU.svg" },
@@ -127,7 +127,21 @@ const constellationData = [
     { q: "りょうけん座", a: "りょうけん", img: "Canes_Venatici_IAU.svg" },
     { q: "ろ座", a: "ろ", img: "Fornax_IAU.svg" },
     { q: "ろくぶんぎ座", a: "ろくぶんぎ", img: "Sextans_IAU.svg" },
-    { q: "わし座", a: "わし", img: "Aquila_IAU.svg" }
+    { q: "わし座", a: "わし", img: "Aquila_IAU.svg" },
+    { q: "かに座", a: "かに", img: "Cancer_IAU.svg" },
+    { q: "ケフェウス座", a: "ケフェウス", img: "Cepheus_IAU.svg" },
+    { q: "カメレオン座", a: "カメレオン", img: "Chamaeleon_IAU.svg" },
+    { q: "かみのけ座", a: "かみのけ", img: "Coma_Berenices_IAU.svg" },
+    { q: "ヘルクレス座", a: "ヘルクレス", img: "Hercules_IAU.svg" },
+    { q: "てんびん座", a: "てんびん", img: "Libra_IAU.svg" },
+    { q: "テーブルさん座", a: "テーブルさん", img: "Mensa_IAU.svg" },
+    { q: "はえ座", a: "はえ", img: "Musca_IAU.svg" },
+    { q: "へびつかい座", a: "へびつかい", img: "Ophiuchus_IAU.svg" },
+    { q: "ペガスス座", a: "ペガスス", img: "Pegasus_IAU.svg" },
+    { q: "ペルセウス座", a: "ペルセウス", img: "Perseus_IAU.svg" },
+    { q: "らしんばん座", a: "らしんばん", img: "Pyxis_IAU.svg" },
+    { q: "へび座", a: "へび", img: "Serpens_IAU.svg" },
+    { q: "ぼうえんきょう座", a: "ぼうえんきょう", img: "Telescopium_IAU.svg" }
 ];
 
 // 3. 元素記号
