@@ -12,16 +12,25 @@
     <div id="home-screen">
         <h1 class="main-title">暗記</h1>
         <div class="menu-grid">
-            <button class="menu-btn" onclick="startQuiz('flag')">州都🇺🇸</button>
-            <button class="menu-btn" onclick="startQuiz('constellation')">８８星座🌌</button>
-            <button class="menu-btn" onclick="startQuiz('element')">元素記号🧪</button>
-            <button class="menu-btn" onclick="startQuiz('mountain')">8000m峰🏔️</button>
-            <button class="menu-btn" onclick="startQuiz('olympic')">五輪開催地🏅</button>
-            <button class="menu-btn" onclick="startQuiz('morse')">モールス信号📟</button>
-            <button class="menu-btn" onclick="startQuiz('president')">大統領🇺🇸</button>
-            <button class="menu-btn" onclick="startQuiz('yamanote')">山手線🚃</button>
+            <button class="menu-btn" onclick="selectGenre('flag')">州都🇺🇸</button>
+            <button class="menu-btn" onclick="selectGenre('constellation')">８８星座🌌</button>
+            <button class="menu-btn" onclick="selectGenre('element')">元素記号🧪</button>
+            <button class="menu-btn" onclick="selectGenre('mountain')">8000m峰🏔️</button>
+            <button class="menu-btn" onclick="selectGenre('olympic')">五輪開催地🏅</button>
+            <button class="menu-btn" onclick="selectGenre('morse')">モールス信号📟</button>
+            <button class="menu-btn" onclick="selectGenre('president')">大統領🇺🇸</button>
+            <button class="menu-btn" onclick="selectGenre('yamanote')">山手線🚃</button>
         </div>
         <div class="coming-soon">coming soon...</div>
+    </div>
+
+    <div id="mode-screen" class="hidden">
+        <h2 class="result-title">出題形式</h2>
+        <div class="menu-grid" style="margin-top: 30px;">
+            <button class="menu-btn" onclick="startQuizMode(false)">順番通り<br><span style="font-size:12px; font-weight:normal;">(番号・高さ・年代順など)</span></button>
+            <button class="menu-btn" onclick="startQuizMode(true)">ランダム<br><span style="font-size:12px; font-weight:normal;">(シャッフルテスト)</span></button>
+        </div>
+        <button class="menu-btn" style="margin-top: 40px; width: 100%;" onclick="showHome()">ホームに戻る</button>
     </div>
 
     <div id="quiz-screen" class="hidden">
@@ -52,8 +61,7 @@
 
     <div id="result-screen" class="hidden">
         <h2 class="result-title">復習リスト📝</h2>
-        <div id="wrong-list" class="wrong-list-box">
-            </div>
+        <div id="wrong-list" class="wrong-list-box"></div>
         <button class="menu-btn" style="margin-top: 20px; width: 100%;" onclick="showHome()">ホームに戻る</button>
     </div>
 </div>
