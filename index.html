@@ -9,15 +9,11 @@
     <meta name="theme-color" content="#333333">
     <link rel="apple-touch-icon" href="https://img.icons8.com/fluency/192/door.png">
     
-    <link rel="stylesheet" href="style.css?v=999">
+    <link rel="stylesheet" href="style.css?v=clear">
 </head>
 <body>
 
 <div id="app-container">
-    <div style="text-align: right; padding-right: 10px;">
-        <button id="theme-toggle" onclick="toggleTheme()" style="background:none; border:none; font-size:28px; cursor:pointer;">🌙</button>
-    </div>
-
     <div id="home-screen">
         <h1 class="main-title">暗記</h1>
         <div class="menu-grid">
@@ -80,16 +76,14 @@
     </div>
 </div>
 
-<script src="data.js?v=999"></script>
-<script src="script.js?v=999"></script>
+<script src="data.js?v=clear"></script>
+<script src="script.js?v=clear"></script>
 
 <script>
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', function() {
             navigator.serviceWorker.register('./sw.js').then(function(registration) {
                 console.log('アプリ化成功！');
-            }, function(err) {
-                console.log('アプリ化失敗: ', err);
             });
         });
     }
