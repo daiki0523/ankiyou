@@ -3,8 +3,6 @@ let currentIndex = 0;
 let isAnswerShowing = false;
 let lastClickTime = 0;
 let wrongAnswers = []; 
-
-// 🌟 新追加：選んだジャンルを一時的に覚えておく変数
 let selectedGenre = "";
 
 function getImageUrl(fileName) {
@@ -27,19 +25,17 @@ allQuizData.forEach(item => {
 
 function showHome() {
     document.getElementById('home-screen').classList.remove('hidden');
-    document.getElementById('mode-screen').classList.add('hidden'); // モード画面も隠す
+    document.getElementById('mode-screen').classList.add('hidden'); 
     document.getElementById('quiz-screen').classList.add('hidden');
     document.getElementById('result-screen').classList.add('hidden');
 }
 
-// 🌟 新追加：ジャンルを選んだら「出題形式画面」へ移動
 function selectGenre(type) {
-    selectedGenre = type; // 選んだジャンルを記憶
+    selectedGenre = type; 
     document.getElementById('home-screen').classList.add('hidden');
     document.getElementById('mode-screen').classList.remove('hidden');
 }
 
-// 🌟 変更：形式を選んでクイズを開始（isRandomがtrueならシャッフル、falseならそのまま）
 function startQuizMode(isRandom) {
     let rawData;
     const type = selectedGenre;
@@ -60,7 +56,6 @@ function startQuizMode(isRandom) {
 
     currentQuizData = rawData.map(item => ({...item, genre: type}));
     
-    // ランダムボタンが押された時だけシャッフルする！
     if (isRandom) {
         currentQuizData.sort(() => Math.random() - 0.5);
     }
@@ -153,11 +148,14 @@ function showResult() {
     document.getElementById('result-screen').classList.remove('hidden');
 
     const listContainer = document.getElementById('wrong-list');
+    const retestBtn = document.getElementById('retest-btn'); // 🌟 再テストボタンを取得
     listContainer.innerHTML = ""; 
 
     if (wrongAnswers.length === 0) {
         listContainer.innerHTML = "<div style='text-align:center; padding: 20px; font-weight:bold;'>全問ノーヒントクリア！<br>素晴らしい！🎉</div>";
+        retestBtn.classList.add('hidden'); // 🌟 全問正解なら再テストボタンを隠す
     } else {
+        retestBtn.classList.remove('hidden'); // 🌟 間違えた問題があれば再テストボタンを表示
         wrongAnswers.forEach(item => {
             const div = document.createElement('div');
             div.className = 'wrong-item';
@@ -165,6 +163,24 @@ function showResult() {
             listContainer.appendChild(div);
         });
     }
+}
+
+// 🌟 新追加：間違えた問題だけで再テストする機能
+function startRetest() {
+    // 現在のクイズデータを、間違えた問題のリストに置き換える
+    currentQuizData = [...wrongAnswers];
+    
+    // 再テストでは順番で覚えるのを防ぐため、強制的にシャッフルする
+    currentQuizData.sort(() => Math.random() - 0.5);
+    
+    // クイズの進行状態をリセット
+    currentIndex = 0;
+    wrongAnswers = []; // 今回の再テスト用に間違えリストを空にする
+    
+    // 画面を切り替えてクイズ再開！
+    document.getElementById('result-screen').classList.add('hidden');
+    document.getElementById('quiz-screen').classList.remove('hidden');
+    showQuestion();
 }
 
 window.onload = showHome;
