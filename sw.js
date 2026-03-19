@@ -1,29 +1,23 @@
-const CACHE_NAME = 'anki-app-cache-v3';
+const CACHE_NAME = 'anki-v4';
 const urlsToCache = [
-    'index.html',
-    'style.css',
-    'script.js',
-    'data.js',
-    'manifest.json'
+    './index.html',
+    './style.css',
+    './script.js',
+    './data.js',
+    './manifest.json'
 ];
 
-self.addEventListener('install', function(event) {
-    event.waitUntil(
-        caches.open(CACHE_NAME).then(function(cache) {
-            return cache.addAll(urlsToCache);
-        })
-    );
+self.addEventListener('install', (event) => {
+    event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(urlsToCache)));
     self.skipWaiting();
 });
 
-self.addEventListener('activate', function(event) {
+self.addEventListener('activate', (event) => {
     event.waitUntil(
-        caches.keys().then(function(cacheNames) {
+        caches.keys().then((cacheNames) => {
             return Promise.all(
-                cacheNames.map(function(cacheName) {
-                    if (cacheName !== CACHE_NAME) {
-                        return caches.delete(cacheName);
-                    }
+                cacheNames.map((name) => {
+                    if (name !== CACHE_NAME) return caches.delete(name);
                 })
             );
         })
@@ -31,13 +25,8 @@ self.addEventListener('activate', function(event) {
     self.clients.claim();
 });
 
-self.addEventListener('fetch', function(event) {
+self.addEventListener('fetch', (event) => {
     event.respondWith(
-        fetch(event.request).catch(function() {
-            return caches.match(event.request).then(function(response) {
-                // オフライン時に見つからなければ、強制的に暗記アプリの画面を出す
-                return response || caches.match('index.html');
-            });
-        })
+        fetch(event.request).catch(() => caches.match(event.request))
     );
 });
