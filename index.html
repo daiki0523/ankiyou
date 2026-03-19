@@ -4,11 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>暗記アプリ</title>
+    
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#333333">
+    <link rel="apple-touch-icon" href="https://img.icons8.com/fluency/192/door.png">
+    
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <div id="app-container">
+    <div style="text-align: right; padding-right: 10px;">
+        <button id="theme-toggle" onclick="toggleTheme()" style="background:none; border:none; font-size:28px; cursor:pointer;">🌙</button>
+    </div>
+
     <div id="home-screen">
         <h1 class="main-title">暗記</h1>
         <div class="menu-grid">
@@ -73,5 +82,17 @@
 
 <script src="data.js"></script>
 <script src="script.js"></script>
+
+<script>
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+            navigator.serviceWorker.register('./sw.js').then(function(registration) {
+                console.log('アプリ化成功！');
+            }, function(err) {
+                console.log('アプリ化失敗: ', err);
+            });
+        });
+    }
+</script>
 </body>
 </html>
