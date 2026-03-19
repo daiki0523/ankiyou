@@ -148,14 +148,14 @@ function showResult() {
     document.getElementById('result-screen').classList.remove('hidden');
 
     const listContainer = document.getElementById('wrong-list');
-    const retestBtn = document.getElementById('retest-btn'); // 🌟 再テストボタンを取得
+    const retestBtn = document.getElementById('retest-btn');
     listContainer.innerHTML = ""; 
 
     if (wrongAnswers.length === 0) {
         listContainer.innerHTML = "<div style='text-align:center; padding: 20px; font-weight:bold;'>全問ノーヒントクリア！<br>素晴らしい！🎉</div>";
-        retestBtn.classList.add('hidden'); // 🌟 全問正解なら再テストボタンを隠す
+        retestBtn.classList.add('hidden');
     } else {
-        retestBtn.classList.remove('hidden'); // 🌟 間違えた問題があれば再テストボタンを表示
+        retestBtn.classList.remove('hidden');
         wrongAnswers.forEach(item => {
             const div = document.createElement('div');
             div.className = 'wrong-item';
@@ -165,19 +165,13 @@ function showResult() {
     }
 }
 
-// 🌟 新追加：間違えた問題だけで再テストする機能
 function startRetest() {
-    // 現在のクイズデータを、間違えた問題のリストに置き換える
     currentQuizData = [...wrongAnswers];
-    
-    // 再テストでは順番で覚えるのを防ぐため、強制的にシャッフルする
     currentQuizData.sort(() => Math.random() - 0.5);
     
-    // クイズの進行状態をリセット
     currentIndex = 0;
-    wrongAnswers = []; // 今回の再テスト用に間違えリストを空にする
+    wrongAnswers = [];
     
-    // 画面を切り替えてクイズ再開！
     document.getElementById('result-screen').classList.add('hidden');
     document.getElementById('quiz-screen').classList.remove('hidden');
     showQuestion();
