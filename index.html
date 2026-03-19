@@ -62,7 +62,12 @@
     <div id="result-screen" class="hidden">
         <h2 class="result-title">復習リスト📝</h2>
         <div id="wrong-list" class="wrong-list-box"></div>
-        <button class="menu-btn" style="margin-top: 20px; width: 100%;" onclick="showHome()">ホームに戻る</button>
+        
+        <button id="retest-btn" class="menu-btn hidden" style="margin-top: 20px; width: 100%; background-color: #ff8c00; color: #fff; border: none; font-size: 18px;" onclick="startRetest()">
+            間違えた問題だけで再テスト！
+        </button>
+        
+        <button class="menu-btn" style="margin-top: 10px; width: 100%;" onclick="showHome()">ホームに戻る</button>
     </div>
 </div>
 
