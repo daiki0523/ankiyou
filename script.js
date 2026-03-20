@@ -5,6 +5,12 @@ let lastClickTime = 0;
 let wrongAnswers = []; 
 let selectedGenre = "";
 
+// 🌟 スワイプ用の変数
+let touchStartX = 0;
+let touchEndX = 0;
+let touchStartY = 0;
+let touchEndY = 0;
+
 function getImageUrl(fileName) {
     if (!fileName) return "";
     const name = encodeURIComponent(fileName.trim().replace(/\s/g, '_'));
@@ -133,13 +139,19 @@ function nextQuestion() {
     }
 }
 
+// 🌟 答え表示後でも左スワイプで間違えたリストに入れられるように改良
 function useHint() { 
+    const currentItem = currentQuizData[currentIndex];
+    if (!wrongAnswers.includes(currentItem)) {
+        wrongAnswers.push(currentItem);
+    }
+    
     if (!isAnswerShowing) {
-        const currentItem = currentQuizData[currentIndex];
-        if (!wrongAnswers.includes(currentItem)) {
-            wrongAnswers.push(currentItem);
-        }
-        handleTouch(); 
+        isAnswerShowing = true;
+        document.getElementById('answer-text').classList.remove('hidden');
+        lastClickTime = Date.now();
+    } else {
+        nextQuestion();
     }
 }
 
@@ -177,4 +189,48 @@ function startRetest() {
     showQuestion();
 }
 
-window.onload = showHome;
+// 🌟 スワイプ操作の判定ロジック
+function handleSwipe() {
+    const diffX = touchEndX - touchStartX;
+    const diffY = touchEndY - touchStartY;
+    
+    // 縦スクロールだった場合はスワイプ判定しない
+    if (Math.abs(diffY) > Math.abs(diffX)) {
+        return; 
+    }
+
+    // 横に50px以上動かしたらスワイプと判定
+    if (Math.abs(diffX) > 50) { 
+        lastClickTime = Date.now(); // タップの二重発火を防ぐ
+        
+        if (diffX > 0) {
+            // 👉 右スワイプ （次へ・正解）
+            if (!isAnswerShowing) {
+                isAnswerShowing = true;
+                document.getElementById('answer-text').classList.remove('hidden');
+            } else {
+                nextQuestion();
+            }
+        } else {
+            // 👈 左スワイプ （ヒント・復習リストに追加して次へ）
+            useHint();
+        }
+    }
+}
+
+window.onload = () => {
+    showHome();
+    
+    // 🌟 スマホ用のスワイプイベントをカード部分に登録
+    const problemArea = document.getElementById('problem-area');
+    problemArea.addEventListener('touchstart', e => {
+        touchStartX = e.changedTouches[0].screenX;
+        touchStartY = e.changedTouches[0].screenY;
+    }, {passive: true});
+
+    problemArea.addEventListener('touchend', e => {
+        touchEndX = e.changedTouches[0].screenX;
+        touchEndY = e.changedTouches[0].screenY;
+        handleSwipe();
+    }, {passive: true});
+};
