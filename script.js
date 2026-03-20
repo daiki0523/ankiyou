@@ -5,11 +5,10 @@ let lastClickTime = 0;
 let wrongAnswers = []; 
 let selectedGenre = "";
 
-// 🌟 スワイプ用の変数
+// 🌟 スワイプアニメーション用の変数
 let touchStartX = 0;
-let touchEndX = 0;
-let touchStartY = 0;
-let touchEndY = 0;
+let touchCurrentX = 0;
+let isAnimating = false;
 
 function getImageUrl(fileName) {
     if (!fileName) return "";
@@ -76,12 +75,22 @@ function startQuizMode(isRandom) {
 
 function showQuestion() {
     isAnswerShowing = false;
+    isAnimating = false;
     const item = currentQuizData[currentIndex];
     const imgEl = document.getElementById('question-img');
     const stateEl = document.getElementById('state-name-display');
     const ansEl = document.getElementById('answer-text');
     const fallbackEl = document.getElementById('fallback-text');
     const labelEl = document.getElementById('question-label');
+    const problemArea = document.getElementById('problem-area');
+
+    // 🌟 カードの位置とデザインを完全にリセット
+    problemArea.className = 'problem-area-box reset-position';
+    // transitionを無効にしてからリセットし、一瞬待ってからtransitionを戻す
+    setTimeout(() => {
+        problemArea.classList.remove('reset-position');
+        problemArea.style.transform = '';
+    }, 10);
 
     document.getElementById('counter').textContent = `${currentIndex + 1} / ${currentQuizData.length}`;
 
@@ -118,15 +127,14 @@ function showQuestion() {
 }
 
 function handleTouch() {
-    const now = Date.now();
-    if (now - lastClickTime < 300) return;
-    lastClickTime = now;
-
-    if (!isAnswerShowing) {
+    if (isAnimating || isAnswerShowing) {
+        const now = Date.now();
+        if (now - lastClickTime < 300) return;
+        lastClickTime = now;
+        nextQuestion();
+    } else {
         isAnswerShowing = true;
         document.getElementById('answer-text').classList.remove('hidden');
-    } else {
-        nextQuestion();
     }
 }
 
@@ -139,7 +147,6 @@ function nextQuestion() {
     }
 }
 
-// 🌟 答え表示後でも左スワイプで間違えたリストに入れられるように改良
 function useHint() { 
     const currentItem = currentQuizData[currentIndex];
     if (!wrongAnswers.includes(currentItem)) {
@@ -189,48 +196,86 @@ function startRetest() {
     showQuestion();
 }
 
-// 🌟 スワイプ操作の判定ロジック
-function handleSwipe() {
-    const diffX = touchEndX - touchStartX;
-    const diffY = touchEndY - touchStartY;
+// 🌟 カードを画面外に飛ばして次の問題へ
+function flyOutCard(direction) {
+    if (isAnimating) return;
+    isAnimating = true;
+    const problemArea = document.getElementById('problem-area');
     
-    // 縦スクロールだった場合はスワイプ判定しない
-    if (Math.abs(diffY) > Math.abs(diffX)) {
-        return; 
-    }
+    // アニメーション用クラスを追加
+    problemArea.classList.add(direction === 'right' ? 'card-out-right' : 'card-out-left');
 
-    // 横に50px以上動かしたらスワイプと判定
-    if (Math.abs(diffX) > 50) { 
-        lastClickTime = Date.now(); // タップの二重発火を防ぐ
-        
-        if (diffX > 0) {
-            // 👉 右スワイプ （次へ・正解）
+    // アニメーション完了後にロジックを実行
+    setTimeout(() => {
+        if (direction === 'left') {
+            useHint(); // 左スワイプは「間違えた」
+        } else {
             if (!isAnswerShowing) {
                 isAnswerShowing = true;
                 document.getElementById('answer-text').classList.remove('hidden');
+                setTimeout(nextQuestion, 100); // 答えを見せてから次へ（ちょっと待つ）
             } else {
-                nextQuestion();
+                nextQuestion(); // すでに答えが出ていればそのまま次へ
             }
-        } else {
-            // 👈 左スワイプ （ヒント・復習リストに追加して次へ）
-            useHint();
         }
-    }
+    }, 300); // CSSのtransitionと同じ時間
 }
 
 window.onload = () => {
     showHome();
     
-    // 🌟 スマホ用のスワイプイベントをカード部分に登録
+    // 🌟 カードのスワイプイベント
     const problemArea = document.getElementById('problem-area');
+    const threshold = 100; // 画面外に飛ばす判定距離(px)
+
     problemArea.addEventListener('touchstart', e => {
-        touchStartX = e.changedTouches[0].screenX;
-        touchStartY = e.changedTouches[0].screenY;
+        if (isAnimating) return;
+        touchStartX = e.changedTouches[0].clientX;
+        touchCurrentX = touchStartX;
+        problemArea.style.transition = 'none'; // 動かしている間はtransitionを切る
+    }, {passive: true});
+
+    problemArea.addEventListener('touchmove', e => {
+        if (isAnimating || isAnswerShowing) return; // 答え表示後やアニメ中は動かさない
+        touchCurrentX = e.changedTouches[0].clientX;
+        const diffX = touchCurrentX - touchStartX;
+        
+        // カードを指に合わせて回転させながら動かす
+        const rotate = diffX * 0.05; // 回転角度の調整
+        problemArea.style.transform = `translate(${diffX}px, 0) rotate(${rotate}deg)`;
+
+        // 🌟 背景色のフィードバック
+        if (diffX > 50) {
+            problemArea.classList.add('swiping-right');
+            problemArea.classList.remove('swiping-left');
+        } else if (diffX < -50) {
+            problemArea.classList.add('swiping-left');
+            problemArea.classList.remove('swiping-right');
+        } else {
+            problemArea.classList.remove('swiping-right', 'swiping-left');
+        }
     }, {passive: true});
 
     problemArea.addEventListener('touchend', e => {
-        touchEndX = e.changedTouches[0].screenX;
-        touchEndY = e.changedTouches[0].screenY;
-        handleSwipe();
-    }, {passive: true});
+        if (isAnimating) return;
+        touchCurrentX = e.changedTouches[0].clientX;
+        const diffX = touchCurrentX - touchStartX;
+
+        // transitionを戻す
+        problemArea.style.transition = '';
+        problemArea.classList.remove('swiping-right', 'swiping-left');
+
+        // 🌟 スワイプの判定
+        if (Math.abs(diffX) > threshold) {
+            // 十分動かしたので飛ばす
+            flyOutCard(diffX > 0 ? 'right' : 'left');
+        } else {
+            // 動かし方が足りないので、真ん中に戻す
+            problemArea.style.transform = '';
+            // タップ判定 (動きがほとんどない場合)
+            if (Math.abs(diffX) < 10) {
+                handleTouch();
+            }
+        }
+    });
 };
