@@ -1,4 +1,5 @@
-const CACHE_NAME = 'anki-v4';
+// 🌟 バージョンを v6 に変更
+const CACHE_NAME = 'anki-v6';
 const urlsToCache = [
     './index.html',
     './style.css',
@@ -26,6 +27,7 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
+    // 常に最新版をネットから取りに行き、圏外の時だけ保存データを使う
     event.respondWith(
         fetch(event.request).catch(() => caches.match(event.request))
     );
