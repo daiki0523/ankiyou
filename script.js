@@ -77,7 +77,6 @@ function selectSubGenre(subType) {
     else document.getElementById('mode-screen').classList.remove('hidden');
 }
 
-// 🌟 首都の問題に国旗画像を合体させる便利関数
 function attachFlagImage(dataArray) {
     if (typeof worldFlagData === 'undefined') return dataArray;
     return dataArray.map(item => {
@@ -132,9 +131,7 @@ function startReviewQuiz() {
         return;
     }
     
-    // 🌟 復習のときも画像をしっかり合体させる
     targets = attachFlagImage(targets);
-    
     currentQuizData = [...targets];
     currentQuizData.sort(() => Math.random() - 0.5);
     currentIndex = 0;
@@ -172,10 +169,7 @@ function startQuizMode(isRandom) {
     }
 
     currentQuizData = rawData.map(item => ({...item, genre: type}));
-    
-    // 🌟 首都データに国旗の画像データをくっつける処理を実行！
     currentQuizData = attachFlagImage(currentQuizData);
-
     if (isRandom) currentQuizData.sort(() => Math.random() - 0.5);
 
     currentIndex = 0;
@@ -213,16 +207,28 @@ function showQuestion() {
     };
     labelEl.textContent = labels[item.genre] || "答えは何？";
     
-    // 首都の場合は国名を表示
     stateEl.textContent = (item.genre === 'constellation' || item.genre === 'worldflag') ? "" : (item.q || "");
 
-    // 🌟 画像の表示処理（すごくシンプルになりました）
-    if (item.img && item.img !== "") {
-        imgEl.src = getImageUrl(item.img);
+    let displayImgUrl = getImageUrl(item.img); 
+    if (item.genre === 'capital') {
+        const flagItem = typeof worldFlagData !== 'undefined' ? worldFlagData.find(f => f.q === item.q) : null;
+        if (flagItem && flagItem.img) displayImgUrl = getImageUrl(flagItem.img);
+    }
+
+    // 🌟 画像の残像（チラつき）を防ぐ完璧な処理！
+    if (displayImgUrl && displayImgUrl !== getImageUrl("")) {
+        imgEl.style.visibility = 'hidden'; // 前の画像を一旦透明にして隠す
+        
+        imgEl.onload = () => {
+            imgEl.style.visibility = 'visible'; // 新しい画像が準備できたらパッと表示する
+        };
+        
+        imgEl.src = displayImgUrl; // 新しい画像のダウンロード開始
         imgEl.classList.remove('hidden');
         fallbackEl.classList.add('hidden');
     } else {
         imgEl.classList.add('hidden');
+        imgEl.style.visibility = 'visible'; // 念のため表示状態をリセット
         if (item.genre !== 'flag' && item.genre !== 'worldflag' && item.genre !== 'capital') {
             fallbackEl.textContent = item.q || "";
             fallbackEl.classList.remove('hidden');
