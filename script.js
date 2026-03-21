@@ -9,6 +9,10 @@ let selectedSubGenre = "all";
 let savedMistakes = JSON.parse(localStorage.getItem('anki_mistakes')) || [];
 let isReviewMode = false;
 
+// 🌟 スマホの記憶から振動のON/OFF状態を読み込む（最初はON）
+let isVibeEnabled = JSON.parse(localStorage.getItem('anki_vibe_setting'));
+if (isVibeEnabled === null) isVibeEnabled = true;
+
 let touchStartX = 0;
 let touchCurrentX = 0;
 let isAnimating = false;
@@ -33,6 +37,33 @@ allQuizData.forEach(item => {
     }
 });
 
+// 🌟 振動ボタンの見た目を更新する機能
+function updateVibeBtnUI() {
+    const btn = document.getElementById('vibe-toggle-btn');
+    if (!btn) return;
+    if (isVibeEnabled) {
+        btn.textContent = "📳 振動: ON";
+        btn.style.background = "#e0f7fa";
+        btn.style.borderColor = "#00bcd4";
+    } else {
+        btn.textContent = "📴 振動: OFF";
+        btn.style.background = "#f5f5f5";
+        btn.style.borderColor = "#ccc";
+    }
+}
+
+// 🌟 振動ボタンを押した時の機能
+function toggleVibration() {
+    isVibeEnabled = !isVibeEnabled;
+    localStorage.setItem('anki_vibe_setting', JSON.stringify(isVibeEnabled));
+    updateVibeBtnUI();
+    
+    // ONにした時だけ「ブルッ」とお試し振動させる
+    if (isVibeEnabled && navigator.vibrate) {
+        navigator.vibrate(50);
+    }
+}
+
 function showHome() {
     document.getElementById('home-screen').classList.remove('hidden');
     document.getElementById('subgenre-screen').classList.add('hidden');
@@ -40,6 +71,7 @@ function showHome() {
     document.getElementById('review-start-screen').classList.add('hidden');
     document.getElementById('quiz-screen').classList.add('hidden');
     document.getElementById('result-screen').classList.add('hidden');
+    updateVibeBtnUI(); // 🌟 ホーム画面を開いた時にボタンの色を合わせる
 }
 
 function setReviewMode(isReview) {
@@ -201,10 +233,8 @@ function showQuestion() {
 
     document.getElementById('counter').textContent = `${currentIndex + 1} / ${currentQuizData.length}`;
 
-    // 🌟 ここでプログレスバーを伸ばします！
     const progressFill = document.getElementById('progress-fill');
     if (progressFill && currentQuizData.length > 0) {
-        // 現在の問題数 ÷ 全問題数 × 100 でパーセンテージを計算
         const percent = ((currentIndex + 1) / currentQuizData.length) * 100;
         progressFill.style.width = `${percent}%`;
     }
@@ -303,22 +333,21 @@ function showResult() {
     }
 }
 
-function startRetest() {
-    currentQuizData = [...wrongAnswers];
-    currentQuizData.sort(() => Math.random() - 0.5);
-    currentIndex = 0;
-    wrongAnswers = [];
-    document.getElementById('result-screen').classList.add('hidden');
-    document.getElementById('quiz-screen').classList.remove('hidden');
-    showQuestion();
-}
-
 function flyOutCard(direction) {
     if (isAnimating) return;
     isAnimating = true;
     const problemArea = document.getElementById('problem-area');
     
     problemArea.classList.add(direction === 'right' ? 'card-out-right' : 'card-out-left');
+
+    // 🌟 振動の機能を発動！
+    if (isVibeEnabled && navigator.vibrate) {
+        if (direction === 'right') {
+            navigator.vibrate(40); // 正解は短く「コッ」
+        } else {
+            navigator.vibrate([40, 60, 40]); // 間違いは「ブルブルッ」と強め
+        }
+    }
 
     setTimeout(() => {
         const currentItem = currentQuizData[currentIndex];
