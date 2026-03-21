@@ -6,8 +6,9 @@ let wrongAnswers = [];
 let selectedGenre = "";
 let selectedSubGenre = "all";
 
+// 🌟 スマホの記憶（LocalStorage）から間違えた問題リストを呼び出す
 let savedMistakes = JSON.parse(localStorage.getItem('anki_mistakes')) || [];
-let isReviewMode = false;
+let isReviewMode = false; // 復習モードかどうかの判定
 
 let touchStartX = 0;
 let touchCurrentX = 0;
@@ -19,7 +20,7 @@ function getImageUrl(fileName) {
     return "https://commons.wikimedia.org/wiki/Special:FilePath/" + name + "?width=500";
 }
 
-// 🌟 首都（capitalData）も読み込めるように追加
+// 🌟 capitalData も読み込めるように追加
 const allQuizData = [
     typeof flagData !== 'undefined' ? flagData : [],
     typeof constellationData !== 'undefined' ? constellationData : [],
@@ -43,6 +44,7 @@ function showHome() {
     document.getElementById('result-screen').classList.add('hidden');
 }
 
+// 🌟 モード切替の処理
 function setReviewMode(isReview) {
     isReviewMode = isReview;
     if(isReviewMode) {
@@ -63,22 +65,27 @@ function selectGenre(type) {
     selectedSubGenre = "all"; 
     document.getElementById('home-screen').classList.add('hidden');
 
-    // 🌟 国旗か「首都」のときは地域選択へ寄り道！
+    // 🌟 国旗（worldflag）か「首都（capital）」を選んだ時だけ、地域選択ページへ寄り道する！
     if (type === 'worldflag' || type === 'capital') {
         document.getElementById('subgenre-screen').classList.remove('hidden');
     } else {
+        // それ以外は通常通り出題形式ページまたは復習専用画面へ
         if (isReviewMode) showReviewStartScreen();
         else document.getElementById('mode-screen').classList.remove('hidden');
     }
 }
 
+// 🌟 追加：地域を選んだあとの処理
 function selectSubGenre(subType) {
-    selectedSubGenre = subType;
+    selectedSubGenre = subType; // アジア、ヨーロッパなどを記憶
     document.getElementById('subgenre-screen').classList.add('hidden');
+    
+    // 🌟 復習モードなら専用画面へ、通常なら出題形式へ
     if (isReviewMode) showReviewStartScreen();
     else document.getElementById('mode-screen').classList.remove('hidden');
 }
 
+// 🌟 対象の復習問題を抽出する処理
 function getReviewTarget() {
     return savedMistakes.filter(item => {
         if (item.genre !== selectedGenre) return false;
@@ -90,12 +97,14 @@ function getReviewTarget() {
     });
 }
 
+// 🌟 復習スタート画面の表示
 function showReviewStartScreen() {
     const targets = getReviewTarget();
     document.getElementById('review-count-text').textContent = `対象：${targets.length}問`;
     document.getElementById('review-start-screen').classList.remove('hidden');
 }
 
+// 🌟 ゴミ箱ボタン（手動リセット）の処理
 function resetReviewList() {
     const confirmReset = confirm("このジャンルの復習リストを空にしますか？");
     if (!confirmReset) return;
@@ -114,6 +123,7 @@ function resetReviewList() {
     alert("リセットしました！✨");
 }
 
+// 🌟 復習クイズを開始する処理
 function startReviewQuiz() {
     const targets = getReviewTarget();
     if (targets.length === 0) {
@@ -121,7 +131,7 @@ function startReviewQuiz() {
         return;
     }
     currentQuizData = [...targets];
-    currentQuizData.sort(() => Math.random() - 0.5);
+    currentQuizData.sort(() => Math.random() - 0.5); // 復習はランダム
     currentIndex = 0;
     wrongAnswers = [];
     
@@ -189,34 +199,54 @@ function showQuestion() {
 
     document.getElementById('counter').textContent = `${currentIndex + 1} / ${currentQuizData.length}`;
 
-    // 🌟 首都のラベルを追加
+    // 🌟 1. ラベル設定
     const labels = {
         flag: "この州の州都は？", constellation: "この星座の名前は？", element: "この原子番号の元素名は？", president: "この代の大統領は？", olympic: "この年の開催地は？", mountain: "この山の名前は？", morse: "この信号の意味は？", yamanote: "この駅名は？", worldflag: "この国旗の国名は？",
-        capital: "この国の首都は？"
+        capital: "この国の首都は？" // 首都クイズ（国旗画像＋国名 -> 首都）
     };
     labelEl.textContent = labels[item.genre] || "答えは何？";
-    
-    // 首都の場合はテキストを大きく表示するため stateEl ではなく fallbackEl に任せる
-    stateEl.textContent = (item.genre === 'constellation' || item.genre === 'worldflag' || item.genre === 'capital') ? "" : (item.q || "");
 
-    if (item.img && item.img !== "") {
-        imgEl.src = getImageUrl(item.img);
+    // 🌟 2. 国名/州名テキスト設定 (state-name-display エレメント)
+    // 首都クイズ（'capital'）でも国名を表示するように変更（除外）
+    stateEl.textContent = (item.genre === 'constellation' || item.genre === 'worldflag') ? "" : (item.q || "");
+    
+    // 🌟 3. 画像取得処理
+    let displayImgUrl = getImageUrl(item.img); // 基本の画像URL (capitalDataには画像がない)
+
+    // 🌟 3-a. 首都クイズの場合の画像取得処理を追加
+    if (item.genre === 'capital') {
+        // capitalData には画像がないので、worldFlagData から探す
+        // worldFlagData は data.js で定義されている前提。
+        const flagItem = typeof worldFlagData !== 'undefined' ? worldFlagData.find(f => f.q === item.q) : null;
+        if (flagItem && flagItem.img) {
+            displayImgUrl = getImageUrl(flagItem.img);
+        }
+    }
+
+    // 🌟 4. 画像とFallbackテキストの表示切り替え
+    // displayImgUrl が有効な場合
+    if (displayImgUrl && displayImgUrl !== getImageUrl("")) {
+        imgEl.src = displayImgUrl;
         imgEl.classList.remove('hidden');
-        fallbackEl.classList.add('hidden');
+        fallbackEl.classList.add('hidden'); // 画像がある場合はテキストを隠す
     } else {
+        // 画像がない場合
         imgEl.classList.add('hidden');
-        if (item.genre !== 'flag' && item.genre !== 'worldflag') {
-            fallbackEl.textContent = item.q || "";
+        // 'flag' (州都) または 'worldflag' (国旗) または 'capital' (首都) のときはFallbackを表示しない（州都、国旗は画像必須、首都は画像付きになったが、画像がなくても国名が stateEl に出ている）
+        if (item.genre !== 'flag' && item.genre !== 'worldflag' && item.genre !== 'capital') {
+            fallbackEl.textContent = item.q || ""; // 星座など、テキストだけのクイズ用
             fallbackEl.classList.remove('hidden');
         } else {
             fallbackEl.classList.add('hidden');
         }
     }
 
+    // 答えテキスト設定
     ansEl.textContent = item.a || "データなし";
     ansEl.classList.add('hidden');
 }
 
+// 🌟 スマホの記憶に保存する処理
 function saveMistake(item) {
     const exists = savedMistakes.find(m => m.a === item.a && m.genre === item.genre);
     if (!exists) {
@@ -225,6 +255,7 @@ function saveMistake(item) {
     }
 }
 
+// 🌟 スマホの記憶から完全に消す処理（覚えた！）
 function removeMistake(item) {
     savedMistakes = savedMistakes.filter(m => !(m.a === item.a && m.genre === item.genre));
     localStorage.setItem('anki_mistakes', JSON.stringify(savedMistakes));
@@ -240,6 +271,8 @@ function handleTouch() {
         const now = Date.now();
         if (now - lastClickTime < 300) return;
         lastClickTime = now;
+        
+        // タップで次へ進んだ場合も「右スワイプ(正解)」と同じ扱いにして消す
         if (isReviewMode) removeMistake(currentQuizData[currentIndex]);
         nextQuestion();
     }
@@ -247,13 +280,17 @@ function handleTouch() {
 
 function nextQuestion() {
     currentIndex++;
-    if (currentIndex < currentQuizData.length) showQuestion();
-    else showResult(); 
+    if (currentIndex < currentQuizData.length) {
+        showQuestion();
+    } else {
+        showResult(); 
+    }
 }
 
 function showResult() {
     document.getElementById('quiz-screen').classList.add('hidden');
     document.getElementById('result-screen').classList.remove('hidden');
+
     const listContainer = document.getElementById('wrong-list');
     const retestBtn = document.getElementById('retest-btn');
     listContainer.innerHTML = ""; 
@@ -292,10 +329,16 @@ function flyOutCard(direction) {
     setTimeout(() => {
         const currentItem = currentQuizData[currentIndex];
         if (direction === 'left') {
-            if (!wrongAnswers.includes(currentItem)) wrongAnswers.push(currentItem);
+            if (!wrongAnswers.includes(currentItem)) {
+                wrongAnswers.push(currentItem);
+            }
+            // 🌟 左スワイプ（間違えた）したらスマホに記憶！
             saveMistake(currentItem);
         } else {
-            if (isReviewMode) removeMistake(currentItem);
+            // 🌟 復習モード中に右スワイプ（覚えた）したらリストから消去！
+            if (isReviewMode) {
+                removeMistake(currentItem);
+            }
         }
         nextQuestion(); 
     }, 300);
@@ -303,6 +346,7 @@ function flyOutCard(direction) {
 
 window.onload = () => {
     showHome();
+    
     const problemArea = document.getElementById('problem-area');
     const threshold = 100;
 
@@ -317,6 +361,7 @@ window.onload = () => {
         if (isAnimating) return;
         touchCurrentX = e.changedTouches[0].clientX;
         const diffX = touchCurrentX - touchStartX;
+        
         const rotate = diffX * 0.05;
         problemArea.style.transform = `translate(${diffX}px, 0) rotate(${rotate}deg)`;
 
@@ -343,7 +388,9 @@ window.onload = () => {
             flyOutCard(diffX > 0 ? 'right' : 'left');
         } else {
             problemArea.style.transform = 'translate(0px, 0px) rotate(0deg)';
-            if (Math.abs(diffX) < 10) handleTouch();
+            if (Math.abs(diffX) < 10) {
+                handleTouch();
+            }
         }
     });
 };
