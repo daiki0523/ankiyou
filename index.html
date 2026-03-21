@@ -9,13 +9,19 @@
     <meta name="theme-color" content="#333333">
     <link rel="apple-touch-icon" href="https://img.icons8.com/fluency/192/door.png">
     
-    <link rel="stylesheet" href="style.css?v=world2">
+    <link rel="stylesheet" href="style.css?v=review1">
 </head>
 <body>
 
 <div id="app-container">
     <div id="home-screen">
         <h1 class="main-title">暗記</h1>
+        
+        <div style="display: flex; justify-content: center; gap: 10px; margin-bottom: 20px;">
+            <button id="normal-mode-btn" class="menu-btn" style="background: #333; color: #fff; width: 45%;" onclick="setReviewMode(false)">通常モード</button>
+            <button id="review-mode-btn" class="menu-btn" style="background: #fff; color: #333; width: 45%;" onclick="setReviewMode(true)">復習モード🔥</button>
+        </div>
+
         <div class="menu-grid">
             <button class="menu-btn" onclick="selectGenre('flag')">州都🇺🇸</button>
             <button class="menu-btn" onclick="selectGenre('constellation')">８８星座🌌</button>
@@ -46,6 +52,16 @@
         <button class="menu-btn" style="margin-top: 20px; width: 100%;" onclick="showHome()">ホームに戻る</button>
     </div>
 
+    <div id="review-start-screen" class="hidden" style="display: flex; flex-direction: column; align-items: center; width: 100%; padding-top: 30px;">
+        <h2 class="result-title">復習モード🔥</h2>
+        <p id="review-count-text" style="font-size: 24px; font-weight: bold; margin: 20px 0; color: #d32f2f;">対象：0問</p>
+        <div class="menu-grid" style="width: 100%; margin-top: 20px;">
+            <button class="menu-btn" style="background-color: #ff9800; color: #fff; border:none;" onclick="startReviewQuiz()">スタート！</button>
+            <button class="menu-btn" style="background-color: #f44336; color: #fff; border:none;" onclick="resetReviewList()">リセット🗑️</button>
+        </div>
+        <button class="menu-btn" style="margin-top: 40px; width: 100%;" onclick="showHome()">ホームに戻る</button>
+    </div>
+
     <div id="mode-screen" class="hidden">
         <h2 class="result-title">出題形式</h2>
         <div class="menu-grid" style="margin-top: 30px;">
@@ -62,17 +78,13 @@
                 <img src="https://img.icons8.com/fluency/48/door.png" alt="home"/>
             </button>
         </div>
-
         <div id="question-label" class="question-label-box">B</div> 
-
         <div id="problem-area" class="problem-area-box" onclick="handleTouch()">
             <div id="state-name-display">E</div> 
-            
             <div class="image-container">
                 <img id="question-img" src="" class="hidden"> 
                 <div id="fallback-text" class="hidden">A</div> 
             </div>
-
             <div id="answer-text" class="hidden">D</div> 
         </div>
     </div>
@@ -80,17 +92,15 @@
     <div id="result-screen" class="hidden">
         <h2 class="result-title">復習リスト📝</h2>
         <div id="wrong-list" class="wrong-list-box"></div>
-        
         <button id="retest-btn" class="menu-btn hidden" style="margin-top: 20px; width: 100%; background-color: #ff8c00; color: #fff; border: none; font-size: 18px;" onclick="startRetest()">
             間違えた問題だけで再テスト！
         </button>
-        
         <button class="menu-btn" style="margin-top: 10px; width: 100%;" onclick="showHome()">ホームに戻る</button>
     </div>
 </div>
 
-<script src="data.js?v=world2"></script>
-<script src="script.js?v=world2"></script>
+<script src="data.js?v=review1"></script>
+<script src="script.js?v=review1"></script>
 
 <script>
     if ('serviceWorker' in navigator) {
