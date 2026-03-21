@@ -9,9 +9,11 @@ let selectedSubGenre = "all";
 let savedMistakes = JSON.parse(localStorage.getItem('anki_mistakes')) || [];
 let isReviewMode = false;
 
-// 🌟 スマホの記憶から振動のON/OFF状態を読み込む（最初はON）
 let isVibeEnabled = JSON.parse(localStorage.getItem('anki_vibe_setting'));
 if (isVibeEnabled === null) isVibeEnabled = true;
+
+// 🌟 ダークモードの設定を読み込む
+let isDarkMode = JSON.parse(localStorage.getItem('anki_dark_mode')) || false;
 
 let touchStartX = 0;
 let touchCurrentX = 0;
@@ -37,30 +39,82 @@ allQuizData.forEach(item => {
     }
 });
 
-// 🌟 振動ボタンの見た目を更新する機能
 function updateVibeBtnUI() {
     const btn = document.getElementById('vibe-toggle-btn');
     if (!btn) return;
     if (isVibeEnabled) {
         btn.textContent = "📳 振動: ON";
-        btn.style.background = "#e0f7fa";
+        btn.style.background = isDarkMode ? "#006064" : "#e0f7fa";
+        btn.style.color = isDarkMode ? "#fff" : "#333";
         btn.style.borderColor = "#00bcd4";
     } else {
         btn.textContent = "📴 振動: OFF";
-        btn.style.background = "#f5f5f5";
-        btn.style.borderColor = "#ccc";
+        btn.style.background = isDarkMode ? "#333" : "#f5f5f5";
+        btn.style.color = isDarkMode ? "#ccc" : "#333";
+        btn.style.borderColor = isDarkMode ? "#555" : "#ccc";
     }
 }
 
-// 🌟 振動ボタンを押した時の機能
 function toggleVibration() {
     isVibeEnabled = !isVibeEnabled;
     localStorage.setItem('anki_vibe_setting', JSON.stringify(isVibeEnabled));
     updateVibeBtnUI();
+    if (isVibeEnabled && navigator.vibrate) navigator.vibrate(50);
+}
+
+// 🌟 ダークモードの見た目を適用する処理
+function applyDarkMode() {
+    const btn = document.getElementById('dark-toggle-btn');
+    if (isDarkMode) {
+        document.body.classList.add('dark-mode');
+        if(btn) {
+            btn.textContent = "☀️ ライト";
+            btn.style.background = "#333";
+            btn.style.color = "#fff";
+            btn.style.borderColor = "#555";
+        }
+    } else {
+        document.body.classList.remove('dark-mode');
+        if(btn) {
+            btn.textContent = "🌙 ダーク";
+            btn.style.background = "#fff";
+            btn.style.color = "#333";
+            btn.style.borderColor = "#ccc";
+        }
+    }
+    updateVibeBtnUI();
+    updateModeBtnUI();
+}
+
+// 🌟 ダークモードのON/OFFを切り替える処理
+function toggleDarkMode() {
+    isDarkMode = !isDarkMode;
+    localStorage.setItem('anki_dark_mode', JSON.stringify(isDarkMode));
+    applyDarkMode();
+}
+
+// 🌟 通常・復習ボタンの色をダークモードに合わせて自動調整
+function updateModeBtnUI() {
+    const normBtn = document.getElementById('normal-mode-btn');
+    const revBtn = document.getElementById('review-mode-btn');
+    if(!normBtn || !revBtn) return;
     
-    // ONにした時だけ「ブルッ」とお試し振動させる
-    if (isVibeEnabled && navigator.vibrate) {
-        navigator.vibrate(50);
+    if(isReviewMode) {
+        revBtn.style.background = '#ff9800';
+        revBtn.style.color = '#fff';
+        revBtn.style.borderColor = '#ff9800';
+        
+        normBtn.style.background = isDarkMode ? '#222' : '#fff';
+        normBtn.style.color = isDarkMode ? '#aaa' : '#333';
+        normBtn.style.borderColor = isDarkMode ? '#555' : '#ccc';
+    } else {
+        normBtn.style.background = isDarkMode ? '#555' : '#333';
+        normBtn.style.color = '#fff';
+        normBtn.style.borderColor = isDarkMode ? '#555' : '#333';
+        
+        revBtn.style.background = isDarkMode ? '#222' : '#fff';
+        revBtn.style.color = isDarkMode ? '#aaa' : '#333';
+        revBtn.style.borderColor = isDarkMode ? '#555' : '#ccc';
     }
 }
 
@@ -71,22 +125,12 @@ function showHome() {
     document.getElementById('review-start-screen').classList.add('hidden');
     document.getElementById('quiz-screen').classList.add('hidden');
     document.getElementById('result-screen').classList.add('hidden');
-    updateVibeBtnUI(); // 🌟 ホーム画面を開いた時にボタンの色を合わせる
+    updateModeBtnUI();
 }
 
 function setReviewMode(isReview) {
     isReviewMode = isReview;
-    if(isReviewMode) {
-        document.getElementById('review-mode-btn').style.background = '#ff9800';
-        document.getElementById('review-mode-btn').style.color = '#fff';
-        document.getElementById('normal-mode-btn').style.background = '#fff';
-        document.getElementById('normal-mode-btn').style.color = '#333';
-    } else {
-        document.getElementById('normal-mode-btn').style.background = '#333';
-        document.getElementById('normal-mode-btn').style.color = '#fff';
-        document.getElementById('review-mode-btn').style.background = '#fff';
-        document.getElementById('review-mode-btn').style.color = '#333';
-    }
+    updateModeBtnUI();
 }
 
 function selectGenre(type) {
@@ -333,6 +377,16 @@ function showResult() {
     }
 }
 
+function startRetest() {
+    currentQuizData = [...wrongAnswers];
+    currentQuizData.sort(() => Math.random() - 0.5);
+    currentIndex = 0;
+    wrongAnswers = [];
+    document.getElementById('result-screen').classList.add('hidden');
+    document.getElementById('quiz-screen').classList.remove('hidden');
+    showQuestion();
+}
+
 function flyOutCard(direction) {
     if (isAnimating) return;
     isAnimating = true;
@@ -340,12 +394,11 @@ function flyOutCard(direction) {
     
     problemArea.classList.add(direction === 'right' ? 'card-out-right' : 'card-out-left');
 
-    // 🌟 振動の機能を発動！
     if (isVibeEnabled && navigator.vibrate) {
         if (direction === 'right') {
-            navigator.vibrate(40); // 正解は短く「コッ」
+            navigator.vibrate(40); 
         } else {
-            navigator.vibrate([40, 60, 40]); // 間違いは「ブルブルッ」と強め
+            navigator.vibrate([40, 60, 40]); 
         }
     }
 
@@ -361,7 +414,9 @@ function flyOutCard(direction) {
     }, 300);
 }
 
+// 🌟 画面を開いた瞬間に、記憶していたダークモードを適用する！
 window.onload = () => {
+    applyDarkMode();
     showHome();
     const problemArea = document.getElementById('problem-area');
     const threshold = 100;
