@@ -9,7 +9,7 @@
     <meta name="theme-color" content="#333333">
     <link rel="apple-touch-icon" href="https://img.icons8.com/fluency/192/door.png">
     
-    <link rel="stylesheet" href="style.css?v=darkmode1">
+    <link rel="stylesheet" href="style.css?v=resume1">
 </head>
 <body>
 
@@ -25,6 +25,12 @@
         </div>
 
         <h1 class="main-title" style="margin-top: 0;">暗記</h1>
+
+        <div id="resume-container" class="hidden" style="margin-bottom: 20px;">
+            <button id="resume-btn" class="menu-btn" style="width: 100%; background-color: #4CAF50; color: white; border-color: #388E3C; font-size: 18px;" onclick="resumeQuiz()">
+                ▶️ 続きから再開
+            </button>
+        </div>
         
         <div style="display: flex; justify-content: center; gap: 10px; margin-bottom: 20px;">
             <button id="normal-mode-btn" class="menu-btn" style="width: 45%;" onclick="setReviewMode(false)">通常モード</button>
@@ -112,8 +118,8 @@
     </div>
 </div>
 
-<script src="data.js?v=darkmode1"></script>
-<script src="script.js?v=darkmode1"></script>
+<script src="data.js?v=resume1"></script>
+<script src="script.js?v=resume1"></script>
 
 <script>
     if ('serviceWorker' in navigator) {
