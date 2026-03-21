@@ -9,7 +9,7 @@
     <meta name="theme-color" content="#333333">
     <link rel="apple-touch-icon" href="https://img.icons8.com/fluency/192/door.png">
     
-    <link rel="stylesheet" href="style.css?v=swipe3">
+    <link rel="stylesheet" href="style.css?v=subgenre">
 </head>
 <body>
 
@@ -19,14 +19,25 @@
         <div class="menu-grid">
             <button class="menu-btn" onclick="selectGenre('flag')">州都🇺🇸</button>
             <button class="menu-btn" onclick="selectGenre('constellation')">８８星座🌌</button>
+            <button class="menu-btn" onclick="selectGenre('worldflag')">国旗🌎</button>
             <button class="menu-btn" onclick="selectGenre('element')">元素記号🧪</button>
             <button class="menu-btn" onclick="selectGenre('mountain')">8000m峰🏔️</button>
             <button class="menu-btn" onclick="selectGenre('olympic')">五輪開催地🏅</button>
             <button class="menu-btn" onclick="selectGenre('morse')">モールス信号📟</button>
-            <button class="menu-btn" onclick="selectGenre('president')">大統領🇺🇸</button>
             <button class="menu-btn" onclick="selectGenre('yamanote')">山手線🚃</button>
         </div>
         <div class="coming-soon">coming soon...</div>
+    </div>
+
+    <div id="subgenre-screen" class="hidden">
+        <h2 class="result-title">地域を選択🌎</h2>
+        <div class="menu-grid" style="margin-top: 30px;">
+            <button class="menu-btn" onclick="selectSubGenre('asia')">アジア</button>
+            <button class="menu-btn" onclick="selectSubGenre('europe')">ヨーロッパ</button>
+            <button class="menu-btn" onclick="selectSubGenre('africa')">アフリカ</button>
+            <button class="menu-btn" onclick="selectSubGenre('all')">ぜんぶ</button>
+        </div>
+        <button class="menu-btn" style="margin-top: 40px; width: 100%;" onclick="showHome()">ホームに戻る</button>
     </div>
 
     <div id="mode-screen" class="hidden">
@@ -58,8 +69,7 @@
 
             <div id="answer-text" class="hidden">D</div> 
         </div>
-        
-        </div>
+    </div>
 
     <div id="result-screen" class="hidden">
         <h2 class="result-title">復習リスト📝</h2>
@@ -73,8 +83,8 @@
     </div>
 </div>
 
-<script src="data.js?v=swipe3"></script>
-<script src="script.js?v=swipe3"></script>
+<script src="data.js?v=subgenre"></script>
+<script src="script.js?v=subgenre"></script>
 
 <script>
     if ('serviceWorker' in navigator) {
