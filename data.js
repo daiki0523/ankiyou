@@ -193,3 +193,17 @@ const yamanoteData = [
     { q: "JY11", a: "巣鴨", img: "" }, { q: "JY12", a: "大塚", img: "" }, { q: "JY13", a: "池袋", img: "" }, { q: "JY14", a: "目白", img: "" }, { q: "JY15", a: "高田馬場", img: "" }, { q: "JY16", a: "新大久保", img: "" }, { q: "JY17", a: "新宿", img: "" }, { q: "JY18", a: "代々木", img: "" }, { q: "JY19", a: "原宿", img: "" }, { q: "JY20", a: "渋谷", img: "" },
     { q: "JY21", a: "恵比寿", img: "" }, { q: "JY22", a: "目黒", img: "" }, { q: "JY23", a: "五反田", img: "" }, { q: "JY24", a: "大崎", img: "" }, { q: "JY25", a: "品川", img: "" }, { q: "JY26", a: "高輪ゲートウェイ", img: "" }, { q: "JY27", a: "田町", img: "" }, { q: "JY28", a: "浜松町", img: "" }, { q: "JY29", a: "新橋", img: "" }, { q: "JY30", a: "有楽町", img: "" }
 ];
+
+// 🌟 国旗データ（地域タグ付き）
+const worldFlagData = [
+    { q: "日本", a: "日本", img: "Flag_of_Japan.svg", region: "asia" },
+    { q: "韓国", a: "大韓民国", img: "Flag_of_South_Korea.svg", region: "asia" },
+    { q: "インド", a: "インド", img: "Flag_of_India.svg", region: "asia" },
+
+    { q: "イギリス", a: "イギリス", img: "Flag_of_the_United_Kingdom.svg", region: "europe" },
+    { q: "フランス", a: "フランス", img: "Flag_of_France.svg", region: "europe" },
+    { q: "ドイツ", a: "ドイツ", img: "Flag_of_Germany.svg", region: "europe" },
+
+    { q: "エジプト", a: "エジプト", img: "Flag_of_Egypt.svg", region: "africa" },
+    { q: "南アフリカ", a: "南アフリカ共和国", img: "Flag_of_South_Africa.svg", region: "africa" }
+];
