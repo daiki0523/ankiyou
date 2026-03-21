@@ -6,9 +6,8 @@ let wrongAnswers = [];
 let selectedGenre = "";
 let selectedSubGenre = "all";
 
-// 🌟 スマホの記憶（LocalStorage）から間違えた問題リストを呼び出す
 let savedMistakes = JSON.parse(localStorage.getItem('anki_mistakes')) || [];
-let isReviewMode = false; // 復習モードかどうかの判定
+let isReviewMode = false;
 
 let touchStartX = 0;
 let touchCurrentX = 0;
@@ -20,10 +19,12 @@ function getImageUrl(fileName) {
     return "https://commons.wikimedia.org/wiki/Special:FilePath/" + name + "?width=500";
 }
 
+// 🌟 首都（capitalData）も読み込めるように追加
 const allQuizData = [
     typeof flagData !== 'undefined' ? flagData : [],
     typeof constellationData !== 'undefined' ? constellationData : [],
-    typeof worldFlagData !== 'undefined' ? worldFlagData : [] 
+    typeof worldFlagData !== 'undefined' ? worldFlagData : [],
+    typeof capitalData !== 'undefined' ? capitalData : [] 
 ].flat();
 
 allQuizData.forEach(item => {
@@ -37,12 +38,11 @@ function showHome() {
     document.getElementById('home-screen').classList.remove('hidden');
     document.getElementById('subgenre-screen').classList.add('hidden');
     document.getElementById('mode-screen').classList.add('hidden'); 
-    document.getElementById('review-start-screen').classList.add('hidden'); // 🌟 追加
+    document.getElementById('review-start-screen').classList.add('hidden');
     document.getElementById('quiz-screen').classList.add('hidden');
     document.getElementById('result-screen').classList.add('hidden');
 }
 
-// 🌟 モード切替の処理
 function setReviewMode(isReview) {
     isReviewMode = isReview;
     if(isReviewMode) {
@@ -63,10 +63,10 @@ function selectGenre(type) {
     selectedSubGenre = "all"; 
     document.getElementById('home-screen').classList.add('hidden');
 
-    if (type === 'worldflag') {
+    // 🌟 国旗か「首都」のときは地域選択へ寄り道！
+    if (type === 'worldflag' || type === 'capital') {
         document.getElementById('subgenre-screen').classList.remove('hidden');
     } else {
-        // 🌟 復習モードなら専用画面へ、通常なら出題形式へ
         if (isReviewMode) showReviewStartScreen();
         else document.getElementById('mode-screen').classList.remove('hidden');
     }
@@ -75,38 +75,34 @@ function selectGenre(type) {
 function selectSubGenre(subType) {
     selectedSubGenre = subType;
     document.getElementById('subgenre-screen').classList.add('hidden');
-    
-    // 🌟 復習モードなら専用画面へ
     if (isReviewMode) showReviewStartScreen();
     else document.getElementById('mode-screen').classList.remove('hidden');
 }
 
-// 🌟 対象の復習問題を抽出する処理
 function getReviewTarget() {
     return savedMistakes.filter(item => {
         if (item.genre !== selectedGenre) return false;
-        if (selectedGenre === 'worldflag' && selectedSubGenre !== 'all') {
+        // 🌟 首都も地域絞り込みの対象にする
+        if ((selectedGenre === 'worldflag' || selectedGenre === 'capital') && selectedSubGenre !== 'all') {
             return item.region === selectedSubGenre;
         }
         return true;
     });
 }
 
-// 🌟 復習スタート画面の表示
 function showReviewStartScreen() {
     const targets = getReviewTarget();
     document.getElementById('review-count-text').textContent = `対象：${targets.length}問`;
     document.getElementById('review-start-screen').classList.remove('hidden');
 }
 
-// 🌟 ゴミ箱ボタン（手動リセット）の処理
 function resetReviewList() {
     const confirmReset = confirm("このジャンルの復習リストを空にしますか？");
     if (!confirmReset) return;
     
     savedMistakes = savedMistakes.filter(item => {
         if (item.genre !== selectedGenre) return true; 
-        if (selectedGenre === 'worldflag' && selectedSubGenre !== 'all') {
+        if ((selectedGenre === 'worldflag' || selectedGenre === 'capital') && selectedSubGenre !== 'all') {
             if (item.region === selectedSubGenre) return false; 
             return true; 
         }
@@ -118,7 +114,6 @@ function resetReviewList() {
     alert("リセットしました！✨");
 }
 
-// 🌟 復習クイズを開始する処理
 function startReviewQuiz() {
     const targets = getReviewTarget();
     if (targets.length === 0) {
@@ -126,7 +121,7 @@ function startReviewQuiz() {
         return;
     }
     currentQuizData = [...targets];
-    currentQuizData.sort(() => Math.random() - 0.5); // 復習はランダム
+    currentQuizData.sort(() => Math.random() - 0.5);
     currentIndex = 0;
     wrongAnswers = [];
     
@@ -149,9 +144,12 @@ function startQuizMode(isRandom) {
     else if (type === 'yamanote') rawData = yamanoteData;
     else if (type === 'worldflag') {
         rawData = typeof worldFlagData !== 'undefined' ? worldFlagData : [];
-        if (selectedSubGenre !== 'all') {
-            rawData = rawData.filter(item => item.region === selectedSubGenre);
-        }
+        if (selectedSubGenre !== 'all') rawData = rawData.filter(item => item.region === selectedSubGenre);
+    }
+    // 🌟 首都の問題データをセット
+    else if (type === 'capital') {
+        rawData = typeof capitalData !== 'undefined' ? capitalData : [];
+        if (selectedSubGenre !== 'all') rawData = rawData.filter(item => item.region === selectedSubGenre);
     }
 
     if (!rawData || rawData.length === 0) {
@@ -191,11 +189,15 @@ function showQuestion() {
 
     document.getElementById('counter').textContent = `${currentIndex + 1} / ${currentQuizData.length}`;
 
+    // 🌟 首都のラベルを追加
     const labels = {
-        flag: "この州の州都は？", constellation: "この星座の名前は？", element: "この原子番号の元素名は？", president: "この代の大統領は？", olympic: "この年の開催地は？", mountain: "この山の名前は？", morse: "この信号の意味は？", yamanote: "この駅名は？", worldflag: "この国旗の国名は？"
+        flag: "この州の州都は？", constellation: "この星座の名前は？", element: "この原子番号の元素名は？", president: "この代の大統領は？", olympic: "この年の開催地は？", mountain: "この山の名前は？", morse: "この信号の意味は？", yamanote: "この駅名は？", worldflag: "この国旗の国名は？",
+        capital: "この国の首都は？"
     };
     labelEl.textContent = labels[item.genre] || "答えは何？";
-    stateEl.textContent = (item.genre === 'constellation' || item.genre === 'worldflag') ? "" : (item.q || "");
+    
+    // 首都の場合はテキストを大きく表示するため stateEl ではなく fallbackEl に任せる
+    stateEl.textContent = (item.genre === 'constellation' || item.genre === 'worldflag' || item.genre === 'capital') ? "" : (item.q || "");
 
     if (item.img && item.img !== "") {
         imgEl.src = getImageUrl(item.img);
@@ -215,7 +217,6 @@ function showQuestion() {
     ansEl.classList.add('hidden');
 }
 
-// 🌟 スマホの記憶に保存する処理
 function saveMistake(item) {
     const exists = savedMistakes.find(m => m.a === item.a && m.genre === item.genre);
     if (!exists) {
@@ -224,7 +225,6 @@ function saveMistake(item) {
     }
 }
 
-// 🌟 スマホの記憶から完全に消す処理（覚えた！）
 function removeMistake(item) {
     savedMistakes = savedMistakes.filter(m => !(m.a === item.a && m.genre === item.genre));
     localStorage.setItem('anki_mistakes', JSON.stringify(savedMistakes));
@@ -240,8 +240,6 @@ function handleTouch() {
         const now = Date.now();
         if (now - lastClickTime < 300) return;
         lastClickTime = now;
-        
-        // タップで次へ進んだ場合も「右スワイプ(正解)」と同じ扱いにして消す
         if (isReviewMode) removeMistake(currentQuizData[currentIndex]);
         nextQuestion();
     }
@@ -249,17 +247,13 @@ function handleTouch() {
 
 function nextQuestion() {
     currentIndex++;
-    if (currentIndex < currentQuizData.length) {
-        showQuestion();
-    } else {
-        showResult(); 
-    }
+    if (currentIndex < currentQuizData.length) showQuestion();
+    else showResult(); 
 }
 
 function showResult() {
     document.getElementById('quiz-screen').classList.add('hidden');
     document.getElementById('result-screen').classList.remove('hidden');
-
     const listContainer = document.getElementById('wrong-list');
     const retestBtn = document.getElementById('retest-btn');
     listContainer.innerHTML = ""; 
@@ -298,16 +292,10 @@ function flyOutCard(direction) {
     setTimeout(() => {
         const currentItem = currentQuizData[currentIndex];
         if (direction === 'left') {
-            if (!wrongAnswers.includes(currentItem)) {
-                wrongAnswers.push(currentItem);
-            }
-            // 🌟 左スワイプ（間違えた）したらスマホに記憶！
+            if (!wrongAnswers.includes(currentItem)) wrongAnswers.push(currentItem);
             saveMistake(currentItem);
         } else {
-            // 🌟 復習モード中に右スワイプ（覚えた）したらリストから消去！
-            if (isReviewMode) {
-                removeMistake(currentItem);
-            }
+            if (isReviewMode) removeMistake(currentItem);
         }
         nextQuestion(); 
     }, 300);
@@ -315,7 +303,6 @@ function flyOutCard(direction) {
 
 window.onload = () => {
     showHome();
-    
     const problemArea = document.getElementById('problem-area');
     const threshold = 100;
 
