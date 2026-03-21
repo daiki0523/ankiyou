@@ -4,6 +4,7 @@ let isAnswerShowing = false;
 let lastClickTime = 0;
 let wrongAnswers = []; 
 let selectedGenre = "";
+let selectedSubGenre = "all"; // 🌟 追加：選んだサブジャンルを記憶する変数
 
 let touchStartX = 0;
 let touchCurrentX = 0;
@@ -15,9 +16,11 @@ function getImageUrl(fileName) {
     return "https://commons.wikimedia.org/wiki/Special:FilePath/" + name + "?width=500";
 }
 
+// 🌟 worldFlagData も読み込めるように追加
 const allQuizData = [
     typeof flagData !== 'undefined' ? flagData : [],
-    typeof constellationData !== 'undefined' ? constellationData : []
+    typeof constellationData !== 'undefined' ? constellationData : [],
+    typeof worldFlagData !== 'undefined' ? worldFlagData : [] 
 ].flat();
 
 allQuizData.forEach(item => {
@@ -29,6 +32,7 @@ allQuizData.forEach(item => {
 
 function showHome() {
     document.getElementById('home-screen').classList.remove('hidden');
+    document.getElementById('subgenre-screen').classList.add('hidden'); // 🌟 追加
     document.getElementById('mode-screen').classList.add('hidden'); 
     document.getElementById('quiz-screen').classList.add('hidden');
     document.getElementById('result-screen').classList.add('hidden');
@@ -36,12 +40,27 @@ function showHome() {
 
 function selectGenre(type) {
     selectedGenre = type; 
+    selectedSubGenre = "all"; // リセット
     document.getElementById('home-screen').classList.add('hidden');
-    document.getElementById('mode-screen').classList.remove('hidden');
+
+    // 🌟 「国旗（worldflag）」を選んだ時だけ、地域選択ページへ寄り道する！
+    if (type === 'worldflag') {
+        document.getElementById('subgenre-screen').classList.remove('hidden');
+    } else {
+        // それ以外は今まで通り出題形式ページへ
+        document.getElementById('mode-screen').classList.remove('hidden');
+    }
+}
+
+// 🌟 追加：地域を選んだあとの処理
+function selectSubGenre(subType) {
+    selectedSubGenre = subType; // アジア、ヨーロッパなどを記憶
+    document.getElementById('subgenre-screen').classList.add('hidden');
+    document.getElementById('mode-screen').classList.remove('hidden'); // 出題形式へ進む
 }
 
 function startQuizMode(isRandom) {
-    let rawData;
+    let rawData = [];
     const type = selectedGenre;
     
     if (type === 'flag') rawData = flagData;
@@ -52,10 +71,17 @@ function startQuizMode(isRandom) {
     else if (type === 'morse') rawData = morseData;
     else if (type === 'president') rawData = presidentData;
     else if (type === 'yamanote') rawData = yamanoteData;
+    else if (type === 'worldflag') {
+        rawData = typeof worldFlagData !== 'undefined' ? worldFlagData : [];
+        // 🌟 ここで絞り込み！「ぜんぶ(all)」以外なら、その地域のものだけを残す
+        if (selectedSubGenre !== 'all') {
+            rawData = rawData.filter(item => item.region === selectedSubGenre);
+        }
+    }
 
     if (!rawData || rawData.length === 0) {
-        alert("エラー：データが見つかりません。");
-        return;
+        alert("エラー：データが見つからないか、その地域に問題がありません。");
+        return showHome();
     }
 
     currentQuizData = rawData.map(item => ({...item, genre: type}));
@@ -83,13 +109,11 @@ function showQuestion() {
     const labelEl = document.getElementById('question-label');
     const problemArea = document.getElementById('problem-area');
 
-    // 🌟 修正ポイント：確実に新しいカードを画面のド真ん中に復活させる
     problemArea.className = 'problem-area-box';
     problemArea.style.transition = 'none';
     problemArea.style.transform = 'translate(0px, 0px) rotate(0deg)';
     problemArea.style.opacity = '1';
 
-    // ほんの少し待ってからアニメーション機能をオンにする
     setTimeout(() => {
         problemArea.style.transition = 'transform 0.3s ease, opacity 0.3s ease, background-color 0.3s ease';
     }, 50);
@@ -104,11 +128,12 @@ function showQuestion() {
         olympic: "この年の開催地は？",
         mountain: "この山の名前は？",
         morse: "この信号の意味は？",
-        yamanote: "この駅名は？"
+        yamanote: "この駅名は？",
+        worldflag: "この国旗の国名は？" // 🌟 追加
     };
     labelEl.textContent = labels[item.genre] || "答えは何？";
 
-    stateEl.textContent = (item.genre === 'constellation') ? "" : (item.q || "");
+    stateEl.textContent = (item.genre === 'constellation' || item.genre === 'worldflag') ? "" : (item.q || "");
 
     if (item.img && item.img !== "") {
         imgEl.src = getImageUrl(item.img);
@@ -116,7 +141,7 @@ function showQuestion() {
         fallbackEl.classList.add('hidden');
     } else {
         imgEl.classList.add('hidden');
-        if (item.genre !== 'flag') {
+        if (item.genre !== 'flag' && item.genre !== 'worldflag') {
             fallbackEl.textContent = item.q || "";
             fallbackEl.classList.remove('hidden');
         } else {
@@ -214,7 +239,6 @@ function flyOutCard(direction) {
                 wrongAnswers.push(currentItem);
             }
         }
-        // 🌟 修正ポイント：カードが飛んでいったら無条件で次の問題へ
         nextQuestion(); 
     }, 300);
 }
