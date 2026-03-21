@@ -12,7 +12,6 @@ let isReviewMode = false;
 let isVibeEnabled = JSON.parse(localStorage.getItem('anki_vibe_setting'));
 if (isVibeEnabled === null) isVibeEnabled = true;
 
-// 🌟 ダークモードの設定を読み込む
 let isDarkMode = JSON.parse(localStorage.getItem('anki_dark_mode')) || false;
 
 let touchStartX = 0;
@@ -39,6 +38,42 @@ allQuizData.forEach(item => {
     }
 });
 
+// 🌟 オートセーブ機能：今のクイズ状態を丸ごと記憶する
+function saveProgress() {
+    const saveData = {
+        genre: selectedGenre,
+        subGenre: selectedSubGenre,
+        isReviewMode: isReviewMode,
+        currentQuizData: currentQuizData,
+        currentIndex: currentIndex,
+        wrongAnswers: wrongAnswers
+    };
+    localStorage.setItem('anki_save_data', JSON.stringify(saveData));
+}
+
+// 🌟 ゴールしたら中断データを消去する
+function clearProgress() {
+    localStorage.removeItem('anki_save_data');
+}
+
+// 🌟 続きから再開する機能
+function resumeQuiz() {
+    const data = JSON.parse(localStorage.getItem('anki_save_data'));
+    if (!data) return;
+
+    selectedGenre = data.genre;
+    selectedSubGenre = data.subGenre;
+    isReviewMode = data.isReviewMode;
+    currentQuizData = data.currentQuizData;
+    currentIndex = data.currentIndex;
+    wrongAnswers = data.wrongAnswers;
+
+    document.getElementById('home-screen').classList.add('hidden');
+    document.getElementById('quiz-screen').classList.remove('hidden');
+    updateModeBtnUI();
+    showQuestion();
+}
+
 function updateVibeBtnUI() {
     const btn = document.getElementById('vibe-toggle-btn');
     if (!btn) return;
@@ -62,7 +97,6 @@ function toggleVibration() {
     if (isVibeEnabled && navigator.vibrate) navigator.vibrate(50);
 }
 
-// 🌟 ダークモードの見た目を適用する処理
 function applyDarkMode() {
     const btn = document.getElementById('dark-toggle-btn');
     if (isDarkMode) {
@@ -86,14 +120,12 @@ function applyDarkMode() {
     updateModeBtnUI();
 }
 
-// 🌟 ダークモードのON/OFFを切り替える処理
 function toggleDarkMode() {
     isDarkMode = !isDarkMode;
     localStorage.setItem('anki_dark_mode', JSON.stringify(isDarkMode));
     applyDarkMode();
 }
 
-// 🌟 通常・復習ボタンの色をダークモードに合わせて自動調整
 function updateModeBtnUI() {
     const normBtn = document.getElementById('normal-mode-btn');
     const revBtn = document.getElementById('review-mode-btn');
@@ -126,6 +158,21 @@ function showHome() {
     document.getElementById('quiz-screen').classList.add('hidden');
     document.getElementById('result-screen').classList.add('hidden');
     updateModeBtnUI();
+
+    // 🌟 中断データがあれば「続きからボタン」を表示する処理
+    const saveData = JSON.parse(localStorage.getItem('anki_save_data'));
+    const resumeContainer = document.getElementById('resume-container');
+    const resumeBtn = document.getElementById('resume-btn');
+    
+    if (saveData && saveData.currentIndex < saveData.currentQuizData.length) {
+        resumeContainer.classList.remove('hidden');
+        const genreNames = { flag:"州都", constellation:"星座", element:"元素記号", mountain:"8000m峰", olympic:"五輪", morse:"モールス", president:"大統領", yamanote:"山手線", worldflag:"国旗", capital:"首都" };
+        const gName = genreNames[saveData.genre] || "クイズ";
+        const modeName = saveData.isReviewMode ? "の復習" : "";
+        resumeBtn.textContent = `▶️ 続きから (${gName}${modeName} ${saveData.currentIndex + 1}問目〜)`;
+    } else {
+        resumeContainer.classList.add('hidden');
+    }
 }
 
 function setReviewMode(isReview) {
@@ -213,6 +260,7 @@ function startReviewQuiz() {
     currentIndex = 0;
     wrongAnswers = [];
     
+    saveProgress(); // 🌟 スタート時にセーブ
     document.getElementById('review-start-screen').classList.add('hidden');
     document.getElementById('quiz-screen').classList.remove('hidden');
     showQuestion();
@@ -250,6 +298,8 @@ function startQuizMode(isRandom) {
 
     currentIndex = 0;
     wrongAnswers = []; 
+    
+    saveProgress(); // 🌟 スタート時にセーブ
     document.getElementById('mode-screen').classList.add('hidden');
     document.getElementById('quiz-screen').classList.remove('hidden');
     showQuestion();
@@ -352,11 +402,16 @@ function handleTouch() {
 
 function nextQuestion() {
     currentIndex++;
-    if (currentIndex < currentQuizData.length) showQuestion();
-    else showResult(); 
+    if (currentIndex < currentQuizData.length) {
+        saveProgress(); // 🌟 進んだらオートセーブ！
+        showQuestion();
+    } else {
+        showResult(); 
+    }
 }
 
 function showResult() {
+    clearProgress(); // 🌟 リザルト画面に着いたら中断データを削除！
     document.getElementById('quiz-screen').classList.add('hidden');
     document.getElementById('result-screen').classList.remove('hidden');
     const listContainer = document.getElementById('wrong-list');
@@ -382,6 +437,7 @@ function startRetest() {
     currentQuizData.sort(() => Math.random() - 0.5);
     currentIndex = 0;
     wrongAnswers = [];
+    saveProgress(); // 🌟 再テストもオートセーブ！
     document.getElementById('result-screen').classList.add('hidden');
     document.getElementById('quiz-screen').classList.remove('hidden');
     showQuestion();
@@ -395,11 +451,8 @@ function flyOutCard(direction) {
     problemArea.classList.add(direction === 'right' ? 'card-out-right' : 'card-out-left');
 
     if (isVibeEnabled && navigator.vibrate) {
-        if (direction === 'right') {
-            navigator.vibrate(40); 
-        } else {
-            navigator.vibrate([40, 60, 40]); 
-        }
+        if (direction === 'right') navigator.vibrate(40); 
+        else navigator.vibrate([40, 60, 40]); 
     }
 
     setTimeout(() => {
@@ -414,7 +467,6 @@ function flyOutCard(direction) {
     }, 300);
 }
 
-// 🌟 画面を開いた瞬間に、記憶していたダークモードを適用する！
 window.onload = () => {
     applyDarkMode();
     showHome();
