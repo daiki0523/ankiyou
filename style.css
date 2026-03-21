@@ -1,4 +1,4 @@
-body { font-family: -apple-system, sans-serif; background-color: #f5f5f5; margin: 0; display: flex; justify-content: center; -webkit-tap-highlight-color: transparent; overflow: hidden; /* 🌟 画面全体のスクロールを防ぐ */ }
+body { font-family: -apple-system, sans-serif; background-color: #f5f5f5; margin: 0; display: flex; justify-content: center; -webkit-tap-highlight-color: transparent; overflow: hidden; }
 #app-container { width: 100%; max-width: 400px; padding: 15px; box-sizing: border-box; height: 100vh; display: flex; flex-direction: column; }
 
 #home-screen { text-align: center; padding-top: 30px; }
@@ -16,24 +16,19 @@ body { font-family: -apple-system, sans-serif; background-color: #f5f5f5; margin
 
 .question-label-box { width: 100%; background: #fff; border: 2px solid #333; border-radius: 8px; padding: 10px; margin-bottom: 15px; text-align: center; font-weight: bold; }
 
-/* 🌟 ここが重要！ カードのデザイン設定 🌟 */
 .problem-area-box { 
     width: 100%; background: #fff; border: 2px solid #333; border-radius: 12px; min-height: 450px; 
     display: flex; flex-direction: column; justify-content: flex-start; align-items: center; 
     padding: 15px; box-sizing: border-box; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    
-    /* 🌟 スワイプアニメーションのための設定 🌟 */
     position: relative;
-    transform-origin: center bottom; /* 下部を軸に回転させる */
-    will-change: transform, opacity, background-color; /* パフォーマンス向上 */
-    transition: transform 0.3s ease, opacity 0.3s ease, background-color 0.3s ease; /* スナップバック用の滑らかな動き */
+    transform-origin: center bottom; 
+    will-change: transform, opacity, background-color; 
+    transition: transform 0.3s ease, opacity 0.3s ease, background-color 0.3s ease; 
 }
 
-/* 🌟 スワイプ中の背景色ヒント 🌟 */
-.swiping-right { background-color: #e8f5e9 !important; border-color: #4caf50 !important; } /* 薄い緑 */
-.swiping-left { background-color: #ffebee !important; border-color: #f44336 !important; } /* 薄い赤 */
+.swiping-right { background-color: #e8f5e9 !important; border-color: #4caf50 !important; } 
+.swiping-left { background-color: #ffebee !important; border-color: #f44336 !important; } 
 
-/* 🌟 カードが画面外に飛んでいくアニメーション（CSSクラスで制御） 🌟 */
 .card-out-right { transform: translate(150vw, -100px) rotate(40deg) !important; opacity: 0; }
 .card-out-left { transform: translate(-150vw, -100px) rotate(-40deg) !important; opacity: 0; }
 .reset-position { transition: none !important; transform: translate(0, 0) rotate(0) !important; opacity: 1; }
@@ -55,8 +50,8 @@ body { font-family: -apple-system, sans-serif; background-color: #f5f5f5; margin
     width: 100%; border-top: 2px dashed #ccc; padding-top: 15px; font-size: 32px; font-weight: bold; text-align: center; color: #d32f2f;
 }
 
-#hint-btn { background: #ff8c00; color: #fff; border: none; width: 60px; height: 60px; border-radius: 50%; font-size: 30px; margin-top: 20px; cursor: pointer; box-shadow: 0 4px 0 #cc7000; }
-#hint-btn:active { transform: translateY(4px); box-shadow: none; }
+/* 🌟 ここにあった #hint-btn のデザインを削除しました */
+
 .hidden { display: none !important; }
 
 #result-screen { display: flex; flex-direction: column; align-items: center; width: 100%; padding-top: 10px; }
