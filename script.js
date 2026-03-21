@@ -201,6 +201,14 @@ function showQuestion() {
 
     document.getElementById('counter').textContent = `${currentIndex + 1} / ${currentQuizData.length}`;
 
+    // 🌟 ここでプログレスバーを伸ばします！
+    const progressFill = document.getElementById('progress-fill');
+    if (progressFill && currentQuizData.length > 0) {
+        // 現在の問題数 ÷ 全問題数 × 100 でパーセンテージを計算
+        const percent = ((currentIndex + 1) / currentQuizData.length) * 100;
+        progressFill.style.width = `${percent}%`;
+    }
+
     const labels = {
         flag: "この州の州都は？", constellation: "この星座の名前は？", element: "この原子番号の元素名は？", president: "この代の大統領は？", olympic: "この年の開催地は？", mountain: "この山の名前は？", morse: "この信号の意味は？", yamanote: "この駅名は？", worldflag: "この国旗の国名は？",
         capital: "この国の首都は？"
@@ -215,20 +223,19 @@ function showQuestion() {
         if (flagItem && flagItem.img) displayImgUrl = getImageUrl(flagItem.img);
     }
 
-    // 🌟 画像の残像（チラつき）を防ぐ完璧な処理！
     if (displayImgUrl && displayImgUrl !== getImageUrl("")) {
-        imgEl.style.visibility = 'hidden'; // 前の画像を一旦透明にして隠す
+        imgEl.style.visibility = 'hidden'; 
         
         imgEl.onload = () => {
-            imgEl.style.visibility = 'visible'; // 新しい画像が準備できたらパッと表示する
+            imgEl.style.visibility = 'visible'; 
         };
         
-        imgEl.src = displayImgUrl; // 新しい画像のダウンロード開始
+        imgEl.src = displayImgUrl; 
         imgEl.classList.remove('hidden');
         fallbackEl.classList.add('hidden');
     } else {
         imgEl.classList.add('hidden');
-        imgEl.style.visibility = 'visible'; // 念のため表示状態をリセット
+        imgEl.style.visibility = 'visible'; 
         if (item.genre !== 'flag' && item.genre !== 'worldflag' && item.genre !== 'capital') {
             fallbackEl.textContent = item.q || "";
             fallbackEl.classList.remove('hidden');
