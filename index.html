@@ -9,7 +9,7 @@
     <meta name="theme-color" content="#333333">
     <link rel="apple-touch-icon" href="https://img.icons8.com/fluency/192/door.png">
     
-    <link rel="stylesheet" href="style.css?v=noflash">
+    <link rel="stylesheet" href="style.css?v=progress">
 </head>
 <body>
 
@@ -72,6 +72,11 @@
     </div>
 
     <div id="quiz-screen" class="hidden">
+        
+        <div class="progress-container">
+            <div id="progress-fill" class="progress-fill-bar"></div>
+        </div>
+
         <div class="quiz-header">
             <div id="counter" class="counter-box">C</div>
             <button id="exit-btn" onclick="showHome()">
@@ -99,8 +104,8 @@
     </div>
 </div>
 
-<script src="data.js?v=noflash"></script>
-<script src="script.js?v=noflash"></script>
+<script src="data.js?v=progress"></script>
+<script src="script.js?v=progress"></script>
 
 <script>
     if ('serviceWorker' in navigator) {
