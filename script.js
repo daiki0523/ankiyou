@@ -1,7 +1,7 @@
 let currentQuizData = [];
 let currentIndex = 0;
 let isAnswerShowing = false;
-let lastClickTime = 0;
+let lastClickTime = 0; 
 let wrongAnswers = []; 
 let selectedGenre = "";
 let selectedSubGenre = "all";
@@ -38,7 +38,6 @@ allQuizData.forEach(item => {
     }
 });
 
-// 🌟 オートセーブ機能：今のクイズ状態を丸ごと記憶する
 function saveProgress() {
     const saveData = {
         genre: selectedGenre,
@@ -51,12 +50,10 @@ function saveProgress() {
     localStorage.setItem('anki_save_data', JSON.stringify(saveData));
 }
 
-// 🌟 ゴールしたら中断データを消去する
 function clearProgress() {
     localStorage.removeItem('anki_save_data');
 }
 
-// 🌟 続きから再開する機能
 function resumeQuiz() {
     const data = JSON.parse(localStorage.getItem('anki_save_data'));
     if (!data) return;
@@ -159,7 +156,6 @@ function showHome() {
     document.getElementById('result-screen').classList.add('hidden');
     updateModeBtnUI();
 
-    // 🌟 中断データがあれば「続きからボタン」を表示する処理
     const saveData = JSON.parse(localStorage.getItem('anki_save_data'));
     const resumeContainer = document.getElementById('resume-container');
     const resumeBtn = document.getElementById('resume-btn');
@@ -260,7 +256,7 @@ function startReviewQuiz() {
     currentIndex = 0;
     wrongAnswers = [];
     
-    saveProgress(); // 🌟 スタート時にセーブ
+    saveProgress(); 
     document.getElementById('review-start-screen').classList.add('hidden');
     document.getElementById('quiz-screen').classList.remove('hidden');
     showQuestion();
@@ -299,7 +295,7 @@ function startQuizMode(isRandom) {
     currentIndex = 0;
     wrongAnswers = []; 
     
-    saveProgress(); // 🌟 スタート時にセーブ
+    saveProgress(); 
     document.getElementById('mode-screen').classList.add('hidden');
     document.getElementById('quiz-screen').classList.remove('hidden');
     showQuestion();
@@ -308,6 +304,9 @@ function startQuizMode(isRandom) {
 function showQuestion() {
     isAnswerShowing = false;
     isAnimating = false;
+    
+    lastClickTime = Date.now(); 
+
     const item = currentQuizData[currentIndex];
     const imgEl = document.getElementById('question-img');
     const stateEl = document.getElementById('state-name-display');
@@ -385,25 +384,26 @@ function removeMistake(item) {
     localStorage.setItem('anki_mistakes', JSON.stringify(savedMistakes));
 }
 
+// 🌟 タップされた時の処理（答えを出すだけ！次へは進めない）
 function handleTouch() {
     if (isAnimating) return;
+
+    const now = Date.now();
+    if (now - lastClickTime < 400) return;
+    lastClickTime = now; 
+
+    // 答えが出ていない時だけ、答えを表示する
     if (!isAnswerShowing) {
         isAnswerShowing = true;
         document.getElementById('answer-text').classList.remove('hidden');
-        lastClickTime = Date.now();
-    } else {
-        const now = Date.now();
-        if (now - lastClickTime < 300) return;
-        lastClickTime = now;
-        if (isReviewMode) removeMistake(currentQuizData[currentIndex]);
-        nextQuestion();
     }
+    // 🌟 これ以上タップしても何も起きません（スワイプ必須）
 }
 
 function nextQuestion() {
     currentIndex++;
     if (currentIndex < currentQuizData.length) {
-        saveProgress(); // 🌟 進んだらオートセーブ！
+        saveProgress(); 
         showQuestion();
     } else {
         showResult(); 
@@ -411,7 +411,7 @@ function nextQuestion() {
 }
 
 function showResult() {
-    clearProgress(); // 🌟 リザルト画面に着いたら中断データを削除！
+    clearProgress(); 
     document.getElementById('quiz-screen').classList.add('hidden');
     document.getElementById('result-screen').classList.remove('hidden');
     const listContainer = document.getElementById('wrong-list');
@@ -437,7 +437,7 @@ function startRetest() {
     currentQuizData.sort(() => Math.random() - 0.5);
     currentIndex = 0;
     wrongAnswers = [];
-    saveProgress(); // 🌟 再テストもオートセーブ！
+    saveProgress(); 
     document.getElementById('result-screen').classList.add('hidden');
     document.getElementById('quiz-screen').classList.remove('hidden');
     showQuestion();
