@@ -9,17 +9,20 @@
     <meta name="theme-color" content="#333333">
     <link rel="apple-touch-icon" href="https://img.icons8.com/fluency/192/door.png">
     
-    <link rel="stylesheet" href="style.css?v=swipeonly">
+    <link rel="stylesheet" href="style.css?v=manual1">
 </head>
 <body>
 
 <div id="app-container">
     <div id="home-screen">
         <div style="display: flex; justify-content: flex-end; gap: 10px; margin-bottom: 10px;">
-            <button id="dark-toggle-btn" style="padding: 8px 16px; border-radius: 20px; border: 2px solid #ccc; background: #fff; font-weight: bold; cursor: pointer;" onclick="toggleDarkMode()">
+            <button id="manual-btn" style="padding: 8px 12px; border-radius: 20px; border: 2px solid #ccc; background: #fff; font-weight: bold; cursor: pointer; font-size: 14px;" onclick="openManual()">
+                ❓ 取説
+            </button>
+            <button id="dark-toggle-btn" style="padding: 8px 12px; border-radius: 20px; border: 2px solid #ccc; background: #fff; font-weight: bold; cursor: pointer; font-size: 14px;" onclick="toggleDarkMode()">
                 🌙 ダーク
             </button>
-            <button id="vibe-toggle-btn" style="padding: 8px 16px; border-radius: 20px; border: 2px solid #ccc; background: #fff; font-weight: bold; cursor: pointer;" onclick="toggleVibration()">
+            <button id="vibe-toggle-btn" style="padding: 8px 12px; border-radius: 20px; border: 2px solid #ccc; background: #fff; font-weight: bold; cursor: pointer; font-size: 14px;" onclick="toggleVibration()">
                 📳 振動: ON
             </button>
         </div>
@@ -90,7 +93,6 @@
         <div class="progress-container">
             <div id="progress-fill" class="progress-fill-bar"></div>
         </div>
-
         <div class="quiz-header">
             <div id="counter" class="counter-box">C</div>
             <button id="exit-btn" onclick="showHome()">
@@ -116,10 +118,22 @@
         </button>
         <button class="menu-btn" style="margin-top: 10px; width: 100%;" onclick="showHome()">ホームに戻る</button>
     </div>
+
+    <div id="manual-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <div class="modal-title">📖 アプリの使い方</div>
+            <div class="modal-text"><b>👆 タップ</b><br>問題の答えを表示します。（タップでは次の問題に進みません）</div>
+            <div class="modal-text"><b>➡️ 右スワイプ（覚えた！）</b><br>正解した問題は右へ飛ばします。復習リストから消えます。</div>
+            <div class="modal-text"><b>⬅️ 左スワイプ（間違えた…）</b><br>間違えた問題は左へ飛ばします。自動で復習リストに保存されます。</div>
+            <div class="modal-text"><b>🔥 復習モード</b><br>左スワイプした苦手な問題だけを集中的にやり直せます。</div>
+            <button class="close-btn" onclick="closeManual()">閉じる</button>
+        </div>
+    </div>
+
 </div>
 
-<script src="data.js?v=swipeonly"></script>
-<script src="script.js?v=swipeonly"></script>
+<script src="data.js?v=manual1"></script>
+<script src="script.js?v=manual1"></script>
 
 <script>
     if ('serviceWorker' in navigator) {
