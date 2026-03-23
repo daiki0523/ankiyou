@@ -9,7 +9,7 @@
     <meta name="theme-color" content="#333333">
     <link rel="apple-touch-icon" href="https://img.icons8.com/fluency/192/owl.png">
     
-    <link rel="stylesheet" href="style.css?v=gear1">
+    <link rel="stylesheet" href="style.css?v=gear2">
 </head>
 <body>
 
@@ -18,6 +18,8 @@
     <div class="settings-container">
         <button id="settings-toggle-btn" class="settings-toggle-btn" onclick="toggleSettingsMenu()">⚙️</button>
         <div id="settings-dropdown" class="settings-dropdown hidden">
+            <button class="settings-item" onclick="showHome(); toggleSettingsMenu()">🏠 ホームへ戻る</button>
+            <div class="settings-divider"></div>
             <button id="manual-btn" class="settings-item" onclick="openManual(); toggleSettingsMenu()">❓ 取説</button>
             <div class="settings-divider"></div>
             <button id="dark-toggle-btn" class="settings-item" onclick="toggleDarkMode()">🌙 ダーク</button>
@@ -95,10 +97,7 @@
         </div>
         <div class="quiz-header">
             <div id="counter" class="counter-box">C</div>
-            <button id="exit-btn" onclick="showHome()">
-                <img src="https://img.icons8.com/fluency/48/door.png" alt="home"/>
-            </button>
-        </div>
+            </div>
         <div id="question-label" class="question-label-box">B</div> 
         <div id="problem-area" class="problem-area-box" onclick="handleTouch()">
             <div id="state-name-display">E</div> 
@@ -132,8 +131,8 @@
 
 </div>
 
-<script src="data.js?v=gear1"></script>
-<script src="script.js?v=gear1"></script>
+<script src="data.js?v=gear2"></script>
+<script src="script.js?v=gear2"></script>
 
 <script>
     if ('serviceWorker' in navigator) {
