@@ -9,25 +9,25 @@
     <meta name="theme-color" content="#333333">
     <link rel="apple-touch-icon" href="https://img.icons8.com/fluency/192/owl.png">
     
-    <link rel="stylesheet" href="style.css?v=manual1">
+    <link rel="stylesheet" href="style.css?v=gear1">
 </head>
 <body>
 
-<div id="app-container">
-    <div id="home-screen">
-        <div style="display: flex; justify-content: flex-end; gap: 10px; margin-bottom: 10px;">
-            <button id="manual-btn" style="padding: 8px 12px; border-radius: 20px; border: 2px solid #ccc; background: #fff; font-weight: bold; cursor: pointer; font-size: 14px;" onclick="openManual()">
-                ❓ 取説
-            </button>
-            <button id="dark-toggle-btn" style="padding: 8px 12px; border-radius: 20px; border: 2px solid #ccc; background: #fff; font-weight: bold; cursor: pointer; font-size: 14px;" onclick="toggleDarkMode()">
-                🌙 ダーク
-            </button>
-            <button id="vibe-toggle-btn" style="padding: 8px 12px; border-radius: 20px; border: 2px solid #ccc; background: #fff; font-weight: bold; cursor: pointer; font-size: 14px;" onclick="toggleVibration()">
-                📳 振動: ON
-            </button>
-        </div>
+<div id="app-container" style="position: relative;">
 
-        <h1 class="main-title" style="margin-top: 0;">暗記</h1>
+    <div class="settings-container">
+        <button id="settings-toggle-btn" class="settings-toggle-btn" onclick="toggleSettingsMenu()">⚙️</button>
+        <div id="settings-dropdown" class="settings-dropdown hidden">
+            <button id="manual-btn" class="settings-item" onclick="openManual(); toggleSettingsMenu()">❓ 取説</button>
+            <div class="settings-divider"></div>
+            <button id="dark-toggle-btn" class="settings-item" onclick="toggleDarkMode()">🌙 ダーク</button>
+            <div class="settings-divider"></div>
+            <button id="vibe-toggle-btn" class="settings-item" onclick="toggleVibration()">📳 振動: ON</button>
+        </div>
+    </div>
+
+    <div id="home-screen">
+        <h1 class="main-title" style="margin-top: 15px;">暗記</h1>
 
         <div id="resume-container" class="hidden" style="margin-bottom: 20px;">
             <button id="resume-btn" class="menu-btn" style="width: 100%; background-color: #4CAF50; color: white; border-color: #388E3C; font-size: 18px;" onclick="resumeQuiz()">
@@ -55,7 +55,7 @@
     </div>
 
     <div id="subgenre-screen" class="hidden">
-        <h2 class="result-title">地域を選択🌎</h2>
+        <h2 class="result-title" style="margin-top: 20px;">地域を選択🌎</h2>
         <div class="menu-grid" style="margin-top: 30px;">
             <button class="menu-btn" onclick="selectSubGenre('asia')">アジア</button>
             <button class="menu-btn" onclick="selectSubGenre('europe')">ヨーロッパ</button>
@@ -81,7 +81,7 @@
     </div>
 
     <div id="mode-screen" class="hidden">
-        <h2 class="result-title">出題形式</h2>
+        <h2 class="result-title" style="margin-top: 20px;">出題形式</h2>
         <div class="menu-grid" style="margin-top: 30px;">
             <button class="menu-btn" onclick="startQuizMode(false)">順番通り<br><span style="font-size:12px; font-weight:normal;">(番号・高さ・年代順など)</span></button>
             <button class="menu-btn" onclick="startQuizMode(true)">ランダム<br><span style="font-size:12px; font-weight:normal;">(シャッフルテスト)</span></button>
@@ -132,8 +132,8 @@
 
 </div>
 
-<script src="data.js?v=manual1"></script>
-<script src="script.js?v=manual1"></script>
+<script src="data.js?v=gear1"></script>
+<script src="script.js?v=gear1"></script>
 
 <script>
     if ('serviceWorker' in navigator) {
