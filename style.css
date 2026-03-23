@@ -106,3 +106,26 @@ body.dark-mode { background-color: #121212; color: #e0e0e0; }
 .dark-mode .modal-content { background: #1e1e1e; }
 .dark-mode .modal-title { color: #fff; border-bottom-color: #555; }
 .dark-mode .modal-text { color: #e0e0e0; }
+
+/* 🌟 ここから追加：歯車（設定）メニューのデザイン */
+.settings-container { position: absolute; top: 25px; right: 15px; z-index: 1000; }
+.settings-toggle-btn { background: none; border: none; font-size: 32px; cursor: pointer; padding: 0; transition: transform 0.3s; }
+.settings-toggle-btn:active { transform: rotate(45deg); } /* 押すとクルッと回る */
+
+.settings-dropdown { 
+    position: absolute; top: 45px; right: 0; background: #fff; border: 2px solid #333; 
+    border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.15); display: flex; 
+    flex-direction: column; overflow: hidden; width: 140px; 
+}
+.settings-item { 
+    padding: 15px; background: none; border: none; text-align: left; 
+    font-size: 16px; font-weight: bold; color: #333; cursor: pointer; 
+}
+.settings-item:active { background: #e0e0e0; }
+.settings-divider { height: 1px; background: #ccc; margin: 0; }
+
+/* 🌟 ダークモード中の設定メニュー */
+.dark-mode .settings-dropdown { background: #1e1e1e; border-color: #555; }
+.dark-mode .settings-item { color: #fff; }
+.dark-mode .settings-item:active { background: #333; }
+.dark-mode .settings-divider { background: #555; }
