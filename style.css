@@ -94,3 +94,15 @@ body.dark-mode { background-color: #121212; color: #e0e0e0; }
 /* 🌟 ダークモード中のスワイプ時の色（少し落ち着いた色味に） */
 .dark-mode .swiping-right { background-color: #1b5e20 !important; border-color: #4caf50 !important; }
 .dark-mode .swiping-left { background-color: #b71c1c !important; border-color: #f44336 !important; }
+
+/* 🌟 ここから追加：取説ポップアップのデザイン */
+.modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: flex; justify-content: center; align-items: center; z-index: 1000; }
+.modal-content { background: #fff; padding: 25px; border-radius: 12px; width: 85%; max-width: 350px; text-align: left; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+.modal-title { font-size: 22px; font-weight: bold; margin-bottom: 15px; border-bottom: 2px solid #333; padding-bottom: 5px; color: #333; }
+.modal-text { font-size: 15px; line-height: 1.6; margin-bottom: 12px; color: #333; }
+.close-btn { display: block; width: 100%; padding: 12px; background: #2196F3; color: #fff; text-align: center; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; margin-top: 15px; cursor: pointer; }
+
+/* 🌟 取説ポップアップのダークモード対応 */
+.dark-mode .modal-content { background: #1e1e1e; }
+.dark-mode .modal-title { color: #fff; border-bottom-color: #555; }
+.dark-mode .modal-text { color: #e0e0e0; }
