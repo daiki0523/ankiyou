@@ -38,7 +38,23 @@ allQuizData.forEach(item => {
     }
 });
 
-// 🌟 取説ポップアップを開く・閉じる機能
+// 🌟 歯車メニューの開閉機能
+function toggleSettingsMenu() {
+    const menu = document.getElementById('settings-dropdown');
+    menu.classList.toggle('hidden');
+}
+
+// 🌟 メニュー以外の場所をタップしたらメニューを閉じる
+document.addEventListener('click', function(event) {
+    const menu = document.getElementById('settings-dropdown');
+    const btn = document.getElementById('settings-toggle-btn');
+    if (menu && !menu.classList.contains('hidden')) {
+        if (!menu.contains(event.target) && !btn.contains(event.target)) {
+            menu.classList.add('hidden');
+        }
+    }
+});
+
 function openManual() {
     document.getElementById('manual-modal').classList.remove('hidden');
 }
@@ -79,20 +95,11 @@ function resumeQuiz() {
     showQuestion();
 }
 
+// 🌟 ボタンのテキストだけ切り替える（色はCSSに任せる）
 function updateVibeBtnUI() {
     const btn = document.getElementById('vibe-toggle-btn');
     if (!btn) return;
-    if (isVibeEnabled) {
-        btn.textContent = "📳 振動: ON";
-        btn.style.background = isDarkMode ? "#006064" : "#e0f7fa";
-        btn.style.color = isDarkMode ? "#fff" : "#333";
-        btn.style.borderColor = "#00bcd4";
-    } else {
-        btn.textContent = "📴 振動: OFF";
-        btn.style.background = isDarkMode ? "#333" : "#f5f5f5";
-        btn.style.color = isDarkMode ? "#ccc" : "#333";
-        btn.style.borderColor = isDarkMode ? "#555" : "#ccc";
-    }
+    btn.textContent = isVibeEnabled ? "📳 振動: ON" : "📴 振動: OFF";
 }
 
 function toggleVibration() {
@@ -102,36 +109,16 @@ function toggleVibration() {
     if (isVibeEnabled && navigator.vibrate) navigator.vibrate(50);
 }
 
+// 🌟 ダークモードの切り替えもスッキリ整理
 function applyDarkMode() {
     const btn = document.getElementById('dark-toggle-btn');
-    const manualBtn = document.getElementById('manual-btn'); // 🌟 取説ボタンも取得
     
     if (isDarkMode) {
         document.body.classList.add('dark-mode');
-        if(btn) {
-            btn.textContent = "☀️ ライト";
-            btn.style.background = "#333";
-            btn.style.color = "#fff";
-            btn.style.borderColor = "#555";
-        }
-        if(manualBtn) {
-            manualBtn.style.background = "#333";
-            manualBtn.style.color = "#fff";
-            manualBtn.style.borderColor = "#555";
-        }
+        if(btn) btn.textContent = "☀️ ライト";
     } else {
         document.body.classList.remove('dark-mode');
-        if(btn) {
-            btn.textContent = "🌙 ダーク";
-            btn.style.background = "#fff";
-            btn.style.color = "#333";
-            btn.style.borderColor = "#ccc";
-        }
-        if(manualBtn) {
-            manualBtn.style.background = "#fff";
-            manualBtn.style.color = "#333";
-            manualBtn.style.borderColor = "#ccc";
-        }
+        if(btn) btn.textContent = "🌙 ダーク";
     }
     updateVibeBtnUI();
     updateModeBtnUI();
@@ -199,6 +186,11 @@ function setReviewMode(isReview) {
 function selectGenre(type) {
     selectedGenre = type; 
     selectedSubGenre = "all"; 
+    
+    // 🌟 ホーム画面を離れる時にメニューを閉じておく
+    const menu = document.getElementById('settings-dropdown');
+    if(menu) menu.classList.add('hidden');
+    
     document.getElementById('home-screen').classList.add('hidden');
 
     if (type === 'worldflag' || type === 'capital') {
