@@ -38,6 +38,14 @@ allQuizData.forEach(item => {
     }
 });
 
+// 🌟 取説ポップアップを開く・閉じる機能
+function openManual() {
+    document.getElementById('manual-modal').classList.remove('hidden');
+}
+function closeManual() {
+    document.getElementById('manual-modal').classList.add('hidden');
+}
+
 function saveProgress() {
     const saveData = {
         genre: selectedGenre,
@@ -96,6 +104,8 @@ function toggleVibration() {
 
 function applyDarkMode() {
     const btn = document.getElementById('dark-toggle-btn');
+    const manualBtn = document.getElementById('manual-btn'); // 🌟 取説ボタンも取得
+    
     if (isDarkMode) {
         document.body.classList.add('dark-mode');
         if(btn) {
@@ -104,6 +114,11 @@ function applyDarkMode() {
             btn.style.color = "#fff";
             btn.style.borderColor = "#555";
         }
+        if(manualBtn) {
+            manualBtn.style.background = "#333";
+            manualBtn.style.color = "#fff";
+            manualBtn.style.borderColor = "#555";
+        }
     } else {
         document.body.classList.remove('dark-mode');
         if(btn) {
@@ -111,6 +126,11 @@ function applyDarkMode() {
             btn.style.background = "#fff";
             btn.style.color = "#333";
             btn.style.borderColor = "#ccc";
+        }
+        if(manualBtn) {
+            manualBtn.style.background = "#fff";
+            manualBtn.style.color = "#333";
+            manualBtn.style.borderColor = "#ccc";
         }
     }
     updateVibeBtnUI();
@@ -384,7 +404,6 @@ function removeMistake(item) {
     localStorage.setItem('anki_mistakes', JSON.stringify(savedMistakes));
 }
 
-// 🌟 タップされた時の処理（答えを出すだけ！次へは進めない）
 function handleTouch() {
     if (isAnimating) return;
 
@@ -392,12 +411,10 @@ function handleTouch() {
     if (now - lastClickTime < 400) return;
     lastClickTime = now; 
 
-    // 答えが出ていない時だけ、答えを表示する
     if (!isAnswerShowing) {
         isAnswerShowing = true;
         document.getElementById('answer-text').classList.remove('hidden');
     }
-    // 🌟 これ以上タップしても何も起きません（スワイプ必須）
 }
 
 function nextQuestion() {
