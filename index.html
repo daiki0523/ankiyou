@@ -9,7 +9,7 @@
     <meta name="theme-color" content="#333333">
     <link rel="apple-touch-icon" href="https://img.icons8.com/fluency/192/owl.png">
     
-    <link rel="stylesheet" href="style.css?v=gear2">
+    <link rel="stylesheet" href="style.css?v=elem1">
 </head>
 <body>
 
@@ -46,7 +46,7 @@
             <button class="menu-btn" onclick="selectGenre('flag')">州都🇺🇸</button>
             <button class="menu-btn" onclick="selectGenre('constellation')">８８星座🌌</button>
             <button class="menu-btn" onclick="selectGenre('worldflag')">国旗🌎</button>
-            <button class="menu-btn" onclick="selectGenre('element')">元素記号🧪</button>
+            <button class="menu-btn" onclick="selectGenre('element_menu')">元素記号🧪</button>
             <button class="menu-btn" onclick="selectGenre('mountain')">8000m峰🏔️</button>
             <button class="menu-btn" onclick="selectGenre('olympic')">五輪開催地🏅</button>
             <button class="menu-btn" onclick="selectGenre('morse')">モールス信号📟</button>
@@ -54,6 +54,15 @@
             <button class="menu-btn" onclick="selectGenre('yamanote')">山手線🚃</button>
             <button class="menu-btn" onclick="selectGenre('capital')">首都🏛️</button>
         </div>
+    </div>
+
+    <div id="element-subgenre-screen" class="hidden">
+        <h2 class="result-title" style="margin-top: 20px;">出題形式を選択🧪</h2>
+        <div class="menu-grid" style="margin-top: 30px;">
+            <button class="menu-btn" onclick="selectGenre('element')">番号(1, 2...)<br>から当てる</button>
+            <button class="menu-btn" onclick="selectGenre('element_sym')">ローマ字(H, He...)<br>から当てる</button>
+        </div>
+        <button class="menu-btn" style="margin-top: 40px; width: 100%;" onclick="showHome()">ホームに戻る</button>
     </div>
 
     <div id="subgenre-screen" class="hidden">
@@ -97,7 +106,7 @@
         </div>
         <div class="quiz-header">
             <div id="counter" class="counter-box">C</div>
-            </div>
+        </div>
         <div id="question-label" class="question-label-box">B</div> 
         <div id="problem-area" class="problem-area-box" onclick="handleTouch()">
             <div id="state-name-display">E</div> 
@@ -131,8 +140,8 @@
 
 </div>
 
-<script src="data.js?v=gear2"></script>
-<script src="script.js?v=gear2"></script>
+<script src="data.js?v=elem1"></script>
+<script src="script.js?v=elem1"></script>
 
 <script>
     if ('serviceWorker' in navigator) {
