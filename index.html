@@ -4,153 +4,350 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>暗記アプリ</title>
+    <script src="data.js"></script>
     
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#333333">
-    <link rel="apple-touch-icon" href="https://img.icons8.com/fluency/192/owl.png">
-    
-    <link rel="stylesheet" href="style.css?v=elem1">
+    <style>
+        /* 🌟 全体のベース（ライトモード固定） */
+        :root {
+            --primary-color: #4CAF50;
+            --bg-color: #f9f9f9;
+            --text-color: #333;
+            --card-bg: #fff;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        /* 🌟 スマホを意識したメインコンテナ */
+        #app-container {
+            width: 100%;
+            max-width: 400px; /* PCで見てもスマホサイズに制限 */
+            background-color: var(--card-bg);
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            box-sizing: border-box;
+            padding: 20px;
+            position: relative;
+        }
+
+        .hidden { display: none !important; }
+
+        /* 🌟 各種ボタンのスタイル */
+        .menu-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 15px 20px;
+            font-size: 1.2rem;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            width: 100%;
+            font-weight: bold;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .action-btn {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            color: white;
+        }
+        .next-btn { background-color: #2196F3; }
+        .correct-btn { background-color: #4CAF50; width: 50%; }
+        .incorrect-btn { background-color: #F44336; width: 50%; }
+        .back-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+        }
+
+        /* 🌟 ゲーム画面のレイアウト */
+        .game-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        #progress-bar-container {
+            width: 100%;
+            height: 10px;
+            background-color: #ddd;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        #progress-bar {
+            height: 100%;
+            background-color: var(--primary-color);
+            width: 0%;
+            transition: width 0.3s;
+        }
+
+        /* 🌟 問題表示エリア（テキストと画像） */
+        #question-area {
+            min-height: 260px;
+            display: flex;
+            flex-direction: column; /* 上下に並べる */
+            align-items: center;
+            justify-content: center;
+            margin-top: 10px;
+            text-align: center;
+        }
+        .question-text {
+            font-size: 3rem; /* デフォルトの大きさ */
+            font-weight: bold;
+            color: var(--primary-color);
+            margin: 0;
+        }
+        .question-image {
+            max-width: 100%;
+            max-height: 200px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            display: block;
+        }
+
+        /* 🌟 解答エリア */
+        .answer-area {
+            text-align: center;
+            margin: 20px 0;
+            padding: 20px;
+            background-color: #f0f0f0;
+            border-radius: 8px;
+            min-height: 80px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .answer-text {
+            font-size: 2rem;
+            font-weight: bold;
+            margin: 0;
+            color: #ccc; /* 隠している時は薄い色 */
+        }
+        .answer-text.revealed {
+            color: #E91E63; /* 答えが出たら目立つ色に */
+        }
+
+        .action-area {
+            margin-top: auto;
+            margin-bottom: 20px;
+        }
+    </style>
 </head>
 <body>
 
-<div id="app-container" style="position: relative;">
-
-    <div class="settings-container">
-        <button id="settings-toggle-btn" class="settings-toggle-btn" onclick="toggleSettingsMenu()">⚙️</button>
-        <div id="settings-dropdown" class="settings-dropdown hidden">
-            <button class="settings-item" onclick="showHome(); toggleSettingsMenu()">🏠 ホームへ戻る</button>
-            <div class="settings-divider"></div>
-            <button id="manual-btn" class="settings-item" onclick="openManual(); toggleSettingsMenu()">❓ 取説</button>
-            <div class="settings-divider"></div>
-            <button id="dark-toggle-btn" class="settings-item" onclick="toggleDarkMode()">🌙 ダーク</button>
-            <div class="settings-divider"></div>
-            <button id="vibe-toggle-btn" class="settings-item" onclick="toggleVibration()">📳 振動: ON</button>
-        </div>
-    </div>
+<div id="app-container">
 
     <div id="home-screen">
-        <h1 class="main-title" style="margin-top: 15px;">暗記</h1>
-
-        <div id="resume-container" class="hidden" style="margin-bottom: 20px;">
-            <button id="resume-btn" class="menu-btn" style="width: 100%; background-color: #4CAF50; color: white; border-color: #388E3C; font-size: 18px;" onclick="resumeQuiz()">
-                ▶️ 続きから再開
-            </button>
-        </div>
-        
-        <div style="display: flex; justify-content: center; gap: 10px; margin-bottom: 20px;">
-            <button id="normal-mode-btn" class="menu-btn" style="width: 45%;" onclick="setReviewMode(false)">通常モード</button>
-            <button id="review-mode-btn" class="menu-btn" style="width: 45%;" onclick="setReviewMode(true)">復習モード🔥</button>
-        </div>
-
-        <div class="menu-grid">
-            <button class="menu-btn" onclick="selectGenre('flag')">州都🇺🇸</button>
-            <button class="menu-btn" onclick="selectGenre('constellation')">８８星座🌌</button>
-            <button class="menu-btn" onclick="selectGenre('worldflag')">国旗🌎</button>
-            <button class="menu-btn" onclick="selectGenre('element_menu')">元素記号🧪</button>
-            <button class="menu-btn" onclick="selectGenre('mountain')">8000m峰🏔️</button>
-            <button class="menu-btn" onclick="selectGenre('olympic')">五輪開催地🏅</button>
-            <button class="menu-btn" onclick="selectGenre('morse')">モールス信号📟</button>
-            <button class="menu-btn" onclick="selectGenre('president')">大統領🇺🇸</button>
-            <button class="menu-btn" onclick="selectGenre('yamanote')">山手線🚃</button>
-            <button class="menu-btn" onclick="selectGenre('capital')">首都🏛️</button>
+        <h1 style="text-align: center; color: var(--primary-color);">暗記アプリ</h1>
+        <div style="margin-top: 30px;">
+            <button class="menu-btn" onclick="selectGenre('history')">歴史（年号）</button>
+            <button class="menu-btn" onclick="selectGenre('element_menu')">元素記号</button>
+            <button class="menu-btn" onclick="selectGenre('capital')">アメリカ州都</button>
+            <button class="menu-btn" onclick="selectGenre('president')">アメリカ大統領</button>
         </div>
     </div>
 
     <div id="element-subgenre-screen" class="hidden">
-        <h2 class="result-title" style="margin-top: 20px;">出題形式を選択🧪</h2>
-        <div class="menu-grid" style="margin-top: 30px;">
+        <h2 style="text-align: center; margin-top: 20px;">出題形式を選択🧪</h2>
+        <div style="margin-top: 30px;">
             <button class="menu-btn" onclick="selectGenre('element')">番号(1, 2...)</button>
             <button class="menu-btn" onclick="selectGenre('element_sym')">ローマ字(H, He...)</button>
         </div>
-        <button class="menu-btn" style="margin-top: 40px; width: 100%;" onclick="showHome()">ホームに戻る</button>
+        <button class="menu-btn" style="margin-top: 40px; background-color: #999;" onclick="showHome()">戻る</button>
     </div>
 
-    <div id="subgenre-screen" class="hidden">
-        <h2 class="result-title" style="margin-top: 20px;">地域を選択🌎</h2>
-        <div class="menu-grid" style="margin-top: 30px;">
-            <button class="menu-btn" onclick="selectSubGenre('asia')">アジア</button>
-            <button class="menu-btn" onclick="selectSubGenre('europe')">ヨーロッパ</button>
-            <button class="menu-btn" onclick="selectSubGenre('africa')">アフリカ</button>
-            <button class="menu-btn" onclick="selectSubGenre('north_america')">北アメリカ</button>
-            <button class="menu-btn" onclick="selectSubGenre('south_america')">南アメリカ</button>
-            <button class="menu-btn" onclick="selectSubGenre('oceania')">オセアニア</button>
+    <div id="game-screen" class="hidden">
+        <div class="game-header">
+            <div id="game-genre-text" style="font-weight: bold; color: #666;">ジャンル</div>
+            <div id="quiz-count" style="font-weight: bold;">1/10</div>
+            <button class="back-btn" onclick="showHome()">✕</button>
         </div>
-        <button class="menu-btn" style="margin-top: 20px; width: 100%; background-color: #2196F3; color: white; border-color: #1976D2;" onclick="selectSubGenre('all')">
-            ぜんぶ（世界ランダム）
-        </button>
-        <button class="menu-btn" style="margin-top: 20px; width: 100%;" onclick="showHome()">ホームに戻る</button>
-    </div>
 
-    <div id="review-start-screen" class="hidden" style="display: flex; flex-direction: column; align-items: center; width: 100%; padding-top: 30px;">
-        <h2 class="result-title">復習モード🔥</h2>
-        <p id="review-count-text" style="font-size: 24px; font-weight: bold; margin: 20px 0; color: #d32f2f;">対象：0問</p>
-        <div class="menu-grid" style="width: 100%; margin-top: 20px;">
-            <button class="menu-btn" style="background-color: #ff9800; color: #fff; border:none;" onclick="startReviewQuiz()">スタート！</button>
-            <button class="menu-btn" style="background-color: #f44336; color: #fff; border:none;" onclick="resetReviewList()">リセット🗑️</button>
+        <div id="progress-bar-container">
+            <div id="progress-bar"></div>
         </div>
-        <button class="menu-btn" style="margin-top: 40px; width: 100%;" onclick="showHome()">ホームに戻る</button>
-    </div>
 
-    <div id="mode-screen" class="hidden">
-        <h2 class="result-title" style="margin-top: 20px;">出題形式</h2>
-        <div class="menu-grid" style="margin-top: 30px;">
-            <button class="menu-btn" onclick="startQuizMode(false)">順番通り<br><span style="font-size:12px; font-weight:normal;">(番号・高さ・年代順など)</span></button>
-            <button class="menu-btn" onclick="startQuizMode(true)">ランダム<br><span style="font-size:12px; font-weight:normal;">(シャッフルテスト)</span></button>
-        </div>
-        <button class="menu-btn" style="margin-top: 40px; width: 100%;" onclick="showHome()">ホームに戻る</button>
-    </div>
+        <div id="question-area"></div>
 
-    <div id="quiz-screen" class="hidden">
-        <div class="progress-container">
-            <div id="progress-fill" class="progress-fill-bar"></div>
+        <div class="answer-area">
+            <p style="font-size: 0.9rem; color: #666; margin: 0 0 5px 0;">答えは...</p>
+            <div class="answer-text" id="answer-text">❓❓❓</div>
         </div>
-        <div class="quiz-header">
-            <div id="counter" class="counter-box">C</div>
-        </div>
-        <div id="question-label" class="question-label-box">B</div> 
-        <div id="problem-area" class="problem-area-box" onclick="handleTouch()">
-            <div id="state-name-display">E</div> 
-            <div class="image-container">
-                <img id="question-img" src="" class="hidden"> 
-                <div id="fallback-text" class="hidden">A</div> 
+
+        <div class="action-area">
+            <button class="action-btn next-btn" id="show-answer-btn" onclick="showAnswer()">答えを見る</button>
+            
+            <div id="judgment-btns" class="hidden" style="display: flex; gap: 15px;">
+                <button class="action-btn correct-btn" onclick="handleJudgment(true)">〇 わかった</button>
+                <button class="action-btn incorrect-btn" onclick="handleJudgment(false)">✕ わからない</button>
             </div>
-            <div id="answer-text" class="hidden">D</div> 
+            
+            <button class="action-btn next-btn hidden" id="next-question-btn" onclick="nextQuestion()">次の問題へ ▶</button>
         </div>
     </div>
 
-    <div id="result-screen" class="hidden">
-        <h2 class="result-title">復習リスト📝</h2>
-        <div id="wrong-list" class="wrong-list-box"></div>
-        <button id="retest-btn" class="menu-btn hidden" style="margin-top: 20px; width: 100%; background-color: #ff8c00; color: #fff; border: none; font-size: 18px;" onclick="startRetest()">
-            間違えた問題だけで再テスト！
-        </button>
-        <button class="menu-btn" style="margin-top: 10px; width: 100%;" onclick="showHome()">ホームに戻る</button>
-    </div>
-
-    <div id="manual-modal" class="modal-overlay hidden">
-        <div class="modal-content">
-            <div class="modal-title">📖 アプリの使い方</div>
-            <div class="modal-text"><b>👆 タップ</b><br>問題の答えを表示します。（タップでは次の問題に進みません）</div>
-            <div class="modal-text"><b>➡️ 右スワイプ（覚えた！）</b><br>正解した問題は右へ飛ばします。復習リストから消えます。</div>
-            <div class="modal-text"><b>⬅️ 左スワイプ（間違えた…）</b><br>間違えた問題は左へ飛ばします。自動で復習リストに保存されます。</div>
-            <div class="modal-text"><b>🔥 復習モード</b><br>左スワイプした苦手な問題だけを集中的にやり直せます。</div>
-            <button class="close-btn" onclick="closeManual()">閉じる</button>
-        </div>
+    <div id="result-screen" class="hidden" style="text-align: center;">
+        <h2 style="margin-top: 40px;">お疲れ様でした！🎉</h2>
+        <p style="font-size: 1.2rem; margin: 20px 0;">正解数: <span id="score-text" style="font-size: 2rem; font-weight: bold; color: var(--primary-color);"></span> / 10</p>
+        <button class="menu-btn" style="margin-top: 30px;" onclick="showHome()">ホームに戻る</button>
     </div>
 
 </div>
 
-<script src="data.js?v=elem1"></script>
-<script src="script.js?v=elem1"></script>
-
 <script>
-    if ('serviceWorker' in navigator) {
-        window.addEventListener('load', function() {
-            navigator.serviceWorker.register('./sw.js').then(function(registration) {
-                console.log('アプリ化成功！');
-            });
-        });
+    // --- 変数 ---
+    let currentQuizData = [];
+    let currentQuestionIndex = 0;
+    let quizCount = 0;
+    let quizTotal = 10;
+    let correctCount = 0;
+
+    // --- 画面切り替え ---
+    function showHome() {
+        document.getElementById('home-screen').classList.remove('hidden');
+        document.getElementById('element-subgenre-screen').classList.add('hidden');
+        document.getElementById('game-screen').classList.add('hidden');
+        document.getElementById('result-screen').classList.add('hidden');
+    }
+
+    // --- ジャンル選択 ---
+    function selectGenre(genre) {
+        if (genre === 'element_menu') {
+            document.getElementById('home-screen').classList.add('hidden');
+            document.getElementById('element-subgenre-screen').classList.remove('hidden');
+            return; 
+        }
+
+        // data.js の配列名に合わせてデータをセット
+        if (genre === 'history') {
+            currentQuizData = [...historyData];
+            document.getElementById('game-genre-text').innerText = '歴史';
+        } else if (genre === 'element') {
+            currentQuizData = [...elementData];
+            document.getElementById('game-genre-text').innerText = '元素(番号)';
+        } else if (genre === 'element_sym') {
+            currentQuizData = [...elementSymbolData];
+            document.getElementById('game-genre-text').innerText = '元素(ローマ字)';
+        } else if (genre === 'capital') {
+            currentQuizData = [...stateCapitalData];
+            document.getElementById('game-genre-text').innerText = 'アメリカ州都';
+        } else if (genre === 'president') {
+            currentQuizData = [...usPresidentData];
+            document.getElementById('game-genre-text').innerText = 'アメリカ大統領';
+        }
+
+        document.getElementById('home-screen').classList.add('hidden');
+        document.getElementById('element-subgenre-screen').classList.add('hidden');
+        document.getElementById('game-screen').classList.remove('hidden');
+        startGame();
+    }
+
+    // --- ゲーム開始 ---
+    function startGame() {
+        quizCount = 0;
+        correctCount = 0;
+        quizTotal = Math.min(10, currentQuizData.length); // 最大10問、データが少なければその数
+        nextQuestion();
+    }
+
+    // --- 次の問題を表示 ---
+    function nextQuestion() {
+        if (quizCount >= quizTotal) {
+            showResult();
+            return;
+        }
+
+        // UIリセット
+        document.getElementById('answer-text').innerText = '❓❓❓';
+        document.getElementById('answer-text').classList.remove('revealed');
+        document.getElementById('show-answer-btn').classList.remove('hidden');
+        document.getElementById('judgment-btns').classList.add('hidden');
+        document.getElementById('next-question-btn').classList.add('hidden');
+
+        const questionArea = document.getElementById('question-area');
+        questionArea.innerHTML = ''; // 一旦クリア
+
+        // 問題をランダム取得
+        currentQuestionIndex = Math.floor(Math.random() * currentQuizData.length);
+        const questionData = currentQuizData[currentQuestionIndex];
+
+        // 🌟 ① テキスト（第1代、番号、年号など）があれば上に表示
+        if (questionData.q) {
+            const p = document.createElement('p');
+            p.innerText = questionData.q;
+            p.className = 'question-text';
+            
+            // 画像も一緒に出る場合は、文字を少し小さくして下に隙間を作る
+            if (questionData.img) {
+                p.style.fontSize = '2.5rem'; 
+                p.style.marginBottom = '15px'; 
+            }
+            questionArea.appendChild(p);
+        }
+
+        // 🌟 ② 画像があれば下に表示
+        if (questionData.img) {
+            const img = document.createElement('img');
+            img.src = questionData.img; 
+            img.alt = '問題の画像';
+            img.className = 'question-image';
+            questionArea.appendChild(img);
+        }
+
+        quizCount++;
+        document.getElementById('quiz-count').innerText = `${quizCount}/${quizTotal}`;
+        const progress = ((quizCount - 1) / quizTotal) * 100;
+        document.getElementById('progress-bar').style.width = `${progress}%`;
+    }
+
+    // --- 答えを見る ---
+    function showAnswer() {
+        const answerText = document.getElementById('answer-text');
+        answerText.innerText = currentQuizData[currentQuestionIndex].a;
+        answerText.classList.add('revealed');
+
+        document.getElementById('show-answer-btn').classList.add('hidden');
+        document.getElementById('judgment-btns').classList.remove('hidden');
+    }
+
+    // --- 判定ボタン（〇か✕か） ---
+    function handleJudgment(isCorrect) {
+        if (isCorrect) correctCount++;
+        
+        // プログレスバーを進める
+        const progress = (quizCount / quizTotal) * 100;
+        document.getElementById('progress-bar').style.width = `${progress}%`;
+
+        document.getElementById('judgment-btns').classList.add('hidden');
+        document.getElementById('next-question-btn').classList.remove('hidden');
+    }
+
+    // --- 結果画面 ---
+    function showResult() {
+        document.getElementById('game-screen').classList.add('hidden');
+        document.getElementById('result-screen').classList.remove('hidden');
+        document.getElementById('score-text').innerText = correctCount;
     }
 </script>
+
 </body>
 </html>
