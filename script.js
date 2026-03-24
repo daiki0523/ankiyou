@@ -24,11 +24,13 @@ function getImageUrl(fileName) {
     return "https://commons.wikimedia.org/wiki/Special:FilePath/" + name + "?width=500";
 }
 
+// 🌟 allQuizDataに新しい elementSymbolData を読み込ませます
 const allQuizData = [
     typeof flagData !== 'undefined' ? flagData : [],
     typeof constellationData !== 'undefined' ? constellationData : [],
     typeof worldFlagData !== 'undefined' ? worldFlagData : [],
-    typeof capitalData !== 'undefined' ? capitalData : [] 
+    typeof capitalData !== 'undefined' ? capitalData : [],
+    typeof elementSymbolData !== 'undefined' ? elementSymbolData : []
 ].flat();
 
 allQuizData.forEach(item => {
@@ -38,13 +40,11 @@ allQuizData.forEach(item => {
     }
 });
 
-// 🌟 歯車メニューの開閉機能
 function toggleSettingsMenu() {
     const menu = document.getElementById('settings-dropdown');
     menu.classList.toggle('hidden');
 }
 
-// 🌟 メニュー以外の場所をタップしたらメニューを閉じる
 document.addEventListener('click', function(event) {
     const menu = document.getElementById('settings-dropdown');
     const btn = document.getElementById('settings-toggle-btn');
@@ -95,7 +95,6 @@ function resumeQuiz() {
     showQuestion();
 }
 
-// 🌟 ボタンのテキストだけ切り替える（色はCSSに任せる）
 function updateVibeBtnUI() {
     const btn = document.getElementById('vibe-toggle-btn');
     if (!btn) return;
@@ -109,7 +108,6 @@ function toggleVibration() {
     if (isVibeEnabled && navigator.vibrate) navigator.vibrate(50);
 }
 
-// 🌟 ダークモードの切り替えもスッキリ整理
 function applyDarkMode() {
     const btn = document.getElementById('dark-toggle-btn');
     
@@ -157,6 +155,7 @@ function updateModeBtnUI() {
 function showHome() {
     document.getElementById('home-screen').classList.remove('hidden');
     document.getElementById('subgenre-screen').classList.add('hidden');
+    document.getElementById('element-subgenre-screen').classList.add('hidden'); // 🌟 追加
     document.getElementById('mode-screen').classList.add('hidden'); 
     document.getElementById('review-start-screen').classList.add('hidden');
     document.getElementById('quiz-screen').classList.add('hidden');
@@ -169,7 +168,8 @@ function showHome() {
     
     if (saveData && saveData.currentIndex < saveData.currentQuizData.length) {
         resumeContainer.classList.remove('hidden');
-        const genreNames = { flag:"州都", constellation:"星座", element:"元素記号", mountain:"8000m峰", olympic:"五輪", morse:"モールス", president:"大統領", yamanote:"山手線", worldflag:"国旗", capital:"首都" };
+        // 🌟 ここに element_sym の名前を追加しました
+        const genreNames = { flag:"州都", constellation:"星座", element:"原子番号", element_sym:"元素記号", mountain:"8000m峰", olympic:"五輪", morse:"モールス", president:"大統領", yamanote:"山手線", worldflag:"国旗", capital:"首都" };
         const gName = genreNames[saveData.genre] || "クイズ";
         const modeName = saveData.isReviewMode ? "の復習" : "";
         resumeBtn.textContent = `▶️ 続きから (${gName}${modeName} ${saveData.currentIndex + 1}問目〜)`;
@@ -184,14 +184,21 @@ function setReviewMode(isReview) {
 }
 
 function selectGenre(type) {
+    const menu = document.getElementById('settings-dropdown');
+    if(menu) menu.classList.add('hidden');
+
+    // 🌟 元素ボタンを押した時は専用の画面を開く！
+    if (type === 'element_menu') {
+        document.getElementById('home-screen').classList.add('hidden');
+        document.getElementById('element-subgenre-screen').classList.remove('hidden');
+        return;
+    }
+
     selectedGenre = type; 
     selectedSubGenre = "all"; 
     
-    // 🌟 ホーム画面を離れる時にメニューを閉じておく
-    const menu = document.getElementById('settings-dropdown');
-    if(menu) menu.classList.add('hidden');
-    
     document.getElementById('home-screen').classList.add('hidden');
+    document.getElementById('element-subgenre-screen').classList.add('hidden');
 
     if (type === 'worldflag' || type === 'capital') {
         document.getElementById('subgenre-screen').classList.remove('hidden');
@@ -281,6 +288,8 @@ function startQuizMode(isRandom) {
     if (type === 'flag') rawData = flagData;
     else if (type === 'constellation') rawData = constellationData;
     else if (type === 'element') rawData = elementData;
+    // 🌟 ここでローマ字版のデータを読み込みます
+    else if (type === 'element_sym') rawData = typeof elementSymbolData !== 'undefined' ? elementSymbolData : [];
     else if (type === 'mountain') rawData = mountainData;
     else if (type === 'olympic') rawData = olympicData;
     else if (type === 'morse') rawData = morseData;
@@ -344,8 +353,9 @@ function showQuestion() {
         progressFill.style.width = `${percent}%`;
     }
 
+    // 🌟 問題文のラベルにも追加しました
     const labels = {
-        flag: "この州の州都は？", constellation: "この星座の名前は？", element: "この原子番号の元素名は？", president: "この代の大統領は？", olympic: "この年の開催地は？", mountain: "この山の名前は？", morse: "この信号の意味は？", yamanote: "この駅名は？", worldflag: "この国旗の国名は？",
+        flag: "この州の州都は？", constellation: "この星座の名前は？", element: "この原子番号の元素名は？", element_sym: "この元素記号(ローマ字)の元素名は？", president: "この代の大統領は？", olympic: "この年の開催地は？", mountain: "この山の名前は？", morse: "この信号の意味は？", yamanote: "この駅名は？", worldflag: "この国旗の国名は？",
         capital: "この国の首都は？"
     };
     labelEl.textContent = labels[item.genre] || "答えは何？";
