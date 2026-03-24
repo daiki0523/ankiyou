@@ -739,3 +739,56 @@ const elementSymbolData = [
     { q: "Ts", a: "テネシン" },
     { q: "Og", a: "オガネソン" }
 ];
+// 🌟 歴代アメリカ大統領（第1代〜第10代）画像クイズ
+const usPresidentData = [
+    { 
+        q: "第1代", 
+        a: "ジョージ・ワシントン", 
+        img: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Gilbert_Stuart_Williamstown_Portrait_of_George_Washington.jpg/320px-Gilbert_Stuart_Williamstown_Portrait_of_George_Washington.jpg" 
+    },
+    { 
+        q: "第2代", 
+        a: "ジョン・アダムズ", 
+        img: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/Official_Presidential_portrait_of_John_Adams_%28by_John_Trumbull%2C_circa_1792%29.jpg/320px-Official_Presidential_portrait_of_John_Adams_%28by_John_Trumbull%2C_circa_1792%29.jpg" 
+    },
+    { 
+        q: "第3代", 
+        a: "トーマス・ジェファーソン", 
+        img: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Thomas_Jefferson_by_Rembrandt_Peale%2C_1800.jpg/320px-Thomas_Jefferson_by_Rembrandt_Peale%2C_1800.jpg" 
+    },
+    { 
+        q: "第4代", 
+        a: "ジェームズ・マディソン", 
+        img: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/James_Madison.jpg/320px-James_Madison.jpg" 
+    },
+    { 
+        q: "第5代", 
+        a: "ジェームズ・モンロー", 
+        img: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/James_Monroe_White_House_portrait_1819.jpg/320px-James_Monroe_White_House_portrait_1819.jpg" 
+    },
+    { 
+        q: "第6代", 
+        a: "ジョン・クィンシー・アダムズ", 
+        img: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/John_Quincy_Adams_by_GPA_Healy%2C_1858.jpg/320px-John_Quincy_Adams_by_GPA_Healy%2C_1858.jpg" 
+    },
+    { 
+        q: "第7代", 
+        a: "アンドリュー・ジャクソン", 
+        img: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Andrew_jackson_head.jpg/320px-Andrew_jackson_head.jpg" 
+    },
+    { 
+        q: "第8代", 
+        a: "マーティン・ヴァン・ビューレン", 
+        img: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Martin_Van_Buren_by_Mathew_Brady_c1855-58.jpg/320px-Martin_Van_Buren_by_Mathew_Brady_c1855-58.jpg" 
+    },
+    { 
+        q: "第9代", 
+        a: "ウィリアム・ハリソン", 
+        img: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/William_Henry_Harrison_by_James_Reid_Lambdin%2C_1835.jpg/320px-William_Henry_Harrison_by_James_Reid_Lambdin%2C_1835.jpg" 
+    },
+    { 
+        q: "第10代", 
+        a: "ジョン・タイラー", 
+        img: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/John_Tyler.jpg/320px-John_Tyler.jpg" 
+    }
+];
