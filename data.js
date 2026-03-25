@@ -181,7 +181,7 @@ const usPresidentData = [
     { q: "第8代", a: "マーティン・ヴァン・ビューレン", img: "https://commons.wikimedia.org/wiki/Special:FilePath/Martin_Van_Buren_by_Mathew_Brady_c1855-58.jpg?width=320" },
     { q: "第9代", a: "ウィリアム・ハリソン", img: "https://commons.wikimedia.org/wiki/Special:FilePath/William_Henry_Harrison_by_James_Reid_Lambdin,_1835.jpg?width=320" },
     { q: "第10代", a: "ジョン・タイラー", img: "https://commons.wikimedia.org/wiki/Special:FilePath/John_Tyler.jpg?width=320" },
-    { q: "第11代", a: "ジェームズ・K・ポーク", img: "https://commons.wikimedia.org/wiki/Special:FilePath/James_Knox_Polk.jpg?width=320" },
+    { q: "第11代", a: "ジェームズ・K・ポーク", img: "https://commons.wikimedia.org/wiki/Special:FilePath/James_Knox_Polk_by_GPA_Healy.jpg?width=320" },
     { q: "第12代", a: "ザカリー・テイラー", img: "https://commons.wikimedia.org/wiki/Special:FilePath/Zachary_Taylor_restored_and_cropped.jpg?width=320" },
     { q: "第13代", a: "ミラード・フィルモア", img: "https://commons.wikimedia.org/wiki/Special:FilePath/Millard_Fillmore.jpg?width=320" },
     { q: "第14代", a: "フランクリン・ピアース", img: "https://commons.wikimedia.org/wiki/Special:FilePath/Franklin_Pierce.jpg?width=320" },
@@ -193,23 +193,23 @@ const usPresidentData = [
     { q: "第20代", a: "ジェームズ・A・ガーフィールド", img: "https://commons.wikimedia.org/wiki/Special:FilePath/James_Abram_Garfield,_photo_portrait_seated.jpg?width=320" },
     { q: "第21代", a: "チェスター・A・アーサー", img: "https://commons.wikimedia.org/wiki/Special:FilePath/Chester_Alan_Arthur.jpg?width=320" },
     { q: "第22代", a: "グロバー・クリーブランド", img: "https://commons.wikimedia.org/wiki/Special:FilePath/Grover_Cleveland_-_NARA_-_518139_(cropped).jpg?width=320" },
-    { q: "第23代", a: "ベンジャミン・ハリソン", img: "https://commons.wikimedia.org/wiki/Special:FilePath/Benjamin_Harrison.jpg?width=320" },
+    { q: "第23代", a: "ベンジャミン・ハリソン", img: "https://commons.wikimedia.org/wiki/Special:FilePath/Benjamin_Harrison_by_Charles_Parker.jpg?width=320" },
     { q: "第24代", a: "グロバー・クリーブランド", img: "https://commons.wikimedia.org/wiki/Special:FilePath/Grover_Cleveland_-_NARA_-_518139_(cropped).jpg?width=320" },
-    { q: "第25代", a: "ウィリアム・マッキンリー", img: "https://commons.wikimedia.org/wiki/Special:FilePath/William_McKinley-head%26shoulders.jpg?width=320" },
+    { q: "第25代", a: "ウィリアム・マッキンリー", img: "https://commons.wikimedia.org/wiki/Special:FilePath/President_William_McKinley.jpg?width=320" },
     { q: "第26代", a: "セオドア・ルーズベルト", img: "https://commons.wikimedia.org/wiki/Special:FilePath/President_Roosevelt_-_Pach_Bros.jpg?width=320" },
-    { q: "第27代", a: "ウィリアム・ハワード・タフト", img: "https://commons.wikimedia.org/wiki/Special:FilePath/William_Howard_Taft.jpg?width=320" },
+  　{ q: "第27代", a: "ウィリアム・ハワード・タフト", img: "https://commons.wikimedia.org/wiki/Special:FilePath/William_Howard_Taft_c1909.jpg?width=320" },
     { q: "第28代", a: "ウッドロウ・ウィルソン", img: "https://commons.wikimedia.org/wiki/Special:FilePath/Thomas_Woodrow_Wilson,_Harris_%26_Ewing_bw_photo_portrait,_1919_(cropped).jpg?width=320" },
     { q: "第29代", a: "ウォレン・G・ハーディング", img: "https://commons.wikimedia.org/wiki/Special:FilePath/Warren_G_Harding-Harris_%26_Ewing.jpg?width=320" },
-    { q: "第30代", a: "カルビン・クーリッジ", img: "https://commons.wikimedia.org/wiki/Special:FilePath/Calvin_Coolidge_(cropped_%26_Greyscaled).png?width=320" },
+　　{ q: "第30代", a: "カルビン・クーリッジ", img: "https://commons.wikimedia.org/wiki/Special:FilePath/Calvin_Coolidge_c1924.jpg?width=320" },
     { q: "第31代", a: "ハーバート・フーヴァー", img: "https://commons.wikimedia.org/wiki/Special:FilePath/President_Hoover_portrait.jpg?width=320" },
     { q: "第32代", a: "フランクリン・D・ルーズベルト", img: "https://commons.wikimedia.org/wiki/Special:FilePath/FDR_in_1933.jpg?width=320" },
     { q: "第33代", a: "ハリー・S・トルーマン", img: "https://commons.wikimedia.org/wiki/Special:FilePath/Harry_S._Truman.jpg?width=320" },
     { q: "第34代", a: "ドワイト・D・アイゼンハワー", img: "https://commons.wikimedia.org/wiki/Special:FilePath/Dwight_D._Eisenhower,_official_photo_portrait,_May_29,_1959.jpg?width=320" },
     { q: "第35代", a: "ジョン・F・ケネディ", img: "https://commons.wikimedia.org/wiki/Special:FilePath/John_F._Kennedy,_White_House_color_photo_portrait.jpg?width=320" },
-    { q: "第36代", a: "リンドン・B・ジョンソン", img: "https://commons.wikimedia.org/wiki/Special:FilePath/Lyndon_B._Johnson_-_photo_portrait.jpg?width=320" },
+    { q: "第36代", a: "リンドン・B・ジョンソン", img: "https://commons.wikimedia.org/wiki/Special:FilePath/37_Lyndon_Johnson_3x4.jpg?width=320" },
     { q: "第37代", a: "リチャード・ニクソン", img: "https://commons.wikimedia.org/wiki/Special:FilePath/Richard_M._Nixon,_ca._1935_-_1982_-_NARA_-_530679.jpg?width=320" },
     { q: "第38代", a: "ジェラルド・フォード", img: "https://commons.wikimedia.org/wiki/Special:FilePath/Gerald_Ford_presidential_portrait.jpg?width=320" },
-    { q: "第39代", a: "ジミー・カーター", img: "https://commons.wikimedia.org/wiki/Special:FilePath/JimmyCarterPortrait2.jpg?width=320" },
+    { q: "第39代", a: "ジミー・カーター", img: "https://commons.wikimedia.org/wiki/Special:FilePath/Jimmy_Carter_library_portrait_2.jpg?width=320" }
     { q: "第40代", a: "ロナルド・レーガン", img: "https://commons.wikimedia.org/wiki/Special:FilePath/Official_Portrait_of_President_Reagan_1981.jpg?width=320" },
     { q: "第41代", a: "ジョージ・H・W・ブッシュ", img: "https://commons.wikimedia.org/wiki/Special:FilePath/George_H._W._Bush_presidential_portrait.jpg?width=320" },
     { q: "第42代", a: "ビル・クリントン", img: "https://commons.wikimedia.org/wiki/Special:FilePath/President_Bill_Clinton.jpg?width=320" },
@@ -219,7 +219,6 @@ const usPresidentData = [
     { q: "第46代", a: "ジョー・バイデン", img: "https://commons.wikimedia.org/wiki/Special:FilePath/Joe_Biden_presidential_portrait.jpg?width=320" },
     { q: "第47代", a: "ドナルド・トランプ", img: "https://commons.wikimedia.org/wiki/Special:FilePath/Donald_Trump_official_portrait.jpg?width=320" }
 ];
-
 // 7. 夏季オリンピック開催地
 const olympicData = [
     { q: "1896年 第1回", a: "アテネ (ギリシャ)", img: "" }, { q: "1900年 第2回", a: "パリ (フランス)", img: "" }, { q: "1904年 第3回", a: "セントルイス (アメリカ)", img: "" }, { q: "1908年 第4回", a: "ロンドン (イギリス)", img: "" }, { q: "1912年 第5回", a: "ストックホルム (スウェーデン)", img: "" }, { q: "1916年 (第6回)", a: "ベルリン (中止)", img: "" }, { q: "1920年 第7回", a: "アントワープ (ベルギー)", img: "" }, { q: "1924年 第8回", a: "パリ (フランス)", img: "" }, { q: "1928年 第9回", a: "アムステルダム (オランダ)", img: "" }, { q: "1932年 第10回", a: "ロサンゼルス (アメリカ)", img: "" },
