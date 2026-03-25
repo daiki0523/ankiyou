@@ -20,17 +20,18 @@ let isAnimating = false;
 
 function getImageUrl(fileName) {
     if (!fileName) return "";
+    if (fileName.startsWith('http')) return fileName; // 🌟 追加: URL直指定の場合はそのまま使う
     const name = encodeURIComponent(fileName.trim().replace(/\s/g, '_'));
     return "https://commons.wikimedia.org/wiki/Special:FilePath/" + name + "?width=500";
 }
-
-// 🌟 allQuizDataに新しい elementSymbolData を読み込ませます
+// 🌟 allQuizDataに新しい elementSymbolData と大統領を読み込ませます
 const allQuizData = [
     typeof flagData !== 'undefined' ? flagData : [],
     typeof constellationData !== 'undefined' ? constellationData : [],
     typeof worldFlagData !== 'undefined' ? worldFlagData : [],
     typeof capitalData !== 'undefined' ? capitalData : [],
-    typeof elementSymbolData !== 'undefined' ? elementSymbolData : []
+    typeof elementSymbolData !== 'undefined' ? elementSymbolData : [],
+    typeof usPresidentData !== 'undefined' ? usPresidentData : [] // 🌟 追加: 大統領の画像も読み込む
 ].flat();
 
 allQuizData.forEach(item => {
@@ -293,7 +294,7 @@ function startQuizMode(isRandom) {
     else if (type === 'mountain') rawData = mountainData;
     else if (type === 'olympic') rawData = olympicData;
     else if (type === 'morse') rawData = morseData;
-    else if (type === 'president') rawData = presidentData;
+  　else if (type === 'president') rawData = typeof usPresidentData !== 'undefined' ? usPresidentData : [];
     else if (type === 'yamanote') rawData = yamanoteData;
     else if (type === 'worldflag') {
         rawData = typeof worldFlagData !== 'undefined' ? worldFlagData : [];
