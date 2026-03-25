@@ -1,5 +1,5 @@
 // 🌟 バージョンを v6 に変更
-const CACHE_NAME = 'anki-v29';
+const CACHE_NAME = 'anki-v30';
 const urlsToCache = [
     './index.html',
     './style.css',
