@@ -171,12 +171,242 @@ const morseData = [
 ];
 
 // 6. アメリカ歴代大統領
-const presidentData = [
-    { q: "第1代", a: "ジョージ・ワシントン", img: "" }, { q: "第2代", a: "ジョン・アダムズ", img: "" }, { q: "第3代", a: "トーマス・ジェファーソン", img: "" }, { q: "第4代", a: "ジェームズ・マディソン", img: "" }, { q: "第5代", a: "ジェームズ・モンロー", img: "" }, { q: "第6代", a: "ジョン・クインシー・アダムズ", img: "" }, { q: "第7代", a: "アンドリュー・ジャクソン", img: "" }, { q: "第8代", a: "マーティン・ヴァン・ビューレン", img: "" }, { q: "第9代", a: "ウィリアム・ハリソン", img: "" }, { q: "第10代", a: "ジョン・タイラー", img: "" },
-    { q: "第11代", a: "ジェームズ・ポーク", img: "" }, { q: "第12代", a: "ザカリー・テイラー", img: "" }, { q: "第13代", a: "ミラード・フィルモア", img: "" }, { q: "第14代", a: "フランクリン・ピアース", img: "" }, { q: "第15代", a: "ジェームズ・ブキャナン", img: "" }, { q: "第16代", a: "エイブラハム・リンカーン", img: "" }, { q: "第17代", a: "アンドリュー・ジョンソン", img: "" }, { q: "第18代", a: "ユリシーズ・グラント", img: "" }, { q: "第19代", a: "ラザフォード・ヘイズ", img: "" }, { q: "第20代", a: "ジェームズ・ガーフィールド", img: "" },
-    { q: "第21代", a: "チェスター・A・アーサー", img: "" }, { q: "第22代", a: "グロバー・クリーブランド", img: "" }, { q: "第23代", a: "ベンジャミン・ハリソン", img: "" }, { q: "第24代", a: "グロバー・クリーブランド", img: "" }, { q: "第25代", a: "ウィリアム・マッキンリー", img: "" }, { q: "第26代", a: "セオドア・ルーズベルト", img: "" }, { q: "第27代", a: "ウィリアム・タフト", img: "" }, { q: "第28代", a: "ウッドロウ・ウィルソン", img: "" }, { q: "第29代", a: "ウォレン・ハーディング", img: "" }, { q: "第30代", a: "カルビン・クーリッジ", img: "" },
-    { q: "第31代", a: "ハーバート・フーヴァー", img: "" }, { q: "第32代", a: "フランクリン・ルーズベルト", img: "" }, { q: "第33代", a: "ハリー・S・トルーマン", img: "" }, { q: "第34代", a: "ドワイト・D・アイゼンハワー", img: "" }, { q: "第35代", a: "ジョン・F・ケネディ", img: "" }, { q: "第36代", a: "リンドン・ジョンソン", img: "" }, { q: "第37代", a: "リチャード・ニクソン", img: "" }, { q: "第38代", a: "ジェラルド・フォード", img: "" }, { q: "第39代", a: "ジミー・カーター", img: "" }, { q: "第40代", a: "ロナルド・レーガン", img: "" },
-    { q: "第41代", a: "ジョージ・H・W・ブッシュ", img: "" }, { q: "第42代", a: "ビル・クリントン", img: "" }, { q: "第43代", a: "ジョージ・W・ブッシュ", img: "" }, { q: "第44代", a: "バラク・オバマ", img: "" }, { q: "第45代", a: "ドナルド・トランプ", img: "" }, { q: "第46代", a: "ジョー・バイデン", img: "" }, { q: "第47代", a: "ドナルド・トランプ", img: "" }
+const usPresidentData = [
+    { 
+        q: "第1代", 
+        a: "ジョージ・ワシントン", 
+        img: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Gilbert_Stuart_Williamstown_Portrait_of_George_Washington.jpg/320px-Gilbert_Stuart_Williamstown_Portrait_of_George_Washington.jpg" 
+    },
+    { 
+        q: "第2代", 
+        a: "ジョン・アダムズ", 
+        img: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/Official_Presidential_portrait_of_John_Adams_%28by_John_Trumbull%2C_circa_1792%29.jpg/320px-Official_Presidential_portrait_of_John_Adams_%28by_John_Trumbull%2C_circa_1792%29.jpg" 
+    },
+    { 
+        q: "第3代", 
+        a: "トーマス・ジェファーソン", 
+        img: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Thomas_Jefferson_by_Rembrandt_Peale%2C_1800.jpg/320px-Thomas_Jefferson_by_Rembrandt_Peale%2C_1800.jpg" 
+    },
+    { 
+        q: "第4代", 
+        a: "ジェームズ・マディソン", 
+        img: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/James_Madison.jpg/320px-James_Madison.jpg" 
+    },
+    { 
+        q: "第5代", 
+        a: "ジェームズ・モンロー", 
+        img: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/James_Monroe_White_House_portrait_1819.jpg/320px-James_Monroe_White_House_portrait_1819.jpg" 
+    },
+    { 
+        q: "第6代", 
+        a: "ジョン・クィンシー・アダムズ", 
+        img: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/John_Quincy_Adams_by_GPA_Healy%2C_1858.jpg/320px-John_Quincy_Adams_by_GPA_Healy%2C_1858.jpg" 
+    },
+    { 
+        q: "第7代", 
+        a: "アンドリュー・ジャクソン", 
+        img: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Andrew_jackson_head.jpg/320px-Andrew_jackson_head.jpg" 
+    },
+    { 
+        q: "第8代", 
+        a: "マーティン・ヴァン・ビューレン", 
+        img: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Martin_Van_Buren_by_Mathew_Brady_c1855-58.jpg/320px-Martin_Van_Buren_by_Mathew_Brady_c1855-58.jpg" 
+    },
+    { 
+        q: "第9代", 
+        a: "ウィリアム・ハリソン", 
+        img: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/William_Henry_Harrison_by_James_Reid_Lambdin%2C_1835.jpg/320px-William_Henry_Harrison_by_James_Reid_Lambdin%2C_1835.jpg" 
+    },
+    { 
+        q: "第10代", 
+        a: "ジョン・タイラー", 
+        img: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/John_Tyler.jpg/320px-John_Tyler.jpg" 
+    },
+    { 
+        q: "第11代", 
+        a: "ジェームズ・K・ポーク", 
+        img: "https://commons.wikimedia.org/wiki/Special:FilePath/James_Knox_Polk_by_GPA_Healjpg?width=320" 
+    },
+    { 
+        q: "第12代", 
+        a: "ザカリー・テイラー", 
+        img: "https://commons.wikimedia.org/wiki/Special:FilePath/Zachary_Taylor_restored_and_cropped.jpg?width=320" 
+    },
+    { 
+        q: "第13代", 
+        a: "ミラード・フィルモア", 
+        img: "https://commons.wikimedia.org/wiki/Special:FilePath/Millard_Fillmore.jpg?width=320" 
+    },
+    { 
+        q: "第14代", 
+        a: "フランクリン・ピアース", 
+        img: "https://commons.wikimedia.org/wiki/Special:FilePath/Franklin_Pierce.jpg?width=320" 
+    },
+    { 
+        q: "第15代", 
+        a: "ジェームズ・ブキャナン", 
+        img: "https://commons.wikimedia.org/wiki/Special:FilePath/James_Buchanan.jpg?width=320" 
+    },
+    { 
+        q: "第16代", 
+        a: "エイブラハム・リンカーン", 
+        img: "https://commons.wikimedia.org/wiki/Special:FilePath/Abraham_Lincoln_O-77_matte_collodion_print.jpg?width=320" 
+    },
+    { 
+        q: "第17代", 
+        a: "アンドリュー・ジョンソン", 
+        img: "https://commons.wikimedia.org/wiki/Special:FilePath/President_Andrew_Johnson.jpg?width=320" 
+    },
+    { 
+        q: "第18代", 
+        a: "ユリシーズ・S・グラント", 
+        img: "https://commons.wikimedia.org/wiki/Special:FilePath/Ulysses_S._Grant_1870-1880.jpg?width=320" 
+    },
+    { 
+        q: "第19代", 
+        a: "ラザフォード・B・ヘイズ", 
+        img: "https://commons.wikimedia.org/wiki/Special:FilePath/President_Rutherford_Hayes_1870_-_1880_Restored.jpg?width=320" 
+    },
+    { 
+        q: "第20代", 
+        a: "ジェームズ・A・ガーフィールド", 
+        img: "https://commons.wikimedia.org/wiki/Special:FilePath/James_Abram_Garfield,_photo_portrait_seated.jpg?width=320" 
+    },
+    { 
+        q: "第21代", 
+        a: "チェスター・A・アーサー", 
+        img: "https://commons.wikimedia.org/wiki/Special:FilePath/Chester_Alan_Arthur.jpg?width=320" 
+    },
+    { 
+        q: "第22代", 
+        a: "グロバー・クリーブランド", 
+        img: "https://commons.wikimedia.org/wiki/Special:FilePath/Grover_Cleveland_-_NARA_-_518139_(cropped).jpg?width=320" 
+    },
+    { 
+        q: "第23代", 
+        a: "ベンジャミン・ハリソン", 
+        img: "https://commons.wikimedia.org/wiki/Special:FilePath/Benjamin_Harrison_by_Charles_Parker.jpg?width=320" 
+    },
+    { 
+        q: "第24代", 
+        a: "グロバー・クリーブランド", 
+        img: "https://commons.wikimedia.org/wiki/Special:FilePath/Grover_Cleveland_-_NARA_-_518139_(cropped).jpg?width=320" 
+    },
+    { 
+        q: "第25代", 
+        a: "ウィリアム・マッキンリー", 
+        img: "https://commons.wikimedia.org/wiki/Special:FilePath/William_McKinley_by_Courtney_April_1896.jpg?width=320" 
+    },
+    { 
+        q: "第26代", 
+        a: "セオドア・ルーズベルト", 
+        img: "https://commons.wikimedia.org/wiki/Special:FilePath/President_Roosevelt_-_Pach_Bros.jpg?width=320" 
+    },
+    { 
+        q: "第27代", 
+        a: "ウィリアム・ハワード・タフト", 
+        img: "https://commons.wikimedia.org/wiki/Special:FilePath/William_Howard_Taft_c1909.jpg?width=320" 
+    },
+    { 
+        q: "第28代", 
+        a: "ウッドロウ・ウィルソン", 
+        img: "https://commons.wikimedia.org/wiki/Special:FilePath/Thomas_Woodrow_Wilson,_Harris_%26_Ewing_bw_photo_portrait,_1919_(cropped).jpg?width=320" 
+    },
+    { 
+        q: "第29代", 
+        a: "ウォレン・G・ハーディング", 
+        img: "https://commons.wikimedia.org/wiki/Special:FilePath/Warren_G_Harding-Harris_%26_Ewing.jpg?width=320" 
+    },
+    { 
+        q: "第30代", 
+        a: "カルビン・クーリッジ", 
+        img: "https://commons.wikimedia.org/wiki/Special:FilePath/Calvin_Coolidge_c1924.jpg?width=320" 
+    },
+    { 
+        q: "第31代", 
+        a: "ハーバート・フーヴァー", 
+        img: "https://commons.wikimedia.org/wiki/Special:FilePath/President_Hoover_portrait.jpg?width=320" 
+    },
+    { 
+        q: "第32代", 
+        a: "フランクリン・D・ルーズベルト", 
+        img: "https://commons.wikimedia.org/wiki/Special:FilePath/FDR_in_1933.jpg?width=320" 
+    },
+    { 
+        q: "第33代", 
+        a: "ハリー・S・トルーマン", 
+        img: "https://commons.wikimedia.org/wiki/Special:FilePath/Harry_S._Truman.jpg?width=320" 
+    },
+    { 
+        q: "第34代", 
+        a: "ドワイト・D・アイゼンハワー", 
+        img: "https://commons.wikimedia.org/wiki/Special:FilePath/Dwight_D._Eisenhower,_official_photo_portrait,_May_29,_1959.jpg?width=320" 
+    },
+    { 
+        q: "第35代", 
+        a: "ジョン・F・ケネディ", 
+        img: "https://commons.wikimedia.org/wiki/Special:FilePath/John_F._Kennedy,_White_House_color_photo_portrait.jpg?width=320" 
+    },
+    { 
+        q: "第36代", 
+        a: "リンドン・B・ジョンソン", 
+        img: "https://commons.wikimedia.org/wiki/Special:FilePath/Lyndon_B._Johnson_-_photo_portrait.jpg?width=320" 
+    },
+    { 
+        q: "第37代", 
+        a: "リチャード・ニクソン", 
+        img: "https://commons.wikimedia.org/wiki/Special:FilePath/Richard_M._Nixon,_ca._1935_-_1982_-_NARA_-_530679.jpg?width=320" 
+    },
+    { 
+        q: "第38代", 
+        a: "ジェラルド・フォード", 
+        img: "https://commons.wikimedia.org/wiki/Special:FilePath/Gerald_Ford_presidential_portrait.jpg?width=320" 
+    },
+    { 
+        q: "第39代", 
+        a: "ジミー・カーター", 
+        img: "https://commons.wikimedia.org/wiki/Special:FilePath/Jimmy_Carter_portrait_2.jpg?width=320" 
+    },
+    { 
+        q: "第40代", 
+        a: "ロナルド・レーガン", 
+        img: "https://commons.wikimedia.org/wiki/Special:FilePath/Official_Portrait_of_President_Reagan_1981.jpg?width=320" 
+    },
+    { 
+        q: "第41代", 
+        a: "ジョージ・H・W・ブッシュ", 
+        img: "https://commons.wikimedia.org/wiki/Special:FilePath/George_H._W._Bush_presidential_portrait.jpg?width=320" 
+    },
+    { 
+        q: "第42代", 
+        a: "ビル・クリントン", 
+        img: "https://commons.wikimedia.org/wiki/Special:FilePath/President_Bill_Clinton.jpg?width=320" 
+    },
+    { 
+        q: "第43代", 
+        a: "ジョージ・W・ブッシュ", 
+        img: "https://commons.wikimedia.org/wiki/Special:FilePath/George-W-Bush.jpeg?width=320" 
+    },
+    { 
+        q: "第44代", 
+        a: "バラク・オバマ", 
+        img: "https://commons.wikimedia.org/wiki/Special:FilePath/President_Barack_Obama.jpg?width=320" 
+    },
+    { 
+        q: "第45代", 
+        a: "ドナルド・トランプ", 
+        img: "https://commons.wikimedia.org/wiki/Special:FilePath/Donald_Trump_official_portrait.jpg?width=320" 
+    },
+    { 
+        q: "第46代", 
+        a: "ジョー・バイデン", 
+        img: "https://commons.wikimedia.org/wiki/Special:FilePath/Joe_Biden_presidential_portrait.jpg?width=320" 
+    },
+    { 
+        q: "第47代", 
+        a: "ドナルド・トランプ", 
+        img: "https://commons.wikimedia.org/wiki/Special:FilePath/Donald_Trump_official_portrait.jpg?width=320" 
+    }
 ];
 
 // 7. 夏季オリンピック開催地
@@ -738,57 +968,4 @@ const elementSymbolData = [
     { q: "Lv", a: "リバモリウム" },
     { q: "Ts", a: "テネシン" },
     { q: "Og", a: "オガネソン" }
-];
-// 🌟 歴代アメリカ大統領（第1代〜第10代）画像クイズ
-const usPresidentData = [
-    { 
-        q: "第1代", 
-        a: "ジョージ・ワシントン", 
-        img: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Gilbert_Stuart_Williamstown_Portrait_of_George_Washington.jpg/320px-Gilbert_Stuart_Williamstown_Portrait_of_George_Washington.jpg" 
-    },
-    { 
-        q: "第2代", 
-        a: "ジョン・アダムズ", 
-        img: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/Official_Presidential_portrait_of_John_Adams_%28by_John_Trumbull%2C_circa_1792%29.jpg/320px-Official_Presidential_portrait_of_John_Adams_%28by_John_Trumbull%2C_circa_1792%29.jpg" 
-    },
-    { 
-        q: "第3代", 
-        a: "トーマス・ジェファーソン", 
-        img: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Thomas_Jefferson_by_Rembrandt_Peale%2C_1800.jpg/320px-Thomas_Jefferson_by_Rembrandt_Peale%2C_1800.jpg" 
-    },
-    { 
-        q: "第4代", 
-        a: "ジェームズ・マディソン", 
-        img: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/James_Madison.jpg/320px-James_Madison.jpg" 
-    },
-    { 
-        q: "第5代", 
-        a: "ジェームズ・モンロー", 
-        img: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/James_Monroe_White_House_portrait_1819.jpg/320px-James_Monroe_White_House_portrait_1819.jpg" 
-    },
-    { 
-        q: "第6代", 
-        a: "ジョン・クィンシー・アダムズ", 
-        img: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/John_Quincy_Adams_by_GPA_Healy%2C_1858.jpg/320px-John_Quincy_Adams_by_GPA_Healy%2C_1858.jpg" 
-    },
-    { 
-        q: "第7代", 
-        a: "アンドリュー・ジャクソン", 
-        img: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Andrew_jackson_head.jpg/320px-Andrew_jackson_head.jpg" 
-    },
-    { 
-        q: "第8代", 
-        a: "マーティン・ヴァン・ビューレン", 
-        img: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Martin_Van_Buren_by_Mathew_Brady_c1855-58.jpg/320px-Martin_Van_Buren_by_Mathew_Brady_c1855-58.jpg" 
-    },
-    { 
-        q: "第9代", 
-        a: "ウィリアム・ハリソン", 
-        img: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/William_Henry_Harrison_by_James_Reid_Lambdin%2C_1835.jpg/320px-William_Henry_Harrison_by_James_Reid_Lambdin%2C_1835.jpg" 
-    },
-    { 
-        q: "第10代", 
-        a: "ジョン・タイラー", 
-        img: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/John_Tyler.jpg/320px-John_Tyler.jpg" 
-    }
 ];
