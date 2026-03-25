@@ -32,6 +32,7 @@ const allQuizData = [
     typeof capitalData !== 'undefined' ? capitalData : [],
     typeof elementSymbolData !== 'undefined' ? elementSymbolData : [],
     typeof usPresidentData !== 'undefined' ? usPresidentData : [] // 🌟 追加: 大統領の画像も読み込む
+    typeof penguinData !== 'undefined' ? penguinData : [] // 🐧追加: ペンギンの画像も読み込む
 ].flat();
 
 allQuizData.forEach(item => {
@@ -295,6 +296,7 @@ function startQuizMode(isRandom) {
     else if (type === 'olympic') rawData = olympicData;
     else if (type === 'morse') rawData = morseData;
   　else if (type === 'president') rawData = typeof usPresidentData !== 'undefined' ? usPresidentData : [];
+    else if (type === 'penguin') rawData = typeof penguinData !== 'undefined' ? penguinData : []; // 🐧追加
     else if (type === 'yamanote') rawData = yamanoteData;
     else if (type === 'worldflag') {
         rawData = typeof worldFlagData !== 'undefined' ? worldFlagData : [];
@@ -357,7 +359,7 @@ function showQuestion() {
     // 🌟 問題文のラベルにも追加しました
     const labels = {
         flag: "この州の州都は？", constellation: "この星座の名前は？", element: "この原子番号の元素名は？", element_sym: "この元素記号(ローマ字)の元素名は？", president: "この代の大統領は？", olympic: "この年の開催地は？", mountain: "この山の名前は？", morse: "この信号の意味は？", yamanote: "この駅名は？", worldflag: "この国旗の国名は？",
-        capital: "この国の首都は？"
+        capital: "この国の首都は？", penguin: "このペンギンの名前は？" // 🐧追加
     };
     labelEl.textContent = labels[item.genre] || "答えは何？";
     
