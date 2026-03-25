@@ -31,7 +31,7 @@ const allQuizData = [
     typeof worldFlagData !== 'undefined' ? worldFlagData : [],
     typeof capitalData !== 'undefined' ? capitalData : [],
     typeof elementSymbolData !== 'undefined' ? elementSymbolData : [],
-    typeof usPresidentData !== 'undefined' ? usPresidentData : [] // 🌟 追加: 大統領の画像も読み込む
+    typeof usPresidentData !== 'undefined' ? usPresidentData : [], // 🌟 追加: 大統領の画像も読み込む
     typeof penguinData !== 'undefined' ? penguinData : [] // 🐧追加: ペンギンの画像も読み込む
 ].flat();
 
