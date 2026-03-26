@@ -779,24 +779,24 @@ const elementSymbolData = [
     { q: "Ts", a: "テネシン" },
     { q: "Og", a: "オガネソン" }
 ];
-// ペンギン全18種類データ
+// ペンギン全18種類データ（ファイル名のみ指定版）
 const penguinData = [
-    { q: "ペンギンの写真", a: "エンペラーペンギン", img: "https://commons.wikimedia.org/wiki/Special:FilePath/Emperor_Penguin_Walking_on_the_Snow_in_Antarctica.jpg?width=320" },
-    { q: "ペンギンの写真", a: "キングペンギン", img: "https://commons.wikimedia.org/wiki/Special:FilePath/King_Penguin_walking_on_a_beach_in_South_Georgia.jpg?width=320" },
-    { q: "ペンギンの写真", a: "アデリーペンギン", img: "https://commons.wikimedia.org/wiki/Special:FilePath/Adélie_Penguin_on_the_iceberg.jpg?width=320" },
-    { q: "ペンギンの写真", a: "ジェンツーペンギン", img: "https://commons.wikimedia.org/wiki/Special:FilePath/Pygoscelis_papua_(Petermann_Island_-_2012).jpg?width=320" },
-    { q: "ペンギンの写真", a: "ヒゲペンギン", img: "https://commons.wikimedia.org/wiki/Special:FilePath/Pygoscelis_antarctica_(South_Shetland_Islands_-_2012).jpg?width=320" },
-    { q: "ペンギンの写真", a: "ガラパゴスペンギン", img: "https://commons.wikimedia.org/wiki/Special:FilePath/Spheniscus_mendiculus.jpg?width=320" },
-    { q: "ペンギンの写真", a: "ケープペンギン", img: "https://commons.wikimedia.org/wiki/Special:FilePath/Spheniscus_demersus.jpg?width=320" },
-    { q: "ペンギンの写真", a: "フンボルトペンギン", img: "https://commons.wikimedia.org/wiki/Special:FilePath/Spheniscus_humboldti.jpg?width=320" },
-    { q: "ペンギンの写真", a: "マゼランペンギン", img: "https://commons.wikimedia.org/wiki/Special:FilePath/Spheniscus_magellanicus.jpg?width=320" },
-    { q: "ペンギンの写真", a: "フィヨルドランドペンギン", img: "https://commons.wikimedia.org/wiki/Special:FilePath/Eudyptes_pachyrhynchus.jpg?width=320" },
-    { q: "ペンギンの写真", a: "シュレーターペンギン", img: "https://commons.wikimedia.org/wiki/Special:FilePath/Eudyptes_sclateri.jpg?width=320" },
-    { q: "ペンギンの写真", a: "スネアーズペンギン", img: "https://commons.wikimedia.org/wiki/Special:FilePath/Eudyptes_robustus.jpg?width=320" },
-    { q: "ペンギンの写真", a: "マカロニペンギン", img: "https://commons.wikimedia.org/wiki/Special:FilePath/Eudyptes_chrysolophus.jpg?width=320" },
-    { q: "ペンギンの写真", a: "ロイヤルペンギン", img: "https://commons.wikimedia.org/wiki/Special:FilePath/Eudyptes_schlegeli.jpg?width=320" },
-    { q: "ペンギンの写真", a: "キタイワトビペンギン", img: "https://commons.wikimedia.org/wiki/Special:FilePath/Northern_Rockhopper_Penguin_at_the_Amsterdam_Island.jpg?width=320" },
-    { q: "ペンギンの写真", a: "ミナミイワトビペンギン", img: "https://commons.wikimedia.org/wiki/Special:FilePath/Eudyptes_chrysocome.jpg?width=320" },
-    { q: "ペンギンの写真", a: "キガシラペンギン", img: "https://commons.wikimedia.org/wiki/Special:FilePath/Megadyptes_antipodes.jpg?width=320" },
-    { q: "ペンギンの写真", a: "コガタペンギン", img: "https://commons.wikimedia.org/wiki/Special:FilePath/Eudyptula_minor.jpg?width=320" }
+    { q: "ペンギンの写真", a: "エンペラーペンギン", img: "Emperor_Penguin_Walking_on_the_Snow_in_Antarctica.jpg" },
+    { q: "ペンギンの写真", a: "キングペンギン", img: "King_Penguin_walking_on_a_beach_in_South_Georgia.jpg" },
+    { q: "ペンギンの写真", a: "アデリーペンギン", img: "Adélie_Penguin_on_the_iceberg.jpg" },
+    { q: "ペンギンの写真", a: "ジェンツーペンギン", img: "Pygoscelis_papua_(Petermann_Island_-_2012).jpg" },
+    { q: "ペンギンの写真", a: "ヒゲペンギン", img: "Pygoscelis_antarctica_(South_Shetland_Islands_-_2012).jpg" },
+    { q: "ペンギンの写真", a: "ガラパゴスペンギン", img: "Spheniscus_mendiculus.jpg" },
+    { q: "ペンギンの写真", a: "ケープペンギン", img: "Spheniscus_demersus.jpg" },
+    { q: "ペンギンの写真", a: "フンボルトペンギン", img: "Spheniscus_humboldti.jpg" },
+    { q: "ペンギンの写真", a: "マゼランペンギン", img: "Spheniscus_magellanicus.jpg" },
+    { q: "ペンギンの写真", a: "フィヨルドランドペンギン", img: "Eudyptes_pachyrhynchus.jpg" },
+    { q: "ペンギンの写真", a: "シュレーターペンギン", img: "Eudyptes_sclateri.jpg" },
+    { q: "ペンギンの写真", a: "スネアーズペンギン", img: "Eudyptes_robustus.jpg" },
+    { q: "ペンギンの写真", a: "マカロニペンギン", img: "Eudyptes_chrysolophus.jpg" },
+    { q: "ペンギンの写真", a: "ロイヤルペンギン", img: "Eudyptes_schlegeli.jpg" },
+    { q: "ペンギンの写真", a: "キタイワトビペンギン", img: "Northern_Rockhopper_Penguin_at_the_Amsterdam_Island.jpg" },
+    { q: "ペンギンの写真", a: "ミナミイワトビペンギン", img: "Eudyptes_chrysocome.jpg" },
+    { q: "ペンギンの写真", a: "キガシラペンギン", img: "Megadyptes_antipodes.jpg" },
+    { q: "ペンギンの写真", a: "コガタペンギン", img: "Eudyptula_minor.jpg" }
 ];
