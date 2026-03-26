@@ -20,7 +20,7 @@ let isAnimating = false;
 
 function getImageUrl(fileName) {
     if (!fileName) return "";
-    if (fileName.startsWith('http')) return fileName; // 🌟 追加: URL直指定の場合はそのまま使う
+    if (fileName.startsWith('http')|| fileName.startsWith('./')) return fileName; // 🌟 追加: URL直指定の場合はそのまま使う
     const name = encodeURIComponent(fileName.trim().replace(/\s/g, '_'));
     return "https://commons.wikimedia.org/wiki/Special:FilePath/" + name + "?width=500";
 }
