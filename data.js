@@ -779,24 +779,24 @@ const elementSymbolData = [
     { q: "Ts", a: "テネシン" },
     { q: "Og", a: "オガネソン" }
 ];
-// ペンギン全18種類データ（ファイル名のみ指定版）
+// ペンギン全18種類データ
 const penguinData = [
-    { q: "ペンギンの写真", a: "エンペラーペンギン", img: "Emperor_Penguin_Walking_on_the_Snow_in_Antarctica.jpg" },
-    { q: "ペンギンの写真", a: "キングペンギン", img: "King_Penguin_walking_on_a_beach_in_South_Georgia.jpg" },
-    { q: "ペンギンの写真", a: "アデリーペンギン", img: "Adélie_Penguin_on_the_iceberg.jpg" },
-    { q: "ペンギンの写真", a: "ジェンツーペンギン", img: "Pygoscelis_papua_(Petermann_Island_-_2012).jpg" },
-    { q: "ペンギンの写真", a: "ヒゲペンギン", img: "Pygoscelis_antarctica_(South_Shetland_Islands_-_2012).jpg" },
-    { q: "ペンギンの写真", a: "ガラパゴスペンギン", img: "Spheniscus_mendiculus.jpg" },
-    { q: "ペンギンの写真", a: "ケープペンギン", img: "Spheniscus_demersus.jpg" },
-    { q: "ペンギンの写真", a: "フンボルトペンギン", img: "Spheniscus_humboldti.jpg" },
-    { q: "ペンギンの写真", a: "マゼランペンギン", img: "Spheniscus_magellanicus.jpg" },
-    { q: "ペンギンの写真", a: "フィヨルドランドペンギン", img: "Eudyptes_pachyrhynchus.jpg" },
-    { q: "ペンギンの写真", a: "シュレーターペンギン", img: "Eudyptes_sclateri.jpg" },
-    { q: "ペンギンの写真", a: "スネアーズペンギン", img: "Eudyptes_robustus.jpg" },
-    { q: "ペンギンの写真", a: "マカロニペンギン", img: "Eudyptes_chrysolophus.jpg" },
-    { q: "ペンギンの写真", a: "ロイヤルペンギン", img: "Eudyptes_schlegeli.jpg" },
-    { q: "ペンギンの写真", a: "キタイワトビペンギン", img: "Northern_Rockhopper_Penguin_at_the_Amsterdam_Island.jpg" },
-    { q: "ペンギンの写真", a: "ミナミイワトビペンギン", img: "Eudyptes_chrysocome.jpg" },
-    { q: "ペンギンの写真", a: "キガシラペンギン", img: "Megadyptes_antipodes.jpg" },
-    { q: "ペンギンの写真", a: "コガタペンギン", img: "Eudyptula_minor.jpg" }
+    { q: "ペンギンの写真", a: "エンペラーペンギン", img: "./01.jpg" },
+    { q: "ペンギンの写真", a: "キングペンギン", img: "./02.jpg" },
+    { q: "ペンギンの写真", a: "アデリーペンギン", img: "./03.jpg" },
+    { q: "ペンギンの写真", a: "ジェンツーペンギン", img: "./04.jpg" },
+    { q: "ペンギンの写真", a: "ヒゲペンギン", img: "./05.jpg" },
+    { q: "ペンギンの写真", a: "ガラパゴスペンギン", img: "./06.jpg" },
+    { q: "ペンギンの写真", a: "ケープペンギン", img: "./07.jpg" },
+    { q: "ペンギンの写真", a: "フンボルトペンギン", img: "./08.jpg" },
+    { q: "ペンギンの写真", a: "マゼランペンギン", img: "./09.jpg" },
+    { q: "ペンギンの写真", a: "フィヨルドランドペンギン", img: "./10.jpg" },
+    { q: "ペンギンの写真", a: "シュレーターペンギン", img: "./11.jpg" },
+    { q: "ペンギンの写真", a: "スネアーズペンギン", img: "./12.jpg" },
+    { q: "ペンギンの写真", a: "マカロニペンギン", img: "./13.jpg" },
+    { q: "ペンギンの写真", a: "ロイヤルペンギン", img: "./14.jpg" },
+    { q: "ペンギンの写真", a: "キタイワトビペンギン", img: "./15.jpg" },
+    { q: "ペンギンの写真", a: "ミナミイワトビペンギン", img: "./16.jpg" },
+    { q: "ペンギンの写真", a: "キガシラペンギン", img: "./17.jpg" },
+    { q: "ペンギンの写真", a: "コガタペンギン", img: "./18.jpg" }
 ];
