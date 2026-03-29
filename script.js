@@ -368,7 +368,8 @@ function showQuestion() {
     // 🌟 問題文のラベルにも追加しました
     const labels = {
         flag: "この州の州都は？", constellation: "この星座の名前は？", element: "この原子番号の元素名は？", element_sym: "この元素記号(ローマ字)の元素名は？", president: "この代の大統領は？", olympic: "この年の開催地は？", mountain: "この山の名前は？", morse: "この信号の意味は？", yamanote: "この駅名は？", worldflag: "この国旗の国名は？",
-        capital: "この国の首都は？", penguin: "このペンギンの名前は？" // 🐧追加
+        capital: "この国の首都は？", penguin: "このペンギンの名前は？", us_military: "これは何？ (機体・車両・艦船)" // 🌟 ここを「これは何？」に変更
+};
     };
     labelEl.textContent = labels[item.genre] || "答えは何？";
     

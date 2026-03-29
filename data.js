@@ -801,4 +801,19 @@ const penguinData = [
     { q: "ペンギンの写真", a: "コガタペンギン", img: "./img/18.jpg" }
 ];
 // アメリカ軍データ（これから追加していく用）
-const usMilitaryData = [];
+const usMilitaryData = [
+    //陸軍 (army)
+    { q: "軍用車両", a: "M1エイブラムス", img: "./img/m1_abrams.jpg", branch: "army" },
+    
+    // 海軍 (navy)
+    { q: "艦船", a: "ジェラルド・R・フォード級空母", img: "./img/ford_class.jpg", branch: "navy" },
+    
+    // 空軍 (air_force)
+    { q: "航空機", a: "F-22 ラプター", img: "./img/f22_raptor.jpg", branch: "air_force" },
+    
+    // 海兵隊 (marine)
+    { q: "航空機", a: "MV-22B オスプレイ", img: "./img/osprey.jpg", branch: "marine" },
+
+    // 沿岸警備隊 (coast_guard)
+    { q: "艦船", a: "レジェンド級カッター", img: "./img/legend_class.jpg", branch: "coast_guard" }
+];
