@@ -195,7 +195,11 @@ function selectGenre(type) {
         document.getElementById('element-subgenre-screen').classList.remove('hidden');
         return;
     }
-
+if (type === 'us_military') {
+    document.getElementById('home-screen').classList.add('hidden');
+    document.getElementById('military-subgenre-screen').classList.remove('hidden');
+    return;
+}
     selectedGenre = type; 
     selectedSubGenre = "all"; 
     
@@ -213,6 +217,7 @@ function selectGenre(type) {
 function selectSubGenre(subType) {
     selectedSubGenre = subType;
     document.getElementById('subgenre-screen').classList.add('hidden');
+    document.getElementById('military-subgenre-screen').classList.add('hidden');
     if (isReviewMode) showReviewStartScreen();
     else document.getElementById('mode-screen').classList.remove('hidden');
 }
@@ -297,6 +302,10 @@ function startQuizMode(isRandom) {
     else if (type === 'morse') rawData = morseData;
   　else if (type === 'president') rawData = typeof usPresidentData !== 'undefined' ? usPresidentData : [];
     else if (type === 'penguin') rawData = typeof penguinData !== 'undefined' ? penguinData : []; // 🐧追加
+    else if (type === 'us_military') {
+    rawData = typeof usMilitaryData !== 'undefined' ? usMilitaryData : [];
+    if (selectedSubGenre !== 'all') rawData = rawData.filter(item => item.branch === selectedSubGenre);
+}
     else if (type === 'yamanote') rawData = yamanoteData;
     else if (type === 'worldflag') {
         rawData = typeof worldFlagData !== 'undefined' ? worldFlagData : [];

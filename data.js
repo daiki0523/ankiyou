@@ -800,3 +800,5 @@ const penguinData = [
     { q: "ペンギンの写真", a: "キガシラペンギン", img: "./img/17.jpg" },
     { q: "ペンギンの写真", a: "コガタペンギン", img: "./img/18.jpg" }
 ];
+// アメリカ軍データ（これから追加していく用）
+const usMilitaryData = [];
