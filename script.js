@@ -20,19 +20,19 @@ let isAnimating = false;
 
 function getImageUrl(fileName) {
     if (!fileName) return "";
-    if (fileName.startsWith('http')|| fileName.startsWith('./')) return fileName; // 🌟 追加: URL直指定の場合はそのまま使う
+    if (fileName.startsWith('http')|| fileName.startsWith('./')) return fileName; 
     const name = encodeURIComponent(fileName.trim().replace(/\s/g, '_'));
     return "https://commons.wikimedia.org/wiki/Special:FilePath/" + name + "?width=500";
 }
-// 🌟 allQuizDataに新しい elementSymbolData と大統領を読み込ませます
+
 const allQuizData = [
     typeof flagData !== 'undefined' ? flagData : [],
     typeof constellationData !== 'undefined' ? constellationData : [],
     typeof worldFlagData !== 'undefined' ? worldFlagData : [],
     typeof capitalData !== 'undefined' ? capitalData : [],
     typeof elementSymbolData !== 'undefined' ? elementSymbolData : [],
-    typeof usPresidentData !== 'undefined' ? usPresidentData : [], // 🌟 追加: 大統領の画像も読み込む
-    typeof penguinData !== 'undefined' ? penguinData : [] // 🐧追加: ペンギンの画像も読み込む
+    typeof usPresidentData !== 'undefined' ? usPresidentData : [], 
+    typeof penguinData !== 'undefined' ? penguinData : [] 
 ].flat();
 
 allQuizData.forEach(item => {
@@ -157,7 +157,8 @@ function updateModeBtnUI() {
 function showHome() {
     document.getElementById('home-screen').classList.remove('hidden');
     document.getElementById('subgenre-screen').classList.add('hidden');
-    document.getElementById('element-subgenre-screen').classList.add('hidden'); // 🌟 追加
+    document.getElementById('element-subgenre-screen').classList.add('hidden'); 
+    document.getElementById('military-subgenre-screen').classList.add('hidden'); // 🌟 アメリカ軍の画面も隠す
     document.getElementById('mode-screen').classList.add('hidden'); 
     document.getElementById('review-start-screen').classList.add('hidden');
     document.getElementById('quiz-screen').classList.add('hidden');
@@ -170,8 +171,7 @@ function showHome() {
     
     if (saveData && saveData.currentIndex < saveData.currentQuizData.length) {
         resumeContainer.classList.remove('hidden');
-        // 🌟 ここに element_sym の名前を追加しました
-        const genreNames = { flag:"州都", constellation:"星座", element:"原子番号", element_sym:"元素記号", mountain:"8000m峰", olympic:"五輪", morse:"モールス", president:"大統領", yamanote:"山手線", worldflag:"国旗", capital:"首都" };
+        const genreNames = { flag:"州都", constellation:"星座", element:"原子番号", element_sym:"元素記号", mountain:"8000m峰", olympic:"五輪", morse:"モールス", president:"大統領", yamanote:"山手線", worldflag:"国旗", capital:"首都", us_military:"アメリカ軍" };
         const gName = genreNames[saveData.genre] || "クイズ";
         const modeName = saveData.isReviewMode ? "の復習" : "";
         resumeBtn.textContent = `▶️ 続きから (${gName}${modeName} ${saveData.currentIndex + 1}問目〜)`;
@@ -189,17 +189,17 @@ function selectGenre(type) {
     const menu = document.getElementById('settings-dropdown');
     if(menu) menu.classList.add('hidden');
 
-    // 🌟 元素ボタンを押した時は専用の画面を開く！
     if (type === 'element_menu') {
         document.getElementById('home-screen').classList.add('hidden');
         document.getElementById('element-subgenre-screen').classList.remove('hidden');
         return;
     }
-if (type === 'us_military') {
-    document.getElementById('home-screen').classList.add('hidden');
-    document.getElementById('military-subgenre-screen').classList.remove('hidden');
-    return;
-}
+    if (type === 'us_military') {
+        document.getElementById('home-screen').classList.add('hidden');
+        document.getElementById('military-subgenre-screen').classList.remove('hidden');
+        return;
+    }
+
     selectedGenre = type; 
     selectedSubGenre = "all"; 
     
@@ -217,7 +217,9 @@ if (type === 'us_military') {
 function selectSubGenre(subType) {
     selectedSubGenre = subType;
     document.getElementById('subgenre-screen').classList.add('hidden');
+    document.getElementById('element-subgenre-screen').classList.add('hidden');
     document.getElementById('military-subgenre-screen').classList.add('hidden');
+    
     if (isReviewMode) showReviewStartScreen();
     else document.getElementById('mode-screen').classList.remove('hidden');
 }
@@ -295,17 +297,16 @@ function startQuizMode(isRandom) {
     if (type === 'flag') rawData = flagData;
     else if (type === 'constellation') rawData = constellationData;
     else if (type === 'element') rawData = elementData;
-    // 🌟 ここでローマ字版のデータを読み込みます
     else if (type === 'element_sym') rawData = typeof elementSymbolData !== 'undefined' ? elementSymbolData : [];
     else if (type === 'mountain') rawData = mountainData;
     else if (type === 'olympic') rawData = olympicData;
     else if (type === 'morse') rawData = morseData;
-  　else if (type === 'president') rawData = typeof usPresidentData !== 'undefined' ? usPresidentData : [];
-    else if (type === 'penguin') rawData = typeof penguinData !== 'undefined' ? penguinData : []; // 🐧追加
+    else if (type === 'president') rawData = typeof usPresidentData !== 'undefined' ? usPresidentData : [];
+    else if (type === 'penguin') rawData = typeof penguinData !== 'undefined' ? penguinData : []; 
     else if (type === 'us_military') {
-    rawData = typeof usMilitaryData !== 'undefined' ? usMilitaryData : [];
-    if (selectedSubGenre !== 'all') rawData = rawData.filter(item => item.branch === selectedSubGenre);
-}
+        rawData = typeof usMilitaryData !== 'undefined' ? usMilitaryData : [];
+        if (selectedSubGenre !== 'all') rawData = rawData.filter(item => item.branch === selectedSubGenre);
+    }
     else if (type === 'yamanote') rawData = yamanoteData;
     else if (type === 'worldflag') {
         rawData = typeof worldFlagData !== 'undefined' ? worldFlagData : [];
@@ -365,12 +366,11 @@ function showQuestion() {
         progressFill.style.width = `${percent}%`;
     }
 
-    // 🌟 問題文のラベルにも追加しました
     const labels = {
         flag: "この州の州都は？", constellation: "この星座の名前は？", element: "この原子番号の元素名は？", element_sym: "この元素記号(ローマ字)の元素名は？", president: "この代の大統領は？", olympic: "この年の開催地は？", mountain: "この山の名前は？", morse: "この信号の意味は？", yamanote: "この駅名は？", worldflag: "この国旗の国名は？",
-        capital: "この国の首都は？", penguin: "このペンギンの名前は？", us_military: "これは何？ (機体・車両・艦船)" // 🌟 ここを「これは何？」に変更
-};
+        capital: "この国の首都は？", penguin: "このペンギンの名前は？", us_military: "これは何？ (機体・車両・艦船)"
     };
+    
     labelEl.textContent = labels[item.genre] || "答えは何？";
     
     stateEl.textContent = (item.genre === 'constellation' || item.genre === 'worldflag') ? "" : (item.q || "");
@@ -404,7 +404,7 @@ function showQuestion() {
 
     ansEl.textContent = item.a || "データなし";
     ansEl.classList.add('hidden');
-
+} // 🌟 足りなかったカッコをここに追加しました！
 
 function saveMistake(item) {
     const exists = savedMistakes.find(m => m.a === item.a && m.genre === item.genre);
