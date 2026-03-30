@@ -404,7 +404,7 @@ function showQuestion() {
 
     ansEl.textContent = item.a || "データなし";
     ansEl.classList.add('hidden');
-}
+
 
 function saveMistake(item) {
     const exists = savedMistakes.find(m => m.a === item.a && m.genre === item.genre);
